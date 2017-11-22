@@ -57,3 +57,10 @@ typings/
 # dotenv environment variables file
 .env
 
+/public/storage
+/storage/*.key
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+.env
