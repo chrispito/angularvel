@@ -18,7 +18,8 @@ class JokeTransformer extends TransformerAbstract
             'id' => $joke->id,
             'title' => $joke->title,
             'joke' => $joke->joke,
-            'created_at' => $joke->created_at->toFormattedDateString()
+            'created_at' => $joke->created_at->toFormattedDateString(),
+            'creator' => fractal($joke->user, new UserTransformer)
         ];
     }
 }

@@ -30,3 +30,5 @@ Route::post('/register', [
 Route::get('/jokes', function() {
   return fractal(\App\Joke::all(), new \App\Transformers\JokeTransformer);
 });
+
+Route::resource('jokes', 'JokesController');
