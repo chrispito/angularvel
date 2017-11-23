@@ -28,7 +28,15 @@ Route::post('/register', [
   'uses' => 'ApiAuthController@register'
 ]);
 Route::get('/jokes', function() {
-  return fractal(\App\Joke::all(), new \App\Transformers\JokeTransformer);
+  $user = JWTAuth::toUser(JWTAuth::getToken());
+  return fractal($user->jokes, new \App\Transformers\JokeTransformer);
 });
 
 Route::resource('jokes', 'JokesController');
+
+Route::post('/like', [
+  'uses' => 'LikesController@like'
+]);
+Route::post('/unlike', [
+  'uses' => 'LikesController@unlike'
+]);

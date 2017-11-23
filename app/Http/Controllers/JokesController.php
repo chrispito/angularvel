@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Transformers\JokeTransformer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Joke;
+use JWTAuth;
 
 class JokesController extends Controller
 {
@@ -15,7 +17,8 @@ class JokesController extends Controller
      */
     public function index()
     {
-        return fractal(Joke::all(), new JokeTransformer)
+        $user = JWTAuth::toUser(JWTAuth::getToken());
+        return fractal($user->jokes, new JokeTransformer)
                 ->respond(200);
     }
 
@@ -37,7 +40,12 @@ class JokesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = JWTAuth::toUser(JWTAuth::getToken());
+        $joke = $user->jokes()->create([
+          'title' => $request->title,
+          'joke' => $request->joke
+        ]);
+        return fractal($joke, new JokeTransformer);
     }
 
     /**
@@ -48,7 +56,13 @@ class JokesController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+          $joke = Joke::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+          return response()->json(['error' => 'Joke Not Found Error']);
+        }
+
+        return fractal($joke, new JokeTransformer);
     }
 
     /**
@@ -71,7 +85,20 @@ class JokesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      try {
+        $joke = Joke::findOrFail($id);
+      } catch (ModelNotFoundException $e) {
+        return response()->json(['error' => $e->getMessage()]);
+      }
+
+      $user = JWTAuth::toUser(JWTAuth::getToken());
+      if ($user->id !== $joke->user_id) {
+        return response()->json(['error' => 'Unauthenticated.'], 401);
+      }
+      $joke->title = $request->title;
+      $joke->joke = $request->joke;
+      $joke->save();
+      return fractal($joke, new JokeTransformer);
     }
 
     /**
@@ -82,6 +109,17 @@ class JokesController extends Controller
      */
     public function destroy($id)
     {
-        //
+      try {
+        $joke = Joke::findOrFail($id);
+      } catch (ModelNotFoundException $e) {
+        return response()->json(['error' => $e->getMessage()]);
+      }
+
+      $user = JWTAuth::toUser(JWTAuth::getToken());
+      if ($user->id !== $joke->user_id) {
+        return response()->json(['error' => 'Unauthenticated.'], 401);
+      }
+      $joke->delete();
+      return response()->json(['status' => true], 200);
     }
 }
