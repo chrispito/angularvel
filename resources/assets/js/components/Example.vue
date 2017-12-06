@@ -6,7 +6,7 @@
                     <div class="panel-heading">Example Component</div>
 
                     <div class="panel-body">
-                        I'm an example component!
+                       rg erg aerga erg aerga ergae adadada
                     </div>
                 </div>
             </div>
