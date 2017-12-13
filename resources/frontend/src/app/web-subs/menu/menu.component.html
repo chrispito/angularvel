@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Jesus Liebt Dich</span>
+
+    <span class="spacer"></span>
+
+    <a routerLink="/home" routerLinkActive="active" ><button mat-button>Home</button></a>
+    <a routerLink="/aboutus" routerLinkActive="active" ><button mat-button>About</button></a>
+    <a routerLink="/contact" routerLinkActive="active" ><button mat-button>Contact</button></a>
+    <a *ngIf="isUserLoggedIn; else loginBtn" (click)="logout" ><button mat-button data-id="test">{{ loggedInuser }}</button></a>
+    <ng-template #loginBtn>
+      <a routerLink="/login" routerLinkActive="active" ><button mat-button>{{ btnTitle }}</button></a>
+    </ng-template>
+  </mat-toolbar-row>
+</mat-toolbar>

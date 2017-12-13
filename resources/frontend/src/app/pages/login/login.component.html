@@ -1,0 +1,71 @@
+<div class="row log-reg-container">
+  <div class="col-md-6">
+    <div class="login-container">
+      <div class="heading">
+        <h2>Login</h2>
+      </div>
+
+      <form (submit)="loginUser($event)">
+        <div class="control-group">
+          <mat-form-field>
+            <input matInput placeholder="E-amil" [ngClass]="formClassEM">
+          </mat-form-field>
+        </div>
+
+        <div class="control-group">
+          <mat-form-field>
+            <input matInput placeholder="Enter your password" [type]="!hideLogPass ? 'password' : 'text'" [ngClass]="formClassPW">
+            <mat-icon matSuffix (click)="hideLogPass = !hideLogPass">{{hideLogPass ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="control-group">
+          <mat-checkbox>Remember Login!</mat-checkbox>
+          <button mat-button>Login!</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="register-container">
+      <div class="heading">
+        <h2>Registrierung</h2>
+      </div>
+
+      <form class="form-horizontal"  (submit)="registerUser($event)">
+        <div class="control-group">
+          <mat-form-field>
+            <input matInput placeholder="Last name">
+          </mat-form-field>
+        </div>
+        <div class="control-group">
+          <mat-form-field>
+            <input matInput placeholder="First name">
+          </mat-form-field>
+        </div>
+        <div class="control-group">
+          <mat-form-field>
+            <input matInput placeholder="E-amil">
+          </mat-form-field>
+        </div>
+        <div class="control-group">
+          <mat-form-field>
+            <input matInput placeholder="Password" [type]="!hideRegPass1 ? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hideRegPass1 = !hideRegPass1">{{hideRegPass1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="control-group">
+          <mat-form-field>
+            <input matInput placeholder="Repead Password" [type]="!hideRegPass2 ? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hideRegPass2 = !hideRegPass2">{{hideRegPass2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="control-group">
+          <button mat-button>Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

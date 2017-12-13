@@ -1,0 +1,27 @@
+.log-reg-container {
+    margin: 0px;
+}
+.log-reg-container .col-md-6 {
+    padding: 0px;
+}
+.login-container, .register-container {
+    padding: 15px;
+}
+.login-container .mat-checkbox,
+.register-container .mat-checkbox {
+    width: 100%;
+    display: inline-block;
+}
+
+.login-container .mat-input-container,
+.register-container .mat-input-container {
+    width: 100%;
+}
+
+.mat-button {
+    border: 1px solid rgb(51, 58, 119);
+    background-color: #aaa;
+}
+.mat-icon.material-icons:hover {
+    cursor: pointer;
+}

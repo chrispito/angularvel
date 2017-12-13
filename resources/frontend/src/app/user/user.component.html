@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="title">
+        <h2 class="">
+            <i class="fa fa-bars"></i>
+            Menu
+          </h2>
+    </div>
+  </div>
+  <div class="col-md-8 main-content">
+    <div class="title">
+        <h2 class="">
+            <i class="fa fa-address-card"></i>
+          The main content
+        </h2>
+    </div>
+    <div class="container">
+        <form>
+          <div class="form-group row">
+            <label for="inputPassword3" class="col-sm-8 col-form-label">{{ name }}</label>
+          </div>
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+              <input type="email" #myEmail class="form-control"  id="inputEmail3" placeholder="Email" [(ngModel)]="userEmail"
+              (input)="onChange($event)"  [ngClass]="formClassEM" (blur)="onBlur($event)" name="userEmail">
+            </div>
+            {{ userEmail }}
+          </div>
+          <div class="form-group row">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+              <input type="password" #myPass [disabled]="pwDisabled" [ngClass]="formClassPW" id="inputPassword3" placeholder="Password">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2"></label>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox"> Remenber me
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+              <button type="submit" class="btn btn-primary" (click)="logMessage(myEmail.value, myPass.value)">Sign in</button>
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>

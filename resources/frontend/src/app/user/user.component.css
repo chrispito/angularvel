@@ -1,0 +1,22 @@
+.row {
+    margin: 0px;
+}
+.title {
+    text-align: left;
+    border: 1px solid #777;
+    padding-left: 10px;
+    background-color: rgb(207, 65, 65);
+}
+.container {
+    padding: 10px;
+    text-align: left;
+}
+.container .form-group {
+    padding-top: 10px;
+}
+.hasError {
+    border: 1px solid red;
+}
+.isSuccess {
+    border: 1px solid green;
+}
