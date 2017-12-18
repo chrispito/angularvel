@@ -24,7 +24,8 @@ class ApiAuthController extends Controller
       } catch (JWTException $e) {
         return response()->json(['error' => 'Something Wrong'], 500);
       }
-      return response()->json(['token' => $token], 200);
+      $user = JWTAuth::toUser($token);
+      return response()->json(['token' => $token, 'user' => $user], 200);
     }
 
     public function register()

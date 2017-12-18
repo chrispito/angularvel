@@ -42,8 +42,9 @@ export class LoginComponent implements OnInit {
       if (!this.regexp.test(email)) {
         this.hasEmailError = true;
       } else {
-        this.user.setUserLoggedIn({email, password, username: 'Alli'});
-        this.router.navigate(['home']);
+        this.api.loginUser({email, password});
+        // this.user.setUserLoggedIn({email, password, username: 'Alli'});
+        // this.router.navigate(['home']);
       }
       
     } else {
@@ -64,8 +65,6 @@ export class LoginComponent implements OnInit {
       password: password,
       name: firstname,
     }
-    console.log("Reg User = ", user);
-
     this.api.registerUser(user);
   }
 }
