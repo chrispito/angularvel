@@ -14,16 +14,19 @@ export class MenuComponent implements OnInit {
   private isUserLoggedIn = false;
   public loggedInuser = null;
 
-  constructor(private router:Router, private user:UserService) { 
-    console.log("user = ", user);
+  constructor(private router:Router, private user:UserService) {
+    console.log("MenuComponent: " + this.user.isUserLoggedIn)
     if (user.isUserLoggedIn) {
       this.isUserLoggedIn = true;
-      this.loggedInuser = user.getUser();
+      this.loggedInuser = this.user.getUser();
     }
-
   }
 
   ngOnInit() {
+  }
+
+  logout(event) {
+    this.user.logout();
   }
 
 }

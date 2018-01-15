@@ -5,11 +5,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 /** 
  * Modules
 */
 import { MaterialModule } from './material.module';
+import { AdminModule } from './admin/admin.module';
+import { WebRoutingModule } from './web-routing.module';
 
 /** 
  * Components
@@ -17,7 +20,6 @@ import { MaterialModule } from './material.module';
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './pages/login/login.component';
-import { AdminComponent } from './admin/admin.component';
 import { WebComponent } from './web/web.component';
 import { MenuComponent } from './web-subs/menu/menu.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
@@ -32,26 +34,6 @@ import { FooterComponent } from './web-subs/footer/footer.component';
 import { UserService } from './services/user.service';
 
 /**
- * Routes
- */
-// import appRoutes from './router';
-var appRoutes = [
-  {path: '', redirectTo: 'home', pathMatch:'full'},
-  {path: 'home', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'aboutus', component: AboutUsComponent},
-  {path: 'contact', component: ContactComponent},
-
-  {
-      path: 'admin',
-      canActivate: [AuthGuard],
-      component: AdminComponent
-  },
-
-  {path: '**', component: NotFoundComponent},
-];
-
-/**
  * Guards
  */
 import { AuthGuard } from './guards/auth.guard';
@@ -63,7 +45,6 @@ import { ApiService } from './services/api.service';
     AppComponent,
     UserComponent,
     LoginComponent,
-    AdminComponent,
     MenuComponent,
     FooterComponent,
     WebComponent,
@@ -78,9 +59,11 @@ import { ApiService } from './services/api.service';
     FormsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    NgbModule.forRoot(),
+    AdminModule,
     HttpModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    WebRoutingModule
   ],
   providers: [
     UserService,

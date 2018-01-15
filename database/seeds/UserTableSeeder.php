@@ -14,7 +14,7 @@ class UserTableSeeder extends Seeder
       factory(\App\User::class, 6)->create()->each(
         function($user) {
           for ($i = 0; $i < 10; $i++) {
-            $user->jokes()->save(factory(\App\Joke::class)->make());
+            $user->comments()->save(factory(\App\Comment::class)->make());
           }
         }
       );

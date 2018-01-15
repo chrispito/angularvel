@@ -23,9 +23,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Joke::class, function (Faker\Generator $faker) {
+$factory->define(App\Comment::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence(4),
-        'joke' => $faker->paragraph(6)
+        'comment' => $faker->paragraph(6)
     ];
 });

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/add/operator/map';
 
-import { UserService } from './user.service';
+// import { UserService } from './user.service';
 
 @Injectable()
 export class ApiService {
@@ -13,26 +14,19 @@ export class ApiService {
 
   constructor(
     private http:HttpClient,
-    private uService:UserService
+    // private uService:UserService,
+    private router:Router
   ) { }
 
-  registerUser(userData) {
-    // const headers = new Headers();
-    // headers.append('Content-type', 'application/json');
-    return this.http.post(this.baseUrl + 'register', userData).subscribe(data => {
-      console.log("data = ", data);
+  fetchGet(url:string, callback: Function, options?:{}) {
+    this.http.get(this.baseUrl + url, options).subscribe(data => {
+      callback(data)
     });
   }
 
-  loginUser(userData) {
-    console.log("Log User2 = ", userData);
-    // let headers = new HttpHeaders();
-    // headers.append('Content-Type', 'application/json');
-    // headers.append('Authorization', 'Bearer ' + this.uService.getUserToken());
-    // var options = {headers}
-    return this.http.post(this.baseUrl + 'authenticate', userData)
-    .subscribe(data => {
-      this.uService.setUserLoggedIn(data)
+  fetchPost(url:string, body:any, callback: Function, options?:{}) {
+    this.http.post(this.baseUrl + url, body, options).subscribe(data => {
+      callback(data)
     });
   }
 

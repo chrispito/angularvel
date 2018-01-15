@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import _ from 'lodash';
 import { UserService } from '../../services/user.service';
-import { ApiService } from '../../services/api.service';
+// import { ApiService } from '../../services/api.service';
 
 
 @Component({
@@ -27,8 +27,7 @@ export class LoginComponent implements OnInit {
   }
   constructor(
     private router:Router, 
-    private user:UserService,
-    private api:ApiService
+    private user:UserService
   ) { }
 
   ngOnInit() {
@@ -42,7 +41,7 @@ export class LoginComponent implements OnInit {
       if (!this.regexp.test(email)) {
         this.hasEmailError = true;
       } else {
-        this.api.loginUser({email, password});
+        this.user.loginUser({email, password});
         // this.user.setUserLoggedIn({email, password, username: 'Alli'});
         // this.router.navigate(['home']);
       }
@@ -65,6 +64,6 @@ export class LoginComponent implements OnInit {
       password: password,
       name: firstname,
     }
-    this.api.registerUser(user);
+    this.user.registerUser(user);
   }
 }

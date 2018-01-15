@@ -17,7 +17,7 @@ Route::get('/user', function (Request $request) {
     $token = JWTAuth::getToken();
     $user = JWTAuth::toUser($token);
 
-    return $user;
+    return fractal($user, new \App\Transformers\UserTransformer);
 })->middleware('jwt.auth');
 
 Route::post('/authenticate', [

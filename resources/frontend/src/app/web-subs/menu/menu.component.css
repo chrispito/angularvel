@@ -5,3 +5,12 @@
   background-color: bisque;
   border: 1px solid #aaa;
 }
+nav.navbar {
+  cursor: pointer;
+}
+.nav-item.dropdown {
+  list-style-type: none;
+}
+button.dropdown-item {
+  cursor: pointer;
+}

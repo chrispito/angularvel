@@ -10,8 +10,8 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class ApiAuthController extends Controller
 {
     /**
-    Get user date & check if user credential are corect!
-    Generate a tocken
+    * Get user date & check if user credential are corect!
+    * Generate a tocken
     */
     public function authenticate()
     {
@@ -25,7 +25,7 @@ class ApiAuthController extends Controller
         return response()->json(['error' => 'Something Wrong'], 500);
       }
       $user = JWTAuth::toUser($token);
-      return response()->json(['token' => $token, 'user' => $user], 200);
+      return response()->json($token, 200);
     }
 
     public function register()

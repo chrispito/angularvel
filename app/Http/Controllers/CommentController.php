@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Transformers\JokeTransformer;
+use App\Transformers\CommentTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Joke;
+use App\Comment;
 use JWTAuth;
 
-class JokesController extends Controller
+class CommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class JokesController extends Controller
     public function index()
     {
         $user = JWTAuth::toUser(JWTAuth::getToken());
-        return fractal($user->jokes, new JokeTransformer)
+        return fractal($user->comments, new CommentTransformer)
                 ->respond(200);
     }
 
@@ -41,11 +41,11 @@ class JokesController extends Controller
     public function store(Request $request)
     {
         $user = JWTAuth::toUser(JWTAuth::getToken());
-        $joke = $user->jokes()->create([
+        $comment = $user->comments()->create([
           'title' => $request->title,
-          'joke' => $request->joke
+          'comment' => $request->comment
         ]);
-        return fractal($joke, new JokeTransformer);
+        return fractal($comment, new CommentTransformer);
     }
 
     /**
@@ -57,12 +57,12 @@ class JokesController extends Controller
     public function show($id)
     {
         try {
-          $joke = Joke::findOrFail($id);
+          $comment = Comment::findOrFail($id);
         } catch (ModelNotFoundException $e) {
-          return response()->json(['error' => 'Joke Not Found Error']);
+          return response()->json(['error' => 'Comment Not Found Error']);
         }
 
-        return fractal($joke, new JokeTransformer);
+        return fractal($comment, new CommentTransformer);
     }
 
     /**
@@ -86,19 +86,19 @@ class JokesController extends Controller
     public function update(Request $request, $id)
     {
       try {
-        $joke = Joke::findOrFail($id);
+        $comment = Comment::findOrFail($id);
       } catch (ModelNotFoundException $e) {
         return response()->json(['error' => $e->getMessage()]);
       }
 
       $user = JWTAuth::toUser(JWTAuth::getToken());
-      if ($user->id !== $joke->user_id) {
+      if ($user->id !== $comment->user_id) {
         return response()->json(['error' => 'Unauthenticated.'], 401);
       }
-      $joke->title = $request->title;
-      $joke->joke = $request->joke;
-      $joke->save();
-      return fractal($joke, new JokeTransformer);
+      $comment->title = $request->title;
+      $comment->comment = $request->comment;
+      $comment->save();
+      return fractal($comment, new CommentTransformer);
     }
 
     /**
@@ -110,16 +110,16 @@ class JokesController extends Controller
     public function destroy($id)
     {
       try {
-        $joke = Joke::findOrFail($id);
+        $comment = Comment::findOrFail($id);
       } catch (ModelNotFoundException $e) {
         return response()->json(['error' => $e->getMessage()]);
       }
 
       $user = JWTAuth::toUser(JWTAuth::getToken());
-      if ($user->id !== $joke->user_id) {
+      if ($user->id !== $comment->user_id) {
         return response()->json(['error' => 'Unauthenticated.'], 401);
       }
-      $joke->delete();
+      $comment->delete();
       return response()->json(['status' => true], 200);
     }
 }

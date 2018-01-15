@@ -5,10 +5,14 @@ import { UserService } from '../services/user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private user: UserService) { }
+
+  constructor(private user: UserService) {
+
+  }
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.user.isUserLoggedIn && this.user.getUser['isAdmin'];
+    return this.user.isUserLoggedIn && this.user.getUser().type == 'admin';
   }
 }

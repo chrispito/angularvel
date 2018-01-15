@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Joke extends Model
+class Comment extends Model
 {
-    protected $fillable = ['title', 'joke'];
+    protected $fillable = ['title', 'comment'];
 
     public function user()
     {
