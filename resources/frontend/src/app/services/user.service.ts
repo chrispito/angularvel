@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { ApiService } from './api.service';
+
+import { User } from './../models/User';
 
 import _ from 'lodash';
 
 @Injectable()
 export class UserService {
 
+  private loggedIn = new BehaviorSubject<boolean>(false);
   public isUserLoggedIn;
   private userToken;
   private user;
@@ -21,29 +25,27 @@ export class UserService {
     if (_.isEmpty(this.user)) {
       const jld_user_token = JSON.parse(localStorage.getItem('JLD-USER-TOKEN'));
       if (jld_user_token) {
-        const headers = new HttpHeaders().set('Content-Type', 'application/json')
-          .append('Accept', 'application/json')
-          .append('Authorization', 'Bearer ' + jld_user_token);
-        var options = { headers: headers }
         this.api.fetchGet('user', (fetchData) => {
-          this.isUserLoggedIn = true;
+          this.loggedIn.next(true);
           this.user = fetchData.data;
-          console.log("UserService: " + this.isUserLoggedIn)
-          console.log("UserService: ", this.user)
-        }, options)
+        })
       }
     }
   }
 
+  get isLoggedIn() {
+    return this.loggedIn.asObservable(); // {2}
+  }
+
   registerUser(userData) {
     this.api.fetchPost('register', userData, (data) => {
-      console.log("Data = ", data)
     })
   }
 
   loginUser(userData) {
     this.api.fetchPost('authenticate', userData, (fetchData) => {
       localStorage.setItem('JLD-USER-TOKEN', JSON.stringify(fetchData));
+      this.loggedIn.next(true);
       window.location.reload(true);
     })
   }
@@ -59,7 +61,8 @@ export class UserService {
 
   logout() {
     localStorage.removeItem('userData');
-    this.gotoHome()
+    this.loggedIn.next(false);
+    this.router.navigate(['/login']);
   }
 
   gotoHome() {

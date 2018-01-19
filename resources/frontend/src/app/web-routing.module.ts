@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { ContactComponent } from './pages/contact/contact.component';
+import { TodoComponent } from './pages/todo/todo.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
@@ -17,6 +18,7 @@ const webRoutes = [
     { path: 'login', component: LoginComponent },
     { path: 'aboutus', component: AboutUsComponent },
     { path: 'contact', component: ContactComponent },
+    { path: 'todos', component: TodoComponent },
 
     {
         path: 'admin',

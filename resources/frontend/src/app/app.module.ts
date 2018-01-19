@@ -1,11 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+/**
+ * Store
+ */
+import { StoreModule } from '@ngrx/store';
+
+/**
+ * Providers
+ */
+import { AppHttpInterceptor } from './app-http-interceptor';
 
 /** 
  * Modules
@@ -38,6 +48,9 @@ import { UserService } from './services/user.service';
  */
 import { AuthGuard } from './guards/auth.guard';
 import { ApiService } from './services/api.service';
+import { TodoComponent } from './pages/todo/todo.component';
+import { TodoOverviewComponent } from './pages/todo/todo-overview/todo-overview.component';
+import { TodoListComponent } from './pages/todo/todo-list/todo-list.component';
 
 
 @NgModule({
@@ -52,11 +65,15 @@ import { ApiService } from './services/api.service';
     ContactComponent,
     NotFoundComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    TodoComponent,
+    TodoOverviewComponent,
+    TodoListComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialModule,
     NgbModule.forRoot(),
@@ -66,6 +83,11 @@ import { ApiService } from './services/api.service';
     WebRoutingModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true
+    },
     UserService,
     ApiService,
     AuthGuard

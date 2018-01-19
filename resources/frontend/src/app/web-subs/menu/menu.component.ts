@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable'
 
 import { UserService } from '../../services/user.service';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-web-subs-menu',
@@ -13,12 +16,16 @@ export class MenuComponent implements OnInit {
   public btnTitle = 'Login \\ Register';
   private isUserLoggedIn = false;
   public loggedInuser = null;
+  private user: Observable<User>;
 
-  constructor(private router:Router, private user:UserService) {
-    console.log("MenuComponent: " + this.user.isUserLoggedIn)
-    if (user.isUserLoggedIn) {
+  constructor(
+    private router: Router, 
+    private userService: UserService
+  ) {
+    console.log("MenuComponent: " + this.userService.isUserLoggedIn)
+    if (userService.isUserLoggedIn) {
       this.isUserLoggedIn = true;
-      this.loggedInuser = this.user.getUser();
+      this.loggedInuser = this.userService.getUser();
     }
   }
 
@@ -26,7 +33,7 @@ export class MenuComponent implements OnInit {
   }
 
   logout(event) {
-    this.user.logout();
+    this.userService.logout();
   }
 
 }
