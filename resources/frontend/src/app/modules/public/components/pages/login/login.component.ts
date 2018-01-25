@@ -62,14 +62,20 @@ export class LoginComponent implements OnInit {
   loginUser() {
     if (this.loginForm.valid) {
       this.store
-      .dispatch(new fromStore.UserLogin(this.loginForm.value));
+      .dispatch(new fromStore.UserLogin({
+        ...this.loginForm.value,
+        onCompleteActions: [this.router.navigate(['/web/home'])]
+      }));
     }
     this.loginFormSubmitAttempt = true;
   }
 
   registerUser() {
     if (this.registerForm.valid) {
-      this.store.dispatch(new fromStore.UserRegister(this.registerForm.value));
+      this.store.dispatch(new fromStore.UserRegister({
+        ...this.registerForm.value,
+        onCompleteActions: [this.router.navigate(['/web/home'])]
+      }));
     }
     this.registerFormSubmitAttempt = true;
   }

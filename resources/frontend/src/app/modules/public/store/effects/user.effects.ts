@@ -13,23 +13,22 @@ export class UserEffects {
   constructor(
     private action$: Actions,
     private privateServices: fromServices.UserService
-  ) {}
+  ) { }
 
   @Effect()
   loadUser$ = this.action$.ofType(fromActions.LOAD_USER).pipe(
-    switchMap(() => {
-      return this.privateServices
-        .getUser()
-        .pipe(
-          map(user => new fromActions.LoadUserSuccess(user)),
-          catchError(error => of(new fromActions.LoadUserFail(error)))
-        );
-    })
+    switchMap(() => this.privateServices
+      .getUser()
+      .pipe(
+      map(user => new fromActions.LoadUserSuccess(user)),
+      catchError(error => of(new fromActions.LoadUserFail(error)))
+      )
+    )
   );
 
   @Effect()
-  userLogin$ = this.action$.ofType(fromActions.USER_LOGIN).switchMap(payload =>
-    this.privateServices
+  userLogin$ = this.action$.ofType(fromActions.USER_LOGIN)
+    .switchMap(payload => this.privateServices
       .loginUser(payload["userData"])
       .mergeMap(token =>
         Observable.from([
@@ -38,18 +37,15 @@ export class UserEffects {
         ])
       )
       .catch(error => of(new fromActions.UserLoginFail(error)))
-  );
+    );
 
   @Effect()
   userRegister$ = this.action$.ofType(fromActions.USER_REGISTER).pipe(
-    switchMap(payload => {
-      console.log("User_Register: ", payload["userData"]);
-      return this.privateServices
-        .registerUser(payload["userData"])
-        .pipe(
-          map(resp => new fromActions.UserRegisterSuccess(resp)),
-          catchError(error => of(new fromActions.UserRegisterFail(error)))
-        );
-    })
+    switchMap(payload => this.privateServices
+      .registerUser(payload["userData"])
+      .pipe(
+      map(resp => new fromActions.UserRegisterSuccess(resp)),
+      catchError(error => of(new fromActions.UserRegisterFail(error)))
+      ))
   );
 }
