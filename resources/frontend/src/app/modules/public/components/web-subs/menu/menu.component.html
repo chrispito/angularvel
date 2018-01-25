@@ -1,0 +1,46 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Jesus Liebt Dich</span>
+
+    <span class="spacer"></span>
+
+    <a routerLink="./home" routerLinkActive="active">
+      <button mat-button>Home</button>
+    </a>
+    <a routerLink="./aboutus" routerLinkActive="active">
+      <button mat-button>About</button>
+    </a>
+    <a [matMenuTriggerFor]="menu">
+      Tutorials
+    </a>
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item routerLink="./todos" routerLinkActive="active">
+        <button mat-button>Todos</button>
+      </a>
+      <a mat-menu-item routerLink="./pizza" routerLinkActive="active">
+        <button mat-button>Pizza</button>
+      </a>
+    </mat-menu>
+
+    <a routerLink="./contact" routerLinkActive="active">
+      <button mat-button>Contact</button>
+    </a>
+    <nav class="navbar">
+      <li *ngIf="((user$ | async)?.name); else loginBtn" class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link dropdown-toggle" id="dropdown01" ngbDropdownToggle>{{ (user$ | async)?.name }}</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01" ngbDropdownMenu>
+          <a routerLink="./profile" routerLinkActive="active">
+            <button mat-button>Profile</button>
+          </a>
+          <button class="dropdown-item" (click)="logout($event)">Logout</button>
+        </div>
+      </li>
+    </nav>
+
+    <ng-template #loginBtn>
+      <a routerLink="./login" routerLinkActive="active">
+        <button mat-button>{{ btnTitle }}</button>
+      </a>
+    </ng-template>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -18,6 +18,7 @@ class UserTransformer extends TransformerAbstract
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            'type' => $user->type,
             'joined' => $user->created_at->toFormattedDateString()
 
         ];
