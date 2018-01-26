@@ -19,6 +19,9 @@ import * as fromStore from "../../../store";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   registerForm: FormGroup;
+  hideLogPass: boolean;
+  hideRegPass1: boolean;
+  hideRegPass2: boolean;
 
   private loginFormSubmitAttempt: boolean;
   private registerFormSubmitAttempt: boolean;
@@ -31,6 +34,9 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.hideLogPass = true;
+    this.hideRegPass1 = true;
+    this.hideRegPass2 = true;
     this.loginForm = this.fb.group({
       email: ["", Validators.compose([Validators.required, Validators.email])],
       password: [null, Validators.required]

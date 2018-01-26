@@ -10,7 +10,7 @@
             <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
               <div class="control-group">
                 <mat-form-field>
-                  <input matInput placeholder="E-amil" [ngClass]="formClassEM" formControlName="email" required>
+                  <input matInput placeholder="E-amil" formControlName="email" required>
                   <mat-error *ngIf="isLoginFieldInvalid('email')">
                     Please enter your E-Mail
                   </mat-error>
@@ -19,7 +19,7 @@
 
               <div class="control-group">
                 <mat-form-field>
-                  <input matInput placeholder="Enter your password" [type]="!hideLogPass ? 'password' : 'text'" [ngClass]="formClassPW" formControlName="password"
+                  <input matInput placeholder="Enter your password" [type]="!hideLogPass ? 'password' : 'text'" formControlName="password"
                     required>
                   <mat-icon matSuffix (click)="hideLogPass = !hideLogPass">{{hideLogPass ? 'visibility_off' : 'visibility'}}</mat-icon>
                   <mat-error *ngIf="isLoginFieldInvalid('password')">

@@ -59,6 +59,7 @@ typings/
 .env
 
 /public/storage
+/resources/frontend/dist
 /storage/*.key
 /vendor
 /.idea

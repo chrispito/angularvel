@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::any('{path?}', function()
+// {
+//     return view("index");
+// })->where("path", ".+");
+
+// Route::any('{path?}', function()
+// {
+//     return File::get(public_path() . '/index.html');
+// })->where("path", ".+");
