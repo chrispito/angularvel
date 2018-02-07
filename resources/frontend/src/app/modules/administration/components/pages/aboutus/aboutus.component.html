@@ -1,0 +1,19 @@
+<p class="title">
+    {{ (pageDatas$ | async)?.title }}
+</p>
+<p class="subTitle">
+    {{ (pageDatas$ | async)?.subTitle }}
+</p>
+<p class="descLabel">
+    {{ (pageDatas$ | async)?.descLabel }}
+</p>
+<p class="description">
+    {{ (pageDatas$ | async)?.description }}
+</p>
+<!-- <ul>
+    <li *ngFor="let section of (pageDatas$ | async)?.sections">
+        {{ section.label }}
+    </li>
+</ul> -->
+
+<div [froalaEditor]>Hello, Froala!</div>

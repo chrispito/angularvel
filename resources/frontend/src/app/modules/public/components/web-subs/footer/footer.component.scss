@@ -1,0 +1,116 @@
+footer {
+  background: #282828;
+  color: #7c7c7c;
+
+  .row.section {
+    padding: 80px 0;
+}
+}
+footer .small-title {
+  margin-bottom: 30px;
+  color: #fff;
+}
+footer ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+footer ul li {
+  line-height: 25px;
+}
+footer ul li a {
+  color: #999;
+}
+footer ul li.tweet {
+  margin-bottom: 15px;
+}
+footer ul li.tweet .fa-twitter {
+  padding: 5px;
+  color: #fff;
+
+  border-radius: 100%;
+  width: 24px;
+  height: 24px;
+}
+footer ul li.tweet .tweet-date {
+  font-size: 12px;
+  font-style: italic;
+  color: #bdc3c7;
+}
+footer .plain-flicker-gallery {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+footer .plain-flicker-gallery a {
+  display: inline-block;
+  width: 32%;
+  font-size: 0px;
+  padding: 5px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  // -0-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+footer .plain-flicker-gallery a:hover {
+  opacity: 0.7;
+}
+footer .plain-flicker-gallery a img {
+  width: 100%;
+}
+footer .contact-us .form-control {
+  color: #999;
+  font-size: 14px;
+  background: #1d1d1d;
+  border-radius: 0px;
+  border: 1px solid transparent;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  // -0-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+footer #copyright {
+  background: #1d1d1d;
+}
+footer #copyright .row {
+  padding: 15px 0;
+}
+footer #copyright .copyright-text,
+footer #copyright .nav-inline {
+  margin-top: 15px;
+}
+.social-footer a .fa {
+  font-size: 14px;
+  height: 35px;
+  line-height: 35px;
+  margin: 4px;
+  width: 35px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .footer-widget p {
+    font-size: 12px;
+  }
+  .social-footer a .fa {
+    height: 25px;
+    line-height: 25px;
+    width: 25px;
+  }
+  footer .plain-flicker-gallery a {
+    width: 31%;
+  }
+  footer ul li.tweet {
+    font-size: 12px !important;
+  }
+  #copyright p,
+  #copyright a {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .footer-widget {
+    margin-bottom: 40px;
+  }
+}

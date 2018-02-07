@@ -1,12 +1,12 @@
-import { Action } from "@ngrx/store";
-import { User } from "../../models/user.model";
+import { Action } from '@ngrx/store';
+import { User } from '../../models/user.model';
 
 /**
  * Load User
  */
-export const LOAD_USER = "[Application] Load User";
-export const LOAD_USER_FAIL = "[Application] Load User Fail";
-export const LOAD_USER_SUCCESS = "[Application] Load User Success";
+export const LOAD_USER = '[Application] Load User';
+export const LOAD_USER_FAIL = '[Application] Load User Fail';
+export const LOAD_USER_SUCCESS = '[Application] Load User Success';
 
 export class LoadUser implements Action {
   readonly type = LOAD_USER;
@@ -25,9 +25,9 @@ export class LoadUserSuccess implements Action {
 /**
  * User Login
  */
-export const USER_LOGIN = "[Application] User Login";
-export const USER_LOGIN_FAIL = "[Application] User Login Fail";
-export const USER_LOGIN_SUCCESS = "[Application] User Login Success";
+export const USER_LOGIN = '[Application] User Login';
+export const USER_LOGIN_FAIL = '[Application] User Login Fail';
+export const USER_LOGIN_SUCCESS = '[Application] User Login Success';
 
 export class UserLogin implements Action {
   readonly type = USER_LOGIN;
@@ -47,9 +47,10 @@ export class UserLoginSuccess implements Action {
 /**
  * User Register
  */
-export const USER_REGISTER = "[Application] User Register";
-export const USER_REGISTER_FAIL = "[Application] User Register Fail";
-export const USER_REGISTER_SUCCESS = "[Application] User Register Success";
+export const USER_REGISTER = '[Application] User Register';
+export const USER_REGISTER_FAIL = '[Application] User Register Fail';
+export const USER_REGISTER_SUCCESS = '[Application] User Register Success';
+export const USER_REGISTER_RESET = '[Application] User Register Reset';
 
 export class UserRegister implements Action {
   readonly type = USER_REGISTER;
@@ -66,10 +67,14 @@ export class UserRegisterSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class UserRegisterReset implements Action {
+  readonly type = USER_REGISTER_RESET;
+}
+
 /**
  * Logout User
  */
-export const USER_LOGOUT = "[Application] User Logout";
+export const USER_LOGOUT = '[Application] User Logout';
 
 export class UserLogout implements Action {
   readonly type = USER_LOGOUT;
@@ -88,4 +93,5 @@ export type UserAction =
   | UserLoginFail
   | UserRegister
   | UserRegisterSuccess
-  | UserRegisterFail;
+  | UserRegisterFail
+  | UserRegisterReset;

@@ -19,7 +19,7 @@ const webRoutes = [
             { path: 'products', loadChildren: '../products/products.module#ProductsModule'},
         ]},
     ] },
-    
+
     { path: '**', component: fromComponent.NotFoundComponent },
 ];
 

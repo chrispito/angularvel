@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { Actions, Effect } from "@ngrx/effects";
-import { Observable } from "rxjs/Observable";
-import { switchMap, map, catchError } from "rxjs/operators";
-import { of } from "rxjs/observable/of";
+import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
+import { Observable } from 'rxjs/Observable';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
-import * as fromActions from "../actions";
-import * as fromServices from "../../services";
-import { toPayload } from "@ngrx/effects/src/util";
+import * as fromActions from '../actions';
+import * as fromServices from '../../services';
+import { toPayload } from '@ngrx/effects/src/util';
 
 @Injectable()
 export class UserEffects {
@@ -29,7 +29,7 @@ export class UserEffects {
   @Effect()
   userLogin$ = this.action$.ofType(fromActions.USER_LOGIN)
     .switchMap(payload => this.privateServices
-      .loginUser(payload["userData"])
+      .loginUser(payload['userData'])
       .mergeMap(token =>
         Observable.from([
           new fromActions.UserLoginSuccess(token),
@@ -42,7 +42,7 @@ export class UserEffects {
   @Effect()
   userRegister$ = this.action$.ofType(fromActions.USER_REGISTER).pipe(
     switchMap(payload => this.privateServices
-      .registerUser(payload["userData"])
+      .registerUser(payload['userData'])
       .pipe(
       map(resp => new fromActions.UserRegisterSuccess(resp)),
       catchError(error => of(new fromActions.UserRegisterFail(error)))

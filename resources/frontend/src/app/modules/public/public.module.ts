@@ -1,16 +1,16 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { Routes, RouterModule } from "@angular/router";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { EffectsModule } from '@ngrx/effects'
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Routes, RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { PublicRoutingModule } from "./public-routing.module";
+import { PublicRoutingModule } from './public-routing.module';
 
-import { StoreModule } from "@ngrx/store";
-import { reducers, effects } from "./store";
+import { StoreModule } from '@ngrx/store';
+import { reducers, effects } from './store';
 
 // components
 import * as fromComponents from './components';
@@ -34,7 +34,7 @@ import { PublicHttpInterceptor } from './services/public-http-interceptor';
     MaterialModule,
     PublicRoutingModule,
     NgbModule.forRoot(),
-    StoreModule.forFeature("webPublic", reducers),
+    StoreModule.forFeature('webPublic', reducers),
     EffectsModule.forFeature(effects),
     HttpModule,
     HttpClientModule
@@ -48,6 +48,7 @@ import { PublicHttpInterceptor } from './services/public-http-interceptor';
     },
     AuthGuard
   ],
+  entryComponents: [fromComponents.LoginDialogComponent],
   declarations: [...fromContainers.containers, ...fromComponents.components],
   exports: [...fromContainers.containers, ...fromComponents.components]
 })

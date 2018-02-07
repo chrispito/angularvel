@@ -1,52 +1,97 @@
-// import { User } from "../../models/User";
-import * as fromUser from "../actions/user.action";
+import * as fromUser from '../actions/user.action';
+import { User } from '../../models/user.model';
 
 export interface UserState {
-    // data: User,
-    data: any,
-    loaded: boolean,
-    loading: boolean
+  user: User;
+  loaded: boolean;
+  loading: boolean;
+  loginLoaded: boolean;
+  loginLoading: boolean;
+  error: any;
 }
 
 export const initialState = {
-    data: null,
-    loaded: false,
-    loading: false
-}
+  user: null,
+  loaded: false,
+  loading: false,
+  loginLoaded: false,
+  loginLoading: false,
+  error: null
+};
 
 export function reducer(
-    state = initialState,
-    action: fromUser.UserAction
-):UserState {
-
-    switch(action.type) {
-        case fromUser.LOAD_USER:{
-            return {
-                ...state,
-                loading: true
-            }
-        }
-        case fromUser.LOAD_USER_SUCCESS:{
-            const data = action.payload;
-            return {
-                ...state,
-                loading: false,
-                loaded: true,
-                data
-            }
-        }
-        case fromUser.LOAD_USER_FAIL:{
-            return {
-                ...state,
-                loading: false,
-                loaded: false
-            }
-        }
+  state = initialState,
+  action: fromUser.UserAction
+): UserState {
+  switch (action.type) {
+    case fromUser.LOAD_USER: {
+      return {
+        ...state,
+        loading: true
+      };
     }
+    case fromUser.LOAD_USER_SUCCESS: {
+      const user = action.payload['data'];
+      console.log('ReducerUser[LOAD_USER_SUCCESS] user = ', user);
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        user
+      };
+    }
+    case fromUser.LOAD_USER_FAIL: {
+      const error = action;
+      console.log('ReducerUser[LOAD_USER_FAIL] error = ', error);
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error
+      };
+    }
+    case fromUser.USER_LOGIN: {
+      return {
+        ...state,
+        loginLoading: true
+      };
+    }
+    case fromUser.USER_LOGIN_SUCCESS: {
+      const token = action.payload;
+      localStorage.setItem('JLD_USER_ADMIN_TOKEN', JSON.stringify(token));
+      return {
+        ...state,
+        loginLoading: false,
+        loginLoaded: true
+      };
+    }
+    case fromUser.USER_LOGIN_FAIL: {
+      const error = action;
+      return {
+        ...state,
+        loginLoading: false,
+        loginLoaded: false,
+        error
+      };
+    }
+    case fromUser.USER_LOGOUT: {
+      localStorage.removeItem('JLD_USER_ADMIN_TOKEN');
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        loginLoaded: false,
+        user: undefined
+      };
+    }
+  }
 
-    return state;
+  return state;
 }
 
 export const getUserLoading = (state: UserState) => state.loading;
 export const getUserLoaded = (state: UserState) => state.loaded;
-export const getUser = (state: UserState) => state.data;
+export const getUserError = (state: UserState) => state.error;
+export const getUser = (state: UserState) => state.user;
+export const getLoginLoading = (state: UserState) => state.loginLoading;
+export const getLoginLoaded = (state: UserState) => state.loginLoaded;

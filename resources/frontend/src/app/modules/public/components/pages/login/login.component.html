@@ -1,101 +1,102 @@
-<div class="row log-reg-container">
-  <mat-tab-group>
-    <mat-tab label="Login">
-      <mat-card>
-        <mat-card-content>
-          <div class="login-container">
-            <div class="heading">
-              <h2>Login</h2>
+<div class="container">
+  <div class="row log-reg-container">
+    <mat-tab-group>
+      <mat-tab label="Login">
+        <mat-card>
+          <mat-card-content>
+            <div class="login-container">
+              <div class="heading">
+                <h2>Login</h2>
+              </div>
+              <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+                <div class="control-group">
+                  <mat-form-field>
+                    <input matInput placeholder="E-amil" formControlName="email" required>
+                    <mat-error *ngIf="isLoginFieldInvalid('email')">
+                      Please enter your E-Mail
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="control-group">
+                  <mat-form-field>
+                    <input matInput placeholder="Enter your password" [type]="hideLogPass ? 'password' : 'text'" formControlName="password" required>
+                    <mat-icon matSuffix (click)="hideLogPass = !hideLogPass">{{hideLogPass ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-error *ngIf="isLoginFieldInvalid('password')">
+                      Please enter your password
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="control-group">
+                  <mat-checkbox>Remember Login!</mat-checkbox>
+                  <button mat-raised-button color="primary" type="submit">Login</button>
+                </div>
+              </form>
             </div>
-            <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
-              <div class="control-group">
-                <mat-form-field>
-                  <input matInput placeholder="E-amil" formControlName="email" required>
-                  <mat-error *ngIf="isLoginFieldInvalid('email')">
-                    Please enter your E-Mail
-                  </mat-error>
-                </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+
+
+      <mat-tab label="Register">
+        <mat-card>
+          <mat-card-content>
+            <div class="register-container">
+              <div class="heading">
+                <h2>Register</h2>
               </div>
-
-              <div class="control-group">
-                <mat-form-field>
-                  <input matInput placeholder="Enter your password" [type]="!hideLogPass ? 'password' : 'text'" formControlName="password"
-                    required>
-                  <mat-icon matSuffix (click)="hideLogPass = !hideLogPass">{{hideLogPass ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  <mat-error *ngIf="isLoginFieldInvalid('password')">
-                    Please enter your password
-                  </mat-error>
-                </mat-form-field>
-              </div>
-
-              <div class="control-group">
-                <mat-checkbox>Remember Login!</mat-checkbox>
-                <button mat-raised-button color="primary" type="submit">Login</button>
-              </div>
-            </form>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </mat-tab>
-
-
-    <mat-tab label="Register">
-      <mat-card>
-        <mat-card-content>
-          <div class="register-container">
-            <div class="heading">
-              <h2>Register</h2>
+              <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+                <div class="control-group">
+                  <mat-form-field>
+                    <input matInput placeholder="Last name" formControlName="lastname" required>
+                    <mat-error *ngIf="isRegisterFieldInvalid('lastname')">
+                      Please enter your last name
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="control-group">
+                  <mat-form-field>
+                    <input matInput placeholder="First name" formControlName="firstname" required>
+                    <mat-error *ngIf="isRegisterFieldInvalid('firstname')">
+                      Please enter your first name
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="control-group">
+                  <mat-form-field>
+                    <input matInput placeholder="E-amil" formControlName="email" required>
+                    <mat-error *ngIf="isRegisterFieldInvalid('email')">
+                      Please enter your E-Mail
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="control-group">
+                  <mat-form-field>
+                    <input matInput placeholder="Password" [type]="hideRegPass1 ? 'password' : 'text'" formControlName="password" required>
+                    <mat-icon matSuffix (click)="hideRegPass1 = !hideRegPass1">{{hideRegPass1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-error *ngIf="isRegisterFieldInvalid('password')">
+                      Please enter your password
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="control-group">
+                  <mat-form-field>
+                    <input matInput placeholder="Repead Password" [type]="hideRegPass2 ? 'password' : 'text'" formControlName="password2" required>
+                    <mat-icon matSuffix (click)="hideRegPass2 = !hideRegPass2">{{hideRegPass2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-error *ngIf="isRegisterFieldInvalid('password2')">
+                      Please enter again your password
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="control-group">
+                  <button mat-raised-button color="primary" type="submit">Register</button>
+                </div>
+              </form>
             </div>
-            <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
-              <div class="control-group">
-                <mat-form-field>
-                  <input matInput placeholder="Last name" formControlName="lastname" required>
-                  <mat-error *ngIf="isRegisterFieldInvalid('lastname')">
-                    Please enter your last name
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="control-group">
-                <mat-form-field>
-                  <input matInput placeholder="First name" formControlName="firstname" required>
-                  <mat-error *ngIf="isRegisterFieldInvalid('firstname')">
-                    Please enter your first name
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="control-group">
-                <mat-form-field>
-                  <input matInput placeholder="E-amil" formControlName="email" required>
-                  <mat-error *ngIf="isRegisterFieldInvalid('email')">
-                    Please enter your E-Mail
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="control-group">
-                <mat-form-field>
-                  <input matInput placeholder="Password" [type]="!hideRegPass1 ? 'password' : 'text'" formControlName="password" required>
-                  <mat-icon matSuffix (click)="hideRegPass1 = !hideRegPass1">{{hideRegPass1 ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  <mat-error *ngIf="isRegisterFieldInvalid('password')">
-                    Please enter your password
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="control-group">
-                <mat-form-field>
-                  <input matInput placeholder="Repead Password" [type]="!hideRegPass2 ? 'password' : 'text'" formControlName="password2" required>
-                  <mat-icon matSuffix (click)="hideRegPass2 = !hideRegPass2">{{hideRegPass2 ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  <mat-error *ngIf="isRegisterFieldInvalid('password2')">
-                    Please enter again your password
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="control-group">
-                <button mat-raised-button color="primary" type="submit">Register</button>
-              </div>
-            </form>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </mat-tab>
-  </mat-tab-group>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>

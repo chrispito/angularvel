@@ -1,0 +1,30 @@
+#about-us-page {
+  .container {
+    margin-top: 10px;
+    margin-bottom: 60px;
+  }
+}
+.section-title {
+  text-align: center;
+  font-size: 38px;
+  line-height: 40px;
+  color: #000;
+  font-family: 'Muli', sans-serif;
+  padding: 10px 0;
+}
+p.section-subcontent {
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+}
+.section-subcontent {
+  text-align: center;
+  padding-bottom: 30px;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+}

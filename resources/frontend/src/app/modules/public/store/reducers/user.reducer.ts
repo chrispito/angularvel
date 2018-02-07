@@ -1,16 +1,24 @@
-import * as fromUser from "../actions/user.action";
-import { User } from "../../models/user.model";
+import * as fromUser from '../actions/user.action';
+import { User } from '../../models/user.model';
 
 export interface UserState {
   user: User;
   loaded: boolean;
   loading: boolean;
+  loginLoaded: boolean;
+  loginLoading: boolean;
+  isRegistered: boolean;
+  error: any;
 }
 
 export const initialState = {
   user: null,
   loaded: false,
-  loading: false
+  loading: false,
+  loginLoaded: false,
+  loginLoading: false,
+  isRegistered: false,
+  error: null
 };
 
 export function reducer(
@@ -25,7 +33,7 @@ export function reducer(
       };
     }
     case fromUser.LOAD_USER_SUCCESS: {
-      const user = action.payload["data"];
+      const user = action.payload['data'];
       return {
         ...state,
         loading: false,
@@ -34,36 +42,36 @@ export function reducer(
       };
     }
     case fromUser.LOAD_USER_FAIL: {
-      const error = action.payload;
-      console.log("UserReducer[LOAD_USER_FAIL]: ", error);
+      const error = action;
       return {
         ...state,
         loading: false,
-        loaded: false
+        loaded: false,
+        error
       };
     }
     case fromUser.USER_LOGIN: {
       return {
         ...state,
-        loading: true
+        loginLoading: true
       };
     }
     case fromUser.USER_LOGIN_SUCCESS: {
       const token = action.payload;
-      localStorage.setItem("JLD-USER-TOKEN", JSON.stringify(token));
+      localStorage.setItem('JLD-USER-TOKEN', JSON.stringify(token));
       return {
         ...state,
-        loading: false,
-        loaded: true
+        loginLoading: false,
+        loginLoaded: true
       };
     }
     case fromUser.USER_LOGIN_FAIL: {
-      const error = action.payload;
-      console.log("UserReducer[USER_LOGIN_FAIL]: ", error);
+      const error = action;
       return {
         ...state,
-        loading: false,
-        loaded: false
+        loginLoading: false,
+        loginLoaded: false,
+        error
       };
     }
     case fromUser.USER_REGISTER: {
@@ -77,24 +85,33 @@ export function reducer(
       return {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
+        isRegistered: true,
       };
     }
     case fromUser.USER_REGISTER_FAIL: {
-      const error = action.payload;
-      console.log("UserReducer[USER_REGISTER_FAIL]: ", error);
-      return {
-        ...state,
-        loading: false,
-        loaded: false
-      };
-    }
-    case fromUser.USER_LOGOUT: {
-      localStorage.removeItem("JLD-USER-TOKEN");
+      const error = action;
       return {
         ...state,
         loading: false,
         loaded: false,
+        isRegistered: false,
+        error
+      };
+    }
+    case fromUser.USER_REGISTER_RESET: {
+      return {
+        ...state,
+        isRegistered: false,
+      };
+    }
+    case fromUser.USER_LOGOUT: {
+      localStorage.removeItem('JLD-USER-TOKEN');
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        loginLoaded: false,
         user: undefined
       };
     }
@@ -105,4 +122,8 @@ export function reducer(
 
 export const getUserLoading = (state: UserState) => state.loading;
 export const getUserLoaded = (state: UserState) => state.loaded;
+export const getRegistered = (state: UserState) => state.isRegistered;
+export const getUserError = (state: UserState) => state.error;
 export const getUser = (state: UserState) => state.user;
+export const getLoginLoading = (state: UserState) => state.loginLoading;
+export const getLoginLoaded = (state: UserState) => state.loginLoaded;

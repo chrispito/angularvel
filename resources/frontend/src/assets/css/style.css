@@ -28,7 +28,7 @@ h5 {
   font-weight: normal;
   margin: 0;
   padding: 0;
-  font-family: 'cornerstone';
+  /* font-family: 'cornerstone'; */
 }
 
 h3 {
@@ -54,7 +54,7 @@ h4 {
   border: 0;
   border-radius: 3px;
   font-size: 16px;
-  font-family: 'cornerstone';
+  /* font-family: 'cornerstone'; */
   cursor: pointer;
   transition: all 0.2s ease;
 }

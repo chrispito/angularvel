@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as fromDtore from '../../../../../../customRedux/stores/appStore'
+import * as fromDtore from '../../../../../../customRedux/stores/appStore';
 
 @Component({
   selector: 'app-todo-overview',
@@ -9,7 +9,7 @@ import * as fromDtore from '../../../../../../customRedux/stores/appStore'
 export class TodoOverviewComponent implements OnInit {
   todos = {};
 
-  constructor() { 
+  constructor() {
     this.todos = fromDtore.Store;
   }
 
@@ -17,6 +17,6 @@ export class TodoOverviewComponent implements OnInit {
   }
 
   clearTodos() {
-    console.log('Clear!!')
+    console.log('Clear!!');
   }
 }

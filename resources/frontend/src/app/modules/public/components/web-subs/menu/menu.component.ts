@@ -1,18 +1,18 @@
-import { Component, OnInit, Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import { User } from "../../../models/user.model";
+import { Component, OnInit, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { User } from '../../../models/user.model';
 
-import * as fromStore from "../../../store";
+import * as fromStore from '../../../store';
 
 @Component({
-  selector: "app-web-subs-menu",
-  templateUrl: "./menu.component.html",
-  styleUrls: ["./menu.component.css"]
+  selector: 'app-web-subs-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  public btnTitle = "Login \\ Register";
+  public btnTitle = 'Login \\ Register';
   private isUserLoggedIn = false;
   public loggedInuser = null;
   user$: Observable<User>;

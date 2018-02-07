@@ -60,6 +60,7 @@ typings/
 
 /public/storage
 /resources/frontend/dist
+/public/js/dist
 /storage/*.key
 /vendor
 /.idea

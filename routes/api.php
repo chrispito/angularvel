@@ -12,14 +12,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::get('/user', function (Request $request) {
-    $token = JWTAuth::getToken();
-    $user = JWTAuth::toUser($token);
-
-    return fractal($user, new \App\Transformers\UserTransformer);
-})->middleware('jwt.auth');
-
 Route::post('/authenticate', [
   'uses' => 'ApiAuthController@authenticate'
 ]);
@@ -27,16 +19,37 @@ Route::post('/authenticate', [
 Route::post('/register', [
   'uses' => 'ApiAuthController@register'
 ]);
-Route::get('/jokes', function() {
-  $user = JWTAuth::toUser(JWTAuth::getToken());
-  return fractal($user->jokes, new \App\Transformers\JokeTransformer);
+
+// Route::middleware(['jwt.auth'])->group(function () {
+Route::group(['middleware' => 'jwt.auth'], function () {
+  Route::get('/user', function (Request $request) {
+    $token = JWTAuth::getToken();
+    $user = JWTAuth::toUser($token);
+
+    return fractal($user, new \App\Transformers\UserTransformer);
+  });
+
+  Route::get('/about', [
+    'uses' => 'AboutController@getAbout'
+  ]);
+  Route::post('/about/update', [
+    'uses' => 'AboutController@update'
+  ]);
 });
 
-Route::resource('jokes', 'JokesController');
 
-Route::post('/like', [
-  'uses' => 'LikesController@like'
-]);
-Route::post('/unlike', [
-  'uses' => 'LikesController@unlike'
-]);
+
+
+// Route::get('/comments', function() {
+//   $user = JWTAuth::toUser(JWTAuth::getToken());
+//   return fractal($user->jokes, new \App\Transformers\JokeTransformer);
+// });
+
+// Route::resource('comments', 'CommentController');
+
+// Route::post('/like', [
+//   'uses' => 'LikesController@like'
+// ]);
+// Route::post('/unlike', [
+//   'uses' => 'LikesController@unlike'
+// ]);

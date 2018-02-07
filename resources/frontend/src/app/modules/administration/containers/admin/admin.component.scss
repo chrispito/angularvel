@@ -1,0 +1,17 @@
+@import 'theme/conf/mixins';
+@import 'theme/conf/colorScheme/mint';
+@import 'theme/conf/variables';
+// @import 'theme/conf/variables';
+.admin-container {
+  background-image: url("/assets/img/blur-bg.jpg");
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  color: white;
+}
+
+.al-main {
+  margin-left: 180px;
+  padding: 66px 0 34px;
+  min-height: 500px;
+}

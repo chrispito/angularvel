@@ -29,14 +29,13 @@ export class TodoListComponent implements OnInit {
     todos: fromReducers.reducer
   };
   store = new fromStore.Store(this.reducers);
-  
 
   model: ITodo = {
     id: 0,
-    description: "",
-    responsible: "",
-    priority: "low",
-    isCompleted: false 
+    description: '',
+    responsible: '',
+    priority: 'low',
+    isCompleted: false
   };
 
   constructor(private fb: FormBuilder) { }
@@ -60,33 +59,31 @@ export class TodoListComponent implements OnInit {
     )).pipe(
       map(result => result ? { invalid: true } : null)
     );
-    ;
   }
 
   obSubmit() {
     if (this.todosForm.valid) {
-      let payload = {...this.todosForm.value};
+      const payload = {...this.todosForm.value};
       let maxIdTodo;
-      if (this.todoList.data.length != 0) {
+      if (this.todoList.data.length !== 0) {
         maxIdTodo = this.todoList.data.reduce( (a: ITodo, b: ITodo): ITodo => a.id > b.id ? a : b );
-        payload.id = maxIdTodo.id + 1
+        payload.id = maxIdTodo.id + 1;
       } else {
-        payload.id = 1
+        payload.id = 1;
       }
       this.store.dispatch({
         type: ADD_TODO,
         payload
       });
-      this.resetFrom(this.todosForm)
+      this.resetFrom(this.todosForm);
     }
-    
 
-    this.todosFormSubmitAttempt = true; 
+    this.todosFormSubmitAttempt = true;
   }
 
   resetFrom(formGroup: FormGroup) {
-    formGroup.reset()
-      formGroup.markAsPristine()
+    formGroup.reset();
+      formGroup.markAsPristine();
       let control: AbstractControl = null;
       Object.keys(formGroup.controls).forEach((name) => {
         control = formGroup.controls[name];
