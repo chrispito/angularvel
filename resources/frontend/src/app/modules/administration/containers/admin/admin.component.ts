@@ -1,14 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { User } from '../../models/user.model';
+
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  styleUrls: ['./admin.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AdminComponent implements OnInit {
 
-  constructor() {
+  user$: Observable<User>;
 
+  constructor(
+    private store: Store<fromStore.WebAdminState>,
+    private router: Router
+  ) {
+    this.user$ = this.store.select<any>(fromStore.getUser);
+    this.user$.subscribe({
+      next: (event: User) => ((!event || event.type !== 'admin') ? this.router.navigate(['/admin/login']) : null)
+    });
    }
 
   ngOnInit() {

@@ -27,56 +27,29 @@ export class AuthGuard implements CanActivate {
   ) {  }
 
   getFromStoreOrAPI(): Observable<any> {
-    return this.store.select<any>(fromStore.getUser)
-      .do((user: User) => {
-        console.log('AuthGuard[getFromStoreOrAPI] user = ', user);
-        if (!user || user.type !== 'admin') {
-          this.store.dispatch(new fromStore.LoadUser());
-          this.router.navigate(['/admin/login']);
-        }
-      });
+    return this.store.select<any>(fromStore.getUser);
   }
 
   canActivate(): Observable<boolean> {
     return this.getFromStoreOrAPI().switchMap(
       (data) => {
-        console.log('AuthGuard[canActivate] data = ', data);
-        return of(true);
+        if (data && data.type === 'admin') {
+          return of(true);
+        } else {
+          const jld_user_token = JSON.parse(localStorage.getItem('JLD_USER_ADMIN_TOKEN'));
+          if (jld_user_token) {
+            this.store.dispatch(new fromStore.LoadUser());
+          }
+          this.router.navigate(['/admin/login']);
+          return of(false);
+        }
       }
     ).catch(
       (error) => {
-        console.log('AuthGuard[canActivate] error = ', error);
+        this.router.navigate(['/admin/login']);
         return of(false);
       }
     );
   }
 
-  // canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-  //   // this.user$.subscribe({
-  //   //   next: event => console.log('event = ', event)
-  //   // });
-  //   this.user$ = this.store.select<any>(fromStore.getUser).subscribe((user) => {
-  //     console.log('AuthGuard[canActivate] user = ', user);
-  //     if (user && user.type === 'admin') {
-  //       return true;
-  //     } else {
-  //       this.router.navigate(['/admin/login'], {
-  //         queryParams: {
-  //           return: state.url
-  //         }
-  //       });
-  //       return false;
-  //     }
-  //   });
-  //   // if (this.user$) {
-  //   //   return true;
-  //   // } else {
-  //   //   this.router.navigate(['/admin/login'], {
-  //   //     queryParams: {
-  //   //       return: state.url
-  //   //     }
-  //   //   });
-  //     return false;
-  //   // }
-  // }
 }

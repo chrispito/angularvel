@@ -10,6 +10,12 @@
   color: white;
 }
 
+body::before {
+  position: fixed;
+  background: url("/assets/img/blur-bg.jpg") center center no-repeat;
+  background-size: cover;
+}
+
 .al-main {
   margin-left: 180px;
   padding: 66px 0 34px;

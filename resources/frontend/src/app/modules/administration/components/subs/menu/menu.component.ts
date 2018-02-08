@@ -15,18 +15,12 @@ export class MenuComponent implements OnInit {
   private isUserLoggedIn = false;
   public loggedInuser = null;
   user$: Observable<User>;
-  isLoggedIn$: Observable<boolean>;
 
   constructor(
     private router: Router,
     private store: Store<fromStore.WebAdminState>
   ) {
     this.user$ = this.store.select<any>(fromStore.getUser);
-    this.store.dispatch(new fromStore.LoadUser());
-    this.isLoggedIn$ = this.store.select<any>(fromStore.getLoginLoaded);
-    this.isLoggedIn$.subscribe({
-      next: event => (!event ? this.router.navigate(['/admin/login']) : null)
-    });
   }
 
   ngOnInit() {}

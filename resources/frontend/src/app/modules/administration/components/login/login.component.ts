@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   registerForm: FormGroup;
   hideLogPass: boolean;
-  isLoggedIn$: Observable<User>;
+  user$: Observable<User>;
 
   private loginFormSubmitAttempt: boolean;
 
@@ -33,9 +33,9 @@ export class LoginComponent implements OnInit {
     public dialog: MatDialog,
     private store: Store<fromStore.WebAdminState>
   ) {
-    this.isLoggedIn$ = this.store.select<any>(fromStore.getUser);
-    this.isLoggedIn$.subscribe({
-      next: event => ((event && event.type === 'admin') ? this.router.navigate(['/admin/dashboard']) : null)
+    this.user$ = this.store.select<any>(fromStore.getUser);
+    this.user$.subscribe({
+      next: (event: User) => ((event && event.type === 'admin') ? this.router.navigate(['/admin/dashboard']) : null)
     });
   }
 
