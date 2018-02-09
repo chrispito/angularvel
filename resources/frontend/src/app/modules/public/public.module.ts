@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpModule } from '@angular/http';
+import { AgmCoreModule } from '@agm/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -36,6 +37,9 @@ import { PublicHttpInterceptor } from './services/public-http-interceptor';
     NgbModule.forRoot(),
     StoreModule.forFeature('webPublic', reducers),
     EffectsModule.forFeature(effects),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCtelN368U-pyUs-c3TsIqT4Q0vOWYkmbw'
+    }),
     HttpModule,
     HttpClientModule
   ],

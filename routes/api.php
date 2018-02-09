@@ -20,6 +20,10 @@ Route::post('/register', [
   'uses' => 'ApiAuthController@register'
 ]);
 
+Route::get('/about', [
+  'uses' => 'AboutController@getAbout'
+]);
+
 // Route::middleware(['jwt.auth'])->group(function () {
 Route::group(['middleware' => 'jwt.auth'], function () {
   Route::get('/user', function (Request $request) {
@@ -29,10 +33,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     return fractal($user, new \App\Transformers\UserTransformer);
   });
 
-  Route::get('/about', [
-    'uses' => 'AboutController@getAbout'
-  ]);
-  Route::post('/about/update', [
+  
+  Route::post('/updateAdbout', [
     'uses' => 'AboutController@update'
   ]);
 });

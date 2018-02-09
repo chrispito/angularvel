@@ -28,6 +28,9 @@ export const getUserLoading = createSelector(getUserState, fromUser.getUserLoadi
 export const getLoginLoaded = createSelector(getUserState, fromUser.getLoginLoaded);
 export const getLoginLoading = createSelector(getUserState, fromUser.getLoginLoading);
 
+/**
+ * Page State
+ */
 export const getPagesState = createSelector(getWebAdminState, (state: WebAdminState) => state.pages);
 export const getAboutPage = createSelector(getPagesState, fromPages.getAboutPage);
 export const getPagesLoaded = createSelector(getPagesState, fromPages.getPagesLoaded);

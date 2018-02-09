@@ -8,7 +8,9 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <div id="google-map" style="width: 100%;height: 400px;background: #ddd;margin-bottom: 30px;" data-latitude="8.151939" data-longitude="77.4785913"></div>
+          <agm-map [latitude]="lat" [longitude]="lng">
+              <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+            </agm-map>
       </div>
     </div>
     <div class="contact-wrap">

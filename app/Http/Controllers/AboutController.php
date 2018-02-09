@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Transformers\AboutTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\About;
+use App\AboutSection;
 
 class AboutController extends Controller
 {
@@ -31,19 +32,20 @@ class AboutController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update()
+    public function update(Request $request)
     {
-      $about = About::where('id', 1);
-      if (!$about) {
-        return response()->json(['error' => 'About Not Found']);
+      try {
+        $about = About::findOrFail(1);
+      } catch (ModelNotFoundException $e) {
+        return response()->json(['error' => $e->getMessage()]);
       }
+      
       $about->title = $request->title;
       $about->sub_title = $request->subTitle;
       $about->desc_label = $request->descLabel;
       $about->description = $request->description;
       foreach ($request->sections as $section){
-        $about->sections()->where('id', $section->id)->update(['label' => $section->label]);
-        $about->sections()->where('id', $section->id)->update(['text' => $section->text]);
+        AboutSection::where('id', $section['id'])->update(['label' => $section['label'], 'text' => $section['text']]);
       }
       $about->save();
       return fractal($about, new AboutTransformer);

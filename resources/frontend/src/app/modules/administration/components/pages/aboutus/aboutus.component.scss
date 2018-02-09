@@ -1,0 +1,44 @@
+.about-form {
+    .panel {
+        background-color: rgba(0,0,0,.2);
+        border: none;
+        border-radius: 5px;
+        position: relative;
+        margin-bottom: 24px;
+        box-shadow: 0 5px 5px 0 rgba(0,0,0,.25);
+        color: #fff;
+
+        .panel-heading {
+            border-bottom: 1px solid rgba(0,0,0,.12);
+            font-size: 16px;
+            padding: 14px 22px;
+        }
+
+        .panel-body {
+            .row > .col-md-12 {
+                margin-bottom: 15px;
+            }
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+        }
+
+        .form-group {
+            display: flex;
+        }
+    }
+
+        // .control-label{
+        //     width: 100%;
+        // }
+        // .form-control {
+        //     height: fit-content;
+        //     color: #fff;
+        //     border: 1px solid transparent;
+        //     border-radius: 5px;
+        //     background-color: rgba(0,0,0,.15);
+        //     box-shadow: none;
+        // }
+        
+}

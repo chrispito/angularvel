@@ -1,82 +1,45 @@
 <section id="about-us-page" class="section">
   <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h1 class="section-title wow fadeIn animated" data-wow-delay=".2s">
-          WHY CHOOSE US?
-        </h1>
-      </div>
-      <div class="col-md-12">
-        <p class="section-subcontent">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-          <br> blanditiis praesentium</p>
-      </div>
+    <div *ngIf="(!(pageState$ | async)?.title) else pageContainer">
+      <mat-spinner></mat-spinner>
     </div>
-    <div class="row">
-      <div class="col-sm-12 col-md-4">
-        <img class="img-fluid" src="https://unsplash.it/350/350?image=452" alt="">
+    <ng-template #pageContainer>
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="section-title wow fadeIn animated" data-wow-delay=".2s">
+            {{ (pageState$ | async).title }}
+          </h1>
+        </div>
+        <div class="col-md-12">
+          <p class="section-subcontent">
+            {{ (pageState$ | async).subTitle }}
+          </p>
+        </div>
       </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <img class="img-fluid" src="https://unsplash.it/350/350?image=452" alt="">
+        </div>
 
-      <div class="col-sm-12 col-md-8">
-        <h3 class="small-title">
-          Our Specialty
-        </h3>
-        <p>We are unique and had working! We work for better product.</p>
-        <mat-tab-group>
-            <mat-tab label="Label_1">
-              <mat-card>
-                <mat-card-content>
-                    <p>Boy desirous families prepared gay reserved add ecstatic say. Replied joy age visitor nothing cottage. Mrs
-                        door paid led loud sure easy read. Hastily at perhaps as neither or ye fertile tedious visitor. Use fine
-                        bed none call busy dull when. Quiet ought match my right by table means. Principles up do in me favourable
-                        affronting. Twenty mother denied effect we to do on.</p>
-                      <p>Contented get distrusts certainty nay are frankness concealed ham. On unaffected resolution on considered of.
-                        No thought me husband or colonel forming effects. End sitting shewing who saw besides son musical adapted.</p>
-                </mat-card-content>
-              </mat-card>
-            </mat-tab>
-
-
-            <mat-tab label="Label_2">
-              <mat-card>
-                <mat-card-content>
-                    <p>In as name to here them deny wise this. As rapid woody my he me which. Men but they fail shew just wish next
-                        put. Led all visitor musical calling nor her. Within coming figure sex things are. Pretended concluded did
-                        repulsive education smallness yet yet described. Had country man his pressed shewing. No gate dare rose he.
-                        Eyes year if miss he as upon.</p>
-                      <p>Or neglected agreeable of discovery concluded oh it sportsman. Week to time in john. Son elegance use weddings
-                        separate. Ask too matter formed county wicket oppose talent.</p>
-                </mat-card-content>
-              </mat-card>
-            </mat-tab>
-
-            <mat-tab label="Label_3">
-              <mat-card>
-                <mat-card-content>
-                    <p>Repulsive questions contented him few extensive supported. Of remarkably thoroughly he appearance in. Supposing
-                        tolerably applauded or of be. Suffering unfeeling so objection agreeable allowance me of. Ask within entire
-                        season sex common far who family. As be valley warmth assure on. Park girl they rich hour new well way you.
-                        Face ye be me been room we sons fond.</p>
-                      <p>Yourself required no at thoughts delicate landlord it be. Branched dashwood do is whatever it. Farther be chapter
-                        at visited married in it pressed. By distrusts procuring be oh frankness existence believing instantly if.
-                        Doubtful on an juvenile as of servants insisted</p>
-                </mat-card-content>
-              </mat-card>
-            </mat-tab>
-
-            <mat-tab label="Label_4">
-              <mat-card>
-                <mat-card-content>
-                    <p>As collected deficient objection by it discovery sincerity curiosity. Quiet decay who round three world whole
-                        has mrs man. Built the china there tried jokes which gay why. Assure in adieus wicket it is. But spoke round
-                        point and one joy. Offending her moonlight men sweetness see unwilling. Often of it tears whole oh balls
-                        share an.</p>
-                      <p>But why smiling man her imagine married. Chiefly can man her out believe manners cottage colonel unknown.</p>
-                </mat-card-content>
-              </mat-card>
-            </mat-tab>
+        <div class="col-sm-12 col-md-8">
+          <h3 class="small-title">
+            {{ (pageState$ | async).descLabel }}
+          </h3>
+          <p>{{ (pageState$ | async).description }}</p>
+          <mat-tab-group>
+            <div *ngFor="let section of (pageState$ | async).sections.data as sections">
+              <mat-tab label="{{section.label}}">
+                <mat-card>
+                  <mat-card-content>
+                    {{section.text}}
+                  </mat-card-content>
+                </mat-card>
+              </mat-tab>
+            </div>
           </mat-tab-group>
+        </div>
       </div>
-    </div>
+    </ng-template>
   </div>
   <!-- Container Ends -->
 </section>

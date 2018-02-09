@@ -1,55 +1,75 @@
-
 <div class="widgets">
+  <div *ngIf="(!(pageState$ | async)?.title) else pageContainer">
+    <mat-spinner></mat-spinner>
+  </div>
+  <ng-template #pageContainer>
+    <form class="about-form" [formGroup]="pageForm" (ngSubmit)="savePage()">
 
-    <div class="row">
-      <div class="col-md-12"
-           ba-panel
-           ba-panel-title="Inline Form"
-           ba-panel-class="with-scroll">
-           <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Title</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" placeholder="Title" value="{{ (pageDatas$ | async)?.title }}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Subtitle</label>
-            <div class="col-sm-10">
-                <textarea class="form-control" placeholder="Subtitle">
-                    {{ (pageDatas$ | async)?.subTitle }}
-                </textarea>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Description Title</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputEmail3" placeholder="Description title" value="{{ (pageDatas$ | async)?.descLabel }}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">Description</label>
-            <div class="col-sm-10">
-                <textarea class="form-control" placeholder="Description">
-                    {{ (pageDatas$ | async)?.description }}
-                </textarea>
-            </div>
-          </div>
-
-      </div>
-    </div>
-  
-    <div class="row">
-        <div *ngFor="let i of [1,2,3,4]" class="col-md-6"
-            ba-panel
-            ba-panel-title="Basic Form"
-            ba-panel-class="with-scroll">
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Description</label>
-                <div class="col-sm-10">
-                    <div [froalaEditor]>Hello, Froala!</div>
+      <div class="panel">
+        <div class="panel-heading">Text description</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12" ba-panel ba-panel-title="Inline Form" ba-panel-class="with-scroll">
+                  <div class="form-group">
+                    <label for="inputEmail3" class="control-label col-sm-3">Title</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="Title" 
+                      formControlName="title" required value="{{ (pageState$ | async).title }}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="control-label col-sm-3">Subtitle</label>
+                    <div class="col-sm-9">
+                      <textarea class="form-control" placeholder="Subtitle" formControlName="subTitle" 
+                      value="{{ (pageState$ | async).subTitle }}" required ></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="control-label col-sm-3">Description Title</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="Description title" 
+                      formControlName="descLabel" required value="{{ (pageState$ | async).descLabel }}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="control-label col-sm-3">Description</label>
+                    <div class="col-sm-9">
+                      <textarea class="form-control" placeholder="Description" formControlName="description" 
+                      value="{{ (pageState$ | async).description }}" required ></textarea>
+                    </div>
+                  </div>
+        
                 </div>
               </div>
         </div>
       </div>
-  
-  </div>
+
+      <div class="panel">
+        <div class="panel-heading">Section Description</div>
+        <div class="panel-body">
+            <div class="row">
+                <div *ngFor="let section of (pageState$ | async).sections.data as sections; index as i" 
+                ba-panel ba-panel-title="Basic Form" ba-panel-class="with-scroll" class="col-md-12">
+                  <div class="form-group">
+                    <label for="inputEmail3" class="control-label col-sm-3">Label [ {{i}} ]</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="inputEmail3" placeholder="Section title" 
+                        formControlName="secLabel_{{i}}" required value="{{section.label}}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="control-label col-sm-3">Text [ {{i}} ]</label>
+                    <div class="col-sm-9">
+                      <textarea class="form-control" placeholder="Type something" formControlName="section_{{i}}" value="{{section.text}}">
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+      
+      <button mat-raised-button color="primary" type="submit">Save Change!</button>
+    </form>
+  </ng-template>
+</div>

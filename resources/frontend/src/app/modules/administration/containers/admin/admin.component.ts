@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +18,8 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private store: Store<fromStore.WebAdminState>,
-    private router: Router
+    private router: Router,
+    private elRef: ElementRef
   ) {
     this.user$ = this.store.select<any>(fromStore.getUser);
     this.user$.subscribe({

@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 @Injectable()
 export class UserService {
+
   constructor(private router: Router, private api: ApiService) {}
 
   getUser() {
@@ -14,14 +15,7 @@ export class UserService {
   }
 
   loginUser(userData) {
-    return this.api.fetchPost('authenticate', userData, data => {
-      this.router.navigate(['home']);
-    });
+    return this.api.fetchPost('authenticate', userData, data => {});
   }
 
-  registerUser(userData) {
-    return this.api.fetchPost('register', userData, data => {
-      this.router.navigate(['home']);
-    });
-  }
 }
