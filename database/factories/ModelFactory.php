@@ -14,10 +14,13 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
+    static $type;
+    static $email;
 
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'email' => $email ? $faker->unique()->safeEmail : $email = 'admin@example.net',
+        'type' => $type ? 'simple': $type = 'admin',
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
@@ -27,5 +30,19 @@ $factory->define(App\Comment::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence(4),
         'comment' => $faker->paragraph(6)
+    ];
+});
+$factory->define(App\About::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->sentence(4),
+        'sub_title' => $faker->paragraph(2),
+        'desc_label' => $faker->sentence(4),
+        'description' => $faker->paragraph(3)
+    ];
+});
+$factory->define(App\AboutSection::class, function (Faker\Generator $faker) {
+    return [
+        'label' => $faker->sentence(2),
+        'text' => $faker->paragraph(6)
     ];
 });

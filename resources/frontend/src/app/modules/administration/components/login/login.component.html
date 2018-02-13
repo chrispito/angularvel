@@ -1,37 +1,41 @@
 <div class="row log-reg-container">
-      <mat-card>
-        <mat-card-content>
-          <div class="login-container">
-            <div class="heading">
-              <h2>Administration Area</h2>
-            </div>
-            <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
-              <div class="control-group">
-                <mat-form-field>
-                  <input matInput placeholder="E-amil" formControlName="email" required>
-                  <mat-error *ngIf="isLoginFieldInvalid('email')">
-                    Please enter your E-Mail
-                  </mat-error>
-                </mat-form-field>
-              </div>
-
-              <div class="control-group">
-                <mat-form-field>
-                  <input matInput placeholder="Enter your password" [type]="hideLogPass ? 'password' : 'text'" formControlName="password"
-                    required>
-                  <mat-icon matSuffix (click)="hideLogPass = !hideLogPass">{{hideLogPass ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  <mat-error *ngIf="isLoginFieldInvalid('password')">
-                    Please enter your password
-                  </mat-error>
-                </mat-form-field>
-              </div>
-
-              <div class="control-group">
-                <mat-checkbox>Remember Login!</mat-checkbox>
-                <button mat-raised-button color="primary" type="submit">Login</button>
-              </div>
-            </form>
+  <div *ngIf="(userLoading$ | async) else pageContainer">
+    <mat-spinner></mat-spinner>
+  </div>
+  <ng-template #pageContainer>
+    <mat-card>
+      <mat-card-content>
+        <div class="login-container">
+          <div class="heading">
+            <h2>Administration Area</h2>
           </div>
-        </mat-card-content>
-      </mat-card>
+          <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+            <div class="control-group">
+              <mat-form-field>
+                <input matInput placeholder="E-amil" formControlName="email" required>
+                <mat-error *ngIf="isLoginFieldInvalid('email')">
+                  Please enter your E-Mail
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="control-group">
+              <mat-form-field>
+                <input matInput placeholder="Enter your password" [type]="hideLogPass ? 'password' : 'text'" formControlName="password" required>
+                <mat-icon matSuffix (click)="hideLogPass = !hideLogPass">{{hideLogPass ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-error *ngIf="isLoginFieldInvalid('password')">
+                  Please enter your password
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="control-group">
+              <mat-checkbox>Remember Login!</mat-checkbox>
+              <button mat-raised-button color="primary" type="submit">Login</button>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,6 +24,8 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   hideLogPass: boolean;
   user$: Observable<User>;
+  entryUrl: string;
+  userLoading$: Observable<boolean>;
 
   private loginFormSubmitAttempt: boolean;
 
@@ -31,11 +34,21 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private user: UserService,
     public dialog: MatDialog,
+    public location: Location,
     private store: Store<fromStore.WebAdminState>
   ) {
+    this.userLoading$ = this.store.select<any>(fromStore.getUserLoading);
     this.user$ = this.store.select<any>(fromStore.getUser);
+    this.store.select<any>(fromStore.getRouterAppReducer).subscribe({
+      next: (event) => this.entryUrl = event.state.entryUrl
+    });
+
     this.user$.subscribe({
-      next: (event: User) => ((event && event.type === 'admin') ? this.router.navigate(['/admin/dashboard']) : null)
+      next: (event: User) => {
+        if (event && event.type === 'admin') {
+          this.router.navigate([this.entryUrl]);
+        }
+      }
     });
   }
 

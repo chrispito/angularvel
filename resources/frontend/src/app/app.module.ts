@@ -4,6 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { reducers, CustomSerializer} from './store';
+import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
@@ -36,12 +38,18 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [store
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {metaReducers}),
+    StoreModule.forRoot(reducers, {metaReducers}),
     EffectsModule.forRoot([]),
+    StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: RouterStateSerializer,
+      useClass: CustomSerializer
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

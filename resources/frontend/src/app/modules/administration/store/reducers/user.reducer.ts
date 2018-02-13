@@ -32,7 +32,6 @@ export function reducer(
     }
     case fromUser.LOAD_USER_SUCCESS: {
       const user = action.payload['data'];
-      console.log('ReducerUser[LOAD_USER_SUCCESS] user = ', user);
       return {
         ...state,
         loading: false,
@@ -42,7 +41,6 @@ export function reducer(
     }
     case fromUser.LOAD_USER_FAIL: {
       const error = action;
-      console.log('ReducerUser[LOAD_USER_FAIL] error = ', error);
       return {
         ...state,
         loading: false,
