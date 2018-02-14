@@ -1,0 +1,16 @@
+
+Options FollowSymLinks
+
+# DirectoryIndex dist/index.html
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*)(\.gif|\.jpg|\.jpeg|\.png|\.PNG|\.css|\.js|\.woff|\.woff2)$ dist/$1$2  [L]
+
+RewriteRule ^((api/).*)$ /angularvel/public/$1 [L,NC]
+# RewriteRule ^((api/).*)$ https://www.google.com/$1 [L,NC]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (.*) dist/index.html  [L]
