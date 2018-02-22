@@ -4,10 +4,11 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
+import { environment } from './../../../../environments/environment';
 
 @Injectable()
 export class ApiService {
-  private baseUrl = 'http://localhost:8000/api/';
+  private baseUrl = !environment.production ? 'http://localhost:8000/api/' : '/' + environment.base + '/api/';
 
   constructor(private http: HttpClient, private router: Router) {}
 

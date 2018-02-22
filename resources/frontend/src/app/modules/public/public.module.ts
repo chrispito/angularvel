@@ -23,6 +23,8 @@ import * as fromContainers from './containers';
 import * as fromServices from './services';
 
 import { MaterialModule } from './material.module';
+// import { NgxSlideshowModule } from 'ngx-slideshow';
+import { SlideshowModule } from 'ng-simple-slideshow';
 import { AuthGuard } from './guards/auth.guard';
 import { PublicHttpInterceptor } from './services/public-http-interceptor';
 
@@ -33,6 +35,8 @@ import { PublicHttpInterceptor } from './services/public-http-interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
+    SlideshowModule,
+    // NgxSlideshowModule.forRoot(),
     PublicRoutingModule,
     NgbModule.forRoot(),
     StoreModule.forFeature('webPublic', reducers),
