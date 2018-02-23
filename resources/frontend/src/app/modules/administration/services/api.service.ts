@@ -8,7 +8,7 @@ import { environment } from './../../../../environments/environment';
 
 @Injectable()
 export class ApiService {
-  private baseUrl = !environment.production ? 'http://localhost:8000/api/' : '/' + environment.base + '/api/';
+  private baseUrl = !environment.production ? 'http://localhost:8000/api/' : environment.base + '/api/';
 
   constructor(private http: HttpClient, private router: Router) {}
 
