@@ -25,6 +25,7 @@ import * as fromServices from './services';
 import { MaterialModule } from './material.module';
 // import { NgxSlideshowModule } from 'ngx-slideshow';
 import { SlideshowModule } from 'ng-simple-slideshow';
+import { NgxCarouselModule } from 'ngx-carousel';
 import { AuthGuard } from './guards/auth.guard';
 import { PublicHttpInterceptor } from './services/public-http-interceptor';
 
@@ -36,6 +37,7 @@ import { PublicHttpInterceptor } from './services/public-http-interceptor';
     HttpClientModule,
     MaterialModule,
     SlideshowModule,
+    NgxCarouselModule,
     // NgxSlideshowModule.forRoot(),
     PublicRoutingModule,
     NgbModule.forRoot(),

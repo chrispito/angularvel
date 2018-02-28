@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { NgxCarousel } from 'ngx-carousel';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  public carouselOne: NgxCarousel;
   imageUrls: string[] = [
-    'assets/img/Galery/arto-marttinen-117445-unsplash.jpg',
-    'assets/img/Galery/tim-swaan-45717-unsplash.jpg',
-    'assets/img/Galery/sebastian-unrau-41230-unsplash.jpg',
-    'assets/img/Galery/darius-soodmand-116253-unsplash.jpg'
+    'assets/img/Galery/jean_14_6.jpg',
+    'assets/img/Galery/matthieu_5_14.jpg',
+    'assets/img/Galery/matthieu_7_25.jpg'
   ];
   height = '450px';
   minHeight: string;
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   showArrows = false;
   disableSwiping = false;
   autoPlay = true;
-  autoPlayInterval = 5000;
+  autoPlayInterval = 15000;
   stopAutoPlayOnSlide = true;
   debug = true;
   backgroundSize = 'cover';
@@ -32,6 +32,23 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.carouselOne = {
+      grid: {xs: 1, sm: 1, md: 1, lg: 1, all: 0},
+      slide: 1,
+      // speed: 400,
+      interval: 15000,
+      point: {
+        visible: true
+      },
+      load: 1,
+      touch: true,
+      loop: true,
+      custom: 'banner'
+    };
+  }
+
+  carouselLoad(event: Event) {
+
   }
 
 }

@@ -7,6 +7,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, CustomSerializer} from './store';
 import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {faChevronLeft, faChevronRight} from '@fortawesome/fontawesome-free-solid';
+import fontawesome from '@fortawesome/fontawesome';
 
 
 /**
@@ -30,6 +32,8 @@ import { AppComponent } from './app.component';
 import { environment } from './../environments/environment';
 
 export const metaReducers: MetaReducer<any>[] = !environment.production ? [storeFreeze] : [];
+
+fontawesome.library.add(faChevronLeft, faChevronRight);
 
 @NgModule({
   declarations: [
