@@ -16,7 +16,13 @@ import { IAbout } from '../../../models/interfaces/index';
 export class AboutusComponent implements OnInit {
 
   pageState$: Observable<About>;
+  isPageLoaded$: Observable<Boolean>;
   pageData: About;
+  editorContent: string = "Test";
+  editorContent_0: string;
+  editorContent_1: string;
+  editorContent_2: string;
+  editorContent_3: string;
   pageForm: FormGroup;
   public editorOptions: Object = {
     toolbarButtons: [
@@ -26,7 +32,7 @@ export class AboutusComponent implements OnInit {
     ],
     events: {
       'froalaEditor.focus': function (e, editor) {
-        console.log(editor.selection.get());
+        null
       }
     }
   };
@@ -35,28 +41,35 @@ export class AboutusComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store<fromStore.WebAdminState>
   ) {
+    
     this.pageState$ = this.store.select<any>(fromStore.getAboutPage);
+    this.isPageLoaded$ = this.store.select<any>(fromStore.getPagesLoaded);
     this.pageState$.subscribe({
-      next: page => this.pageData = page
+      next: page => {
+
+        this.pageData = page
+        if (page) {
+          this.pageForm = this.fb.group({
+            title: [page.title, Validators.required],
+            subTitle: [page.subTitle, Validators.required],
+            descLabel: [page.descLabel, Validators.required],
+            description: [page.description, Validators.required],
+            secLabel_0: [page.sections['data'][0].label, Validators.required],
+            secLabel_1: [page.sections['data'][0].label, Validators.required],
+            secLabel_2: [page.sections['data'][0].label, Validators.required],
+            secLabel_3: [page.sections['data'][0].label, Validators.required],
+            section_0: [page.sections['data'][0].text, Validators.required],
+            section_1: [page.sections['data'][1].text, Validators.required],
+            section_2: [page.sections['data'][2].text, Validators.required],
+            section_3: [page.sections['data'][3].text, Validators.required],
+          });
+        }
+      }
     });
     this.store.dispatch(new fromStore.LoadAboutPage());
   }
-
+  
   ngOnInit() {
-    this.pageForm = this.fb.group({
-      title: [null, Validators.required],
-      subTitle: [null, Validators.required],
-      descLabel: [null, Validators.required],
-      description: [null, Validators.required],
-      secLabel_0: [null, Validators.required],
-      secLabel_1: [null, Validators.required],
-      secLabel_2: [null, Validators.required],
-      secLabel_3: [null, Validators.required],
-      section_0: [null, Validators.required],
-      section_1: [null, Validators.required],
-      section_2: [null, Validators.required],
-      section_3: [null, Validators.required],
-    });
   }
 
   toArrayList(val) {

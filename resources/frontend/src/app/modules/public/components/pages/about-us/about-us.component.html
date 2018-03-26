@@ -31,7 +31,7 @@
               <mat-tab label="{{section.label}}">
                 <mat-card>
                   <mat-card-content>
-                    {{section.text}}
+                    <p class="e2e-inner-html-bound" [innerHTML]="section.text"></p>
                   </mat-card-content>
                 </mat-card>
               </mat-tab>
@@ -41,6 +41,4 @@
       </div>
     </ng-template>
   </div>
-  <!-- Container Ends -->
 </section>
-<!-- Service Main Section Ends -->

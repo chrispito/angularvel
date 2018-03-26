@@ -1,32 +1,54 @@
-<div class="page-top clearfix" scroll-position="scrolled" max-height="50" ng-class="{'scrolled': scrolled}">
-  <a href="./admin/dashboard" class="al-logo clearfix">
-    <span>JLD</span>Admin</a>
-  <a href class="collapse-menu-link ion-navicon" ba-sidebar-toggle-menu></a>
-
-  <div class="search">
-    <i class="fa fa-search" ng-click="startSearch()"></i>
-    <input id="searchInput" type="text" placeholder="Search for...">
-  </div>
-
-  <div class="user-profile clearfix">
-    <div class="al-user-profile" uib-dropdown>
-        <a [matMenuTriggerFor]="menu">
-            {{ (user$ | async)?.name }}
-          </a>
-        <mat-menu #menu="matMenu">
-            <a mat-menu-item rrouterLink="./admin/profile" routerLinkActive="active">
-              <button mat-button>
-                <i class="fa fa-user"></i>
-                Profile
-              </button>
+<mat-sidenav-container class="demo-root" fullscreen>
+  <mat-sidenav #start>
+    <mat-nav-list>
+      <a *ngFor="let navItem of navItems" mat-list-item (click)="start.close()" routerLinkActive #routerLinkActiveInstance="routerLinkActive"
+        [attr.tabindex]="routerLinkActiveInstance.isActive ? 0 : -1" [routerLink]="[navItem.route]">
+        {{navItem.name}}
+      </a>
+      <hr>
+    </mat-nav-list>
+    <button mat-button tabindex="-1" (click)="start.close()">CLOSE</button>
+  </mat-sidenav>
+  <div>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="start.open('mouse')">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="demo-toolbar">
+        <a href="./admin/dashboard" class="al-logo clearfix">
+          <span>JLD</span>Admin
+        </a>
+        <div>
+          <div class="al-user-profile" uib-dropdown>
+            <a [matMenuTriggerFor]="menu">
+              {{ (user$ | async)?.name }}
             </a>
-            <a mat-menu-item (click)="logout($event)">
-              <button mat-button>
-                <i class="fa fa-power-off"></i>
-                Logout
-              </button>
-            </a>
-          </mat-menu>
+            <mat-menu #menu="matMenu">
+              <a mat-menu-item rrouterLink="./admin/profile" routerLinkActive="active">
+                <button mat-button>
+                  <i class="fa fa-user"></i>
+                  Profile
+                </button>
+              </a>
+              <a mat-menu-item (click)="logout($event)">
+                <button mat-button>
+                  <i class="fa fa-power-off"></i>
+                  Logout
+                </button>
+              </a>
+            </mat-menu>
+          </div>
+
+        </div>
+      </div>
+    </mat-toolbar>
+
+
+    <div class="al-main">
+      <div class="al-content">
+        <router-outlet></router-outlet>
+        <div ui-view autoscroll="true" autoscroll-body-top></div>
+      </div>
     </div>
   </div>
-</div>
+</mat-sidenav-container>

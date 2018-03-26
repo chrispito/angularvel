@@ -46,7 +46,11 @@ export class LoginComponent implements OnInit {
     this.user$.subscribe({
       next: (event: User) => {
         if (event && event.type === 'admin') {
-          this.router.navigate([this.entryUrl]);
+          if (this.entryUrl === '/admin/login') {
+            this.router.navigate(['/admin/dashboard']);
+          } else {
+            this.router.navigate([this.entryUrl]);
+          }
         }
       }
     });

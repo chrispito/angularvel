@@ -29,7 +29,6 @@ export function reducer(
     }
     case fromPages.LOAD_ABOUT_PAGE_SUCCESS: {
       const aboutPage = action.payload['data'];
-      console.log('ReducerUser[LOAD_ABOUT_PAGE_SUCCESS] user = ', aboutPage);
       return {
         ...state,
         loading: false,
@@ -39,7 +38,6 @@ export function reducer(
     }
     case fromPages.LOAD_ABOUT_PAGE_FAIL: {
       const error = action;
-      console.log('ReducerUser[LOAD_ABOUT_PAGE_FAIL] error = ', error);
       return {
         ...state,
         loading: false,
@@ -55,7 +53,6 @@ export function reducer(
     }
     case fromPages.UPDATE_ABOUT_PAGE_SUCCESS: {
       const aboutPage = action.payload['data'];
-      console.log('ReducerUser[UPDATE_ABOUT_PAGE_SUCCESS] user = ', aboutPage);
       return {
         ...state,
         loading: false,
@@ -65,7 +62,6 @@ export function reducer(
     }
     case fromPages.UPDATE_ABOUT_PAGE_FAIL: {
       const error = action;
-      console.log('ReducerUser[UPDATE_ABOUT_PAGE_FAIL] error = ', error);
       return {
         ...state,
         loading: false,

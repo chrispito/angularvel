@@ -4,71 +4,112 @@
   </div>
   <ng-template #pageContainer>
     <form class="about-form" [formGroup]="pageForm" (ngSubmit)="savePage()">
-
-      <div class="panel">
-        <div class="panel-heading">Text description</div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-12" ba-panel ba-panel-title="Inline Form" ba-panel-class="with-scroll">
-                  <div class="form-group">
-                    <label for="inputEmail3" class="control-label col-sm-3">Title</label>
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="Title" 
-                      formControlName="title" required value="{{ (pageState$ | async).title }}">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail3" class="control-label col-sm-3">Subtitle</label>
-                    <div class="col-sm-9">
-                      <textarea class="form-control" placeholder="Subtitle" formControlName="subTitle" 
-                      value="{{ (pageState$ | async).subTitle }}" required ></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail3" class="control-label col-sm-3">Description Title</label>
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="Description title" 
-                      formControlName="descLabel" required value="{{ (pageState$ | async).descLabel }}">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail3" class="control-label col-sm-3">Description</label>
-                    <div class="col-sm-9">
-                      <textarea class="form-control" placeholder="Description" formControlName="description" 
-                      value="{{ (pageState$ | async).description }}" required ></textarea>
-                    </div>
-                  </div>
-        
-                </div>
+      <mat-card>
+        <mat-card-title>Text description</mat-card-title>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-md-12" ba-panel ba-panel-title="Inline Form" ba-panel-class="with-scroll">
+              <div class="form-group">
+                <mat-form-field class="full-width">
+                  <mat-label>Title</mat-label>
+                  <input matInput type="text" class="form-control" id="aboutTitle" placeholder="Title" 
+                  formControlName="title" required value="{{ (pageState$ | async).title }}">
+                </mat-form-field>
               </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-heading">Section Description</div>
-        <div class="panel-body">
-            <div class="row">
-                <div *ngFor="let section of (pageState$ | async).sections.data as sections; index as i" 
-                ba-panel ba-panel-title="Basic Form" ba-panel-class="with-scroll" class="col-md-12">
-                  <div class="form-group">
-                    <label for="inputEmail3" class="control-label col-sm-3">Label [ {{i}} ]</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="inputEmail3" placeholder="Section title" 
-                        formControlName="secLabel_{{i}}" required value="{{section.label}}">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail3" class="control-label col-sm-3">Text [ {{i}} ]</label>
-                    <div class="col-sm-9">
-                      <textarea class="form-control" placeholder="Type something" formControlName="section_{{i}}" value="{{section.text}}">
-                      </textarea>
-                    </div>
-                  </div>
-                </div>
+              <div class="form-group">
+                <mat-form-field class="full-width">
+                  <mat-label>Subtitle</mat-label>
+                  <textarea matInput class="form-control" placeholder="Subtitle" formControlName="subTitle" id="aboutSubTitle"
+                  value="{{ (pageState$ | async).subTitle }}" required ></textarea>
+                </mat-form-field>
               </div>
-        </div>
-      </div>
-      
+              <div class="form-group">
+                <mat-form-field class="full-width">
+                  <mat-label>Description Title</mat-label>
+                  <input matInput type="text" class="form-control" id="aboutDescTitle" placeholder="Description title" 
+                  formControlName="descLabel" required value="{{ (pageState$ | async).descLabel }}">
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field class="full-width">
+                  <mat-label>Title</mat-label>
+                  <textarea matInput class="form-control" placeholder="Description" formControlName="description" id="aboutDesc"
+                  value="{{ (pageState$ | async).description }}" required ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-title>Section Description</mat-card-title>
+        <mat-card-content>
+            <div class="form-group">
+              <mat-form-field class="full-width">
+                <mat-label>Label [ 0 ]</mat-label>
+                <input matInput type="text" class="form-control" id="aboutSecLabel_0" 
+                placeholder="Section title" formControlName="secLabel_0" required>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <label for="aboutSec_0" class="control-label col-sm-3">Text [ 0 ]</label>
+              <div class="col-sm-9">
+                <textarea [froalaEditor]="editorOptions" id="aboutSec_0"
+                formControlName="section_0" [(froalaModel)]="pageForm.section_0">
+                </textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="full-width">
+                <mat-label>Label [ 1 ]</mat-label>
+                <input matInput type="text" class="form-control" id="aboutSecLabel_1" 
+                  placeholder="Section title" formControlName="secLabel_1" required>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <label for="aboutSec_1" class="control-label col-sm-3">Text [ 1 ]</label>
+              <div class="col-sm-9">
+                <textarea [froalaEditor]="editorOptions" id="aboutSec_1"
+                formControlName="section_1" [(froalaModel)]="pageForm.section_1">
+                </textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="full-width">
+                <mat-label>Label [ 2 ]</mat-label>
+                <input matInput type="text" class="form-control" id="aboutSecLabel_2" 
+                  placeholder="Section title" formControlName="secLabel_2" required>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <label for="aboutSec_2" class="control-label col-sm-3">Text [ 2 ]</label>
+              <div class="col-sm-9">
+                <textarea [froalaEditor]="editorOptions" id="aboutSec_2"
+                formControlName="section_2" [(froalaModel)]="pageForm.section_2">
+                </textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="full-width">
+                <mat-label>Label [ 3 ]</mat-label>
+                <input matInput type="text" class="form-control" id="aboutSecLabel_3" 
+                  placeholder="Section title" formControlName="secLabel_3" required>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <label for="aboutSec_3" class="control-label col-sm-3">Text [ 3 ]</label>
+              <div class="col-sm-9">
+                  <textarea [froalaEditor]="editorOptions" id="aboutSec_3"
+                  formControlName="section_3" [(froalaModel)]="pageForm.section_3">
+                  </textarea>
+              </div>
+            </div>
+        </mat-card-content>
+      </mat-card>
       <button mat-raised-button color="primary" type="submit">Save Change!</button>
     </form>
   </ng-template>

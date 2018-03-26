@@ -30,12 +30,10 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {}
 
   onChange(event) {
-    console.log('event = ', event);
   }
+
   onBlur(event) {
     if (event.target.value !== null && event.target.value !== '') {
-      // console.log('event.target.value = ', event.target.value);
-      // console.log('this.regexp.test = ', this.regexp.test(event.target.value));
       if (this.regexp.test(event.target.value)) {
         this.pwDisabled = false;
       } else {
@@ -49,7 +47,5 @@ export class ProfileComponent implements OnInit {
   }
 
   logMessage(email, pass) {
-    console.log('My e-mail = ', email);
-    console.log('My password = ', pass);
   }
 }

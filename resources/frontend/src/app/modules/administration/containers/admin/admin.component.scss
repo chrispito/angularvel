@@ -2,9 +2,6 @@
 @import 'theme/conf/colorScheme/mint';
 @import 'theme/conf/variables';
 
-.al-content {
-  padding: 8px 32px 8px 40px;
-}
 .admin-container {
   margin: 0px;
   width: 100%;
@@ -12,22 +9,3 @@
   color: white;
 }
 
-.body-bg::before {
-  position: fixed;
-  background: url("/assets/img/blur_bg.jpg") center center no-repeat;
-  background-size: cover;
-
-  content: '';
-  height: 100%;
-  top: 0;
-  left: 0;
-  will-change: transform;
-  z-index: -1;
-  width: 100%;
-}
-
-.al-main {
-  margin-left: 180px;
-  padding: 66px 0 34px;
-  min-height: 500px;
-}
