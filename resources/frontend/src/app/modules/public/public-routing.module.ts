@@ -12,6 +12,7 @@ const webRoutes = [
         { path: 'home', component: fromComponent.HomeComponent },
         { path: 'login', component: fromComponent.LoginComponent },
         { path: 'aboutus', component: fromComponent.AboutUsComponent },
+        { path: 'thebible', component: fromComponent.BibleComponent },
         { path: 'contact', component: fromComponent.ContactComponent },
         { path: 'profile', component: fromComponent.ProfileComponent },
     ] },

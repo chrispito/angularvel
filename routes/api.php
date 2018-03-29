@@ -24,6 +24,10 @@ Route::get('/about', [
   'uses' => 'AboutController@getAbout'
 ]);
 
+Route::get('/slider-images', [
+  'uses' => 'ImageController@getSliderImage'
+]);
+
 // Route::middleware(['jwt.auth'])->group(function () {
 Route::group(['middleware' => 'jwt.auth'], function () {
   Route::get('/user', function (Request $request) {

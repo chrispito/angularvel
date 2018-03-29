@@ -4,6 +4,7 @@
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { HomeComponent } from './pages/home/home.component';
+import { BibleComponent } from './pages/bible/bible.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import {
   LoginComponent,
@@ -21,6 +22,7 @@ export const components: any[] = [
   AboutUsComponent,
   ContactComponent,
   HomeComponent,
+  BibleComponent,
   NotFoundComponent,
   LoginComponent,
   LoginDialogComponent,
@@ -33,6 +35,7 @@ export const components: any[] = [
 export * from './pages/about-us/about-us.component';
 export * from './pages/contact/contact.component';
 export * from './pages/home/home.component';
+export * from './pages/bible/bible.component';
 export * from './pages/not-found/not-found.component';
 export * from './pages/login/login.component';
 export * from './pages/profile/profile.component';

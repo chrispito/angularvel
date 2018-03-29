@@ -1,0 +1,21 @@
+.mat-card {
+    border-radius: 0px;
+}
+
+.mat-card.col-md-6 {
+    max-width: 48%;
+    background-color: transparent;
+    padding-left: 0px;
+    padding-right: 0px;
+    .mat-card-title {
+        border-bottom: solid 2px white;
+        color: white;
+    }
+}
+.container-top {
+    display: flex;
+    justify-content: space-between;
+}
+.mat-card.mat-card.col-md-12 {
+    margin-top: 15px;
+}

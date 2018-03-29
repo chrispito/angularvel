@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   autoPlayInterval = 15000;
   stopAutoPlayOnSlide = true;
   debug = true;
-  backgroundSize = 'cover';
+  backgroundSize = 'contain';
   backgroundPosition = 'center center';
   backgroundRepeat = 'no-repeat';
   showDots = true;

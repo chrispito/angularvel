@@ -13,6 +13,7 @@ const adminRoutes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: fromComponent.DashboardComponent },
       { path: 'aboutus', component: fromComponent.AboutusComponent },
+      { path: 'file-manager', component: fromComponent.FileManagerComponent },
       { path: 'users', component: fromComponent.UserManagerComponent },
       { path: 'pages', component: fromComponent.PagesComponent },
     ]},

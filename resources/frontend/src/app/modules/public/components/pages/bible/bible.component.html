@@ -1,0 +1,31 @@
+<div>
+  <h2>Bible Search</h2>
+  <h4>Here you can search for Bible version and verses!</h4>
+
+  <mat-card>
+    <mat-card-title>Search!</mat-card-title>
+    <mat-card-content>
+      <!-- <div *ngIf="(!(bblSearchState$ | async)?.versions) else pageContainer">
+        <mat-spinner></mat-spinner>
+      </div>
+      <ng-template #pageContainer> -->
+        <form class="about-form" [formGroup]="bblSearchForm" (ngSubmit)="search()">
+
+          <mat-form-field>
+            <input matInput placeholder="Version" aria-label="Version" [matAutocomplete]="auto" [formControl]="versionsCtrl" formControlName="bibleVersion">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let version of filteredVersions | async" [value]="version.name">
+                <span>{{ version.name }}</span> |
+                <small>Date: {{version.date}}</small>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <div class="control-group">
+              <button mat-raised-button color="primary" type="submit">Search</button>
+            </div>
+        </form>
+      <!-- </ng-template> -->
+    </mat-card-content>
+  </mat-card>
+</div>

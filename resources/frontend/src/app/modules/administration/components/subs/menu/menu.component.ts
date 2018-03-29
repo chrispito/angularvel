@@ -15,6 +15,7 @@ export class MenuComponent implements OnInit {
   navItems = [
     {name: 'Dashboard', route: './'},
     {name: 'About Us', route: './aboutus'},
+    {name: 'File Manager', route: './file-manager'},
     {name: 'Users', route: './users'}
   ]
   private isUserLoggedIn = false
