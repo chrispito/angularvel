@@ -20,13 +20,13 @@ export function reducer(
   action: fromBibleSearchAction.BibleSearchAction
 ): BibleSearchState {
   switch (action.type) {
-    case fromBibleSearchAction.LOAD_BIBLE_VERSION: {
+    case fromBibleSearchAction.SEARCH_BIBLE: {
       return {
         ...state,
         loading: true
       };
     }
-    case fromBibleSearchAction.LOAD_BIBLE_VERSION_SUCCESS: {
+    case fromBibleSearchAction.SEARCH_BIBLE_SUCCESS: {
       const bibleSearch = action.payload['data'];
       console.log("bibleSearch = ", bibleSearch)
       return {
@@ -36,7 +36,7 @@ export function reducer(
         bibleSearch
       };
     }
-    case fromBibleSearchAction.LOAD_BIBLE_VERSION_FAIL: {
+    case fromBibleSearchAction.SEARCH_BIBLE_FAIL: {
       const error = action;
       return {
         ...state,

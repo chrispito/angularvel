@@ -16,12 +16,12 @@ export class BibleSearchEffects {
   ) { }
 
   @Effect()
-  loadBibles$ = this.action$.ofType(fromActions.LOAD_BIBLE_VERSION).pipe(
+  loadBibles$ = this.action$.ofType(fromActions.SEARCH_BIBLE).pipe(
     switchMap(() => this.privateServices
       .getBibleVersion()
       .pipe(
-      map(search => new fromActions.LoadBibleVersionSuccess(search)),
-      catchError(error => of(new fromActions.LoadBibleVersionFail(error)))
+      map(search => new fromActions.SearchBibleSuccess(search)),
+      catchError(error => of(new fromActions.SearchBibleFail(error)))
       )
     )
   );

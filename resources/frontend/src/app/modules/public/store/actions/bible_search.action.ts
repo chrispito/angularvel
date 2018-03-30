@@ -2,23 +2,24 @@ import { Action } from '@ngrx/store';
 import { BibleSearch } from '../../models/bible_search.model';
 
 /**
- * Load Bible Version
+ * Search Bible
  */
-export const LOAD_BIBLE_VERSION = '[Application] Load Bible Version';
-export const LOAD_BIBLE_VERSION_FAIL = '[Application] Load Bible Version Fail';
-export const LOAD_BIBLE_VERSION_SUCCESS = '[Application] Load Bible Version Success';
+export const SEARCH_BIBLE = '[Application] Search Bible';
+export const SEARCH_BIBLE_FAIL = '[Application] Search Bible Fail';
+export const SEARCH_BIBLE_SUCCESS = '[Application] Search Bible Success';
 
-export class LoadBibleVersion implements Action {
-  readonly type = LOAD_BIBLE_VERSION;
+export class SearchBible implements Action {
+  readonly type = SEARCH_BIBLE;
+  constructor(public searchData: any) {}
 }
 
-export class LoadBibleVersionFail implements Action {
-  readonly type = LOAD_BIBLE_VERSION_FAIL;
+export class SearchBibleFail implements Action {
+  readonly type = SEARCH_BIBLE_FAIL;
   constructor(public payload: any) {}
 }
 
-export class LoadBibleVersionSuccess implements Action {
-  readonly type = LOAD_BIBLE_VERSION_SUCCESS;
+export class SearchBibleSuccess implements Action {
+  readonly type = SEARCH_BIBLE_SUCCESS;
   constructor(public payload: BibleSearch) {}
 }
 
@@ -26,6 +27,6 @@ export class LoadBibleVersionSuccess implements Action {
  * Action Types
  */
 export type BibleSearchAction =
-  | LoadBibleVersion
-  | LoadBibleVersionSuccess
-  | LoadBibleVersionFail;
+  | SearchBible
+  | SearchBibleSuccess
+  | SearchBibleFail;

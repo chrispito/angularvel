@@ -2,30 +2,63 @@
   <h2>Bible Search</h2>
   <h4>Here you can search for Bible version and verses!</h4>
 
-  <mat-card>
+  <mat-card class="bible-search">
     <mat-card-title>Search!</mat-card-title>
     <mat-card-content>
-      <!-- <div *ngIf="(!(bblSearchState$ | async)?.versions) else pageContainer">
-        <mat-spinner></mat-spinner>
-      </div>
-      <ng-template #pageContainer> -->
-        <form class="about-form" [formGroup]="bblSearchForm" (ngSubmit)="search()">
-
-          <mat-form-field>
-            <input matInput placeholder="Version" aria-label="Version" [matAutocomplete]="auto" [formControl]="versionsCtrl" formControlName="bibleVersion">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let version of filteredVersions | async" [value]="version.name">
-                <span>{{ version.name }}</span> |
-                <small>Date: {{version.date}}</small>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+        <form class="bible-search-form" [formGroup]="bblSearchForm" (ngSubmit)="search()">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput placeholder="Version" aria-label="Version" [matAutocomplete]="auto" formControlName="bibleVersion">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <!-- <mat-optgroup *ngFor="let version of filteredVersions | async" [label]="version.short">
+                    <mat-option [value]="version.name">
+                        <span>{{ version.name }}</span> |
+                        <small>Date: {{version.date}}</small>
+                    </mat-option>
+                  </mat-optgroup> -->
+                  <mat-option *ngFor="let version of filteredVersions | async" [value]="version.name">
+                    <span>{{ version.name }}</span> |
+                    <small>Date: {{version.date}}</small>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput placeholder="Book" formControlName="book" required>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput placeholder="Chapter" formControlName="chapter" required>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput placeholder="Verse" formControlName="verse" required>
+              </mat-form-field>
+            </div>
+          </div>
 
           <div class="control-group">
               <button mat-raised-button color="primary" type="submit">Search</button>
             </div>
         </form>
-      <!-- </ng-template> -->
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="bible-result">
+      <mat-card-title>Result!</mat-card-title>
+    <mat-card-content>
+      <div *ngIf="(!(bblSearchState$ | async)?.versions) else resultContainer">
+        <mat-spinner></mat-spinner>
+      </div>
+      <ng-template #resultContainer>
+
+      </ng-template>
     </mat-card-content>
   </mat-card>
 </div>

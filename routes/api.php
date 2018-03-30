@@ -41,6 +41,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
   Route::post('/updateAdbout', [
     'uses' => 'AboutController@update'
   ]);
+
+  Route::post('/bible/create', [
+    'uses' => 'BibleController@create'
+  ]);
 });
 
 
