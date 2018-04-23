@@ -3,7 +3,7 @@
 namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use App\Like;
+use App\Models\Like;
 
 class LikeTransformer extends TransformerAbstract
 {

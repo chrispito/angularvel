@@ -18,10 +18,21 @@ export class BibleSearchEffects {
   @Effect()
   loadBibles$ = this.action$.ofType(fromActions.SEARCH_BIBLE).pipe(
     switchMap(() => this.privateServices
-      .getBibleVersion()
+      .search()
       .pipe(
       map(search => new fromActions.SearchBibleSuccess(search)),
       catchError(error => of(new fromActions.SearchBibleFail(error)))
+      )
+    )
+  );
+
+  @Effect()
+  getBibleVersions$ = this.action$.ofType(fromActions.GET_BIBLE_VERSSIONS).pipe(
+    switchMap(() => this.privateServices
+      .getBibleVersions()
+      .pipe(
+      map(versions => new fromActions.GetBibleVersionsSuccess(versions)),
+      catchError(error => of(new fromActions.GetBibleVersionsFail(error)))
       )
     )
   );

@@ -18,9 +18,7 @@ class CreateBBLBooksTable extends Migration
             $table->string('name');
             $table->string('short');
             $table->integer('book_nr');
-            $table->integer('bbl_version_id')->unsigned();
             $table->timestamps();
-            $table->foreign('bbl_version_id')->references('id')->on('bbl_versions')->onDelete('cascade');
         });
     }
 

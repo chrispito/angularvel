@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Transformers\CommentTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Comment;
+use App\Models\Comment;
 use JWTAuth;
 
 class CommentsController extends Controller

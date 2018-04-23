@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Like;
-use App\Comment;
+use App\Models\Like;
+use App\Models\Comment;
 use App\Transformers\CommentTransformer;
 use JWTAuth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

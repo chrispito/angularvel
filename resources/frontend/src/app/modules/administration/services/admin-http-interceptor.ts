@@ -12,6 +12,7 @@ export class AdminHttpInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         console.log('intercepted request ... ');
+        console.log('request = ', req);
 
         const jld_user_token = JSON.parse(localStorage.getItem('JLD_USER_ADMIN_TOKEN'));
         if (jld_user_token) {

@@ -17,9 +17,9 @@ class CreateBBLVersionsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('short');
-            $table->integer('bbl_language_id')->unsigned();
+            $table->string('language');
+            $table->string('s_language');
             $table->timestamps();
-            $table->foreign('bbl_language_id')->references('id')->on('bbl_languages')->onDelete('cascade');
         });
     }
 

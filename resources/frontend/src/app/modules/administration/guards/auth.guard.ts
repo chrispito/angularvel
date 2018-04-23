@@ -32,8 +32,8 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.getFromStoreOrAPI().switchMap(
-      (data) => {
-        if (data && data.type === 'admin') {
+      (user: User) => {
+        if (user && user.roles.find( role => role.name === 'Admin' )) {
           return of(true);
         } else {
           const jld_user_token = JSON.parse(localStorage.getItem('JLD_USER_ADMIN_TOKEN'));
@@ -46,6 +46,7 @@ export class AuthGuard implements CanActivate {
       }
     ).catch(
       (error) => {
+        console.log("Error: ", error)
         this.router.navigate(['/admin/login']);
         return of(false);
       }

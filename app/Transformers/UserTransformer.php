@@ -3,7 +3,7 @@
 namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use App\User;
+use App\Models\User;
 
 class UserTransformer extends TransformerAbstract
 {
@@ -12,13 +12,13 @@ class UserTransformer extends TransformerAbstract
      *
      * @return array
      */
-    public function transform(user $user)
+    public function transform(User $user)
     {
         return [
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
-            'type' => $user->type,
+            'roles' => fractal($user->roles, new RolesTransformer),
             'joined' => $user->created_at->toFormattedDateString()
 
         ];

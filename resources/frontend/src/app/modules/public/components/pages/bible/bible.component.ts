@@ -5,12 +5,12 @@ import { Observable } from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map'
 
-import { BibleSearch } from '../../../models';
+import { BibleSearch, BibleSearchVersion } from '../../../models';
 import * as fromStore from '../../../store';
 
-export class State {
-  constructor(public name: string, public short: string) { }
-}
+// export class State {
+//   constructor(public name: string) { }
+// }
 
 @Component({
   selector: 'app-bible',
@@ -24,53 +24,26 @@ export class BibleComponent implements OnInit {
   filteredVersions: Observable<any[]>;
   bblSearchData: BibleSearch;
 
-  states: State[] = [
-    {
-      name: 'Elberfelder (1871)',
-      short: 'elberfelder',
-    },
-    {
-      name: 'Elberfelder (1905)',
-      short: 'elberfelder1905',
-    },
-    {
-      name: 'Luther (1912)',
-      short: 'luther1912',
-    },
-    {
-      name: 'Luther (1545)',
-      short: 'luther1545',
-    },
-    {
-      name: 'Schlachter (1951)',
-      short: 'schlachter',
-    },
-    {
-      name: 'Martin (1744)',
-      short: 'martin',
-    },
-    {
-      name: 'Louis Segond (1910)',
-      short: 'ls1910',
-    },
-    {
-      name: 'Ostervald (1996)',
-      short: 'ostervald',
-    }
-  ];
+  states: BibleSearchVersion[];
 
   constructor(
     private fb: FormBuilder,
     private store: Store<fromStore.WebPublicState>
   ) {
-    // this.bblSearchState$ = this.store.select<any>(fromStore.SearchBible);
-    // this.bblSearchState$.subscribe({
-    //   next: bblSearch => {
-    //     if (bblSearch) {
-    //       this.bblSearchData = bblSearch
-    //     }
-    //   }
-    // });
+    this.store.dispatch(new fromStore.GetBibleVersions());
+    this.bblSearchState$ = this.store.select<any>(fromStore.getBibleSearchData);
+    this.bblSearchState$.subscribe({
+      next: bblSearch => {
+        if (bblSearch && bblSearch.versions) {
+          this.states = bblSearch.versions;
+          this.filteredVersions = this.bblSearchForm.get('bibleVersion').valueChanges
+          .pipe(
+            startWith(''),
+            map(state => state ? this.filterVersions(state) : this.states.slice())
+          );
+        }
+      }
+    });
     
   }
 
@@ -82,11 +55,11 @@ export class BibleComponent implements OnInit {
       verse: ['', Validators.required]
     });
 
-    this.filteredVersions = this.bblSearchForm.get('bibleVersion').valueChanges
-    .pipe(
-      startWith(''),
-      map(state => state ? this.filterVersions(state) : this.states.slice())
-    );
+    // this.filteredVersions = this.bblSearchForm.get('bibleVersion').valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(state => state ? this.filterVersions(state) : this.states.slice())
+    // );
   }
 
   filterVersions(name: string) {

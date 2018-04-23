@@ -11,10 +11,10 @@ class AboutTableSeeder extends Seeder
      */
     public function run()
     {
-      factory(\App\About::class, 1)->create()->each(
+      factory(\App\Models\About::class, 1)->create()->each(
         function($about) {
           for ($i = 0; $i < 4; $i++) {
-            $about->sections()->save(factory(\App\AboutSection::class)->make());
+            $about->sections()->save(factory(\App\Models\AboutSection::class)->make());
           }
         }
       );

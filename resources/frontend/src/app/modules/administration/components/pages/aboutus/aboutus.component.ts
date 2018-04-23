@@ -45,7 +45,7 @@ export class AboutusComponent implements OnInit {
     this.pageState$ = this.store.select<any>(fromStore.getAboutPage);
     this.isPageLoaded$ = this.store.select<any>(fromStore.getPagesLoaded);
     this.pageState$.subscribe({
-      next: page => {
+      next: (page: About) => {
 
         this.pageData = page
         if (page) {
@@ -54,14 +54,14 @@ export class AboutusComponent implements OnInit {
             subTitle: [page.subTitle, Validators.required],
             descLabel: [page.descLabel, Validators.required],
             description: [page.description, Validators.required],
-            secLabel_0: [page.sections['data'][0].label, Validators.required],
-            secLabel_1: [page.sections['data'][0].label, Validators.required],
-            secLabel_2: [page.sections['data'][0].label, Validators.required],
-            secLabel_3: [page.sections['data'][0].label, Validators.required],
-            section_0: [page.sections['data'][0].text, Validators.required],
-            section_1: [page.sections['data'][1].text, Validators.required],
-            section_2: [page.sections['data'][2].text, Validators.required],
-            section_3: [page.sections['data'][3].text, Validators.required],
+            secLabel_0: [page.sections[0].label, Validators.required],
+            secLabel_1: [page.sections[0].label, Validators.required],
+            secLabel_2: [page.sections[0].label, Validators.required],
+            secLabel_3: [page.sections[0].label, Validators.required],
+            section_0: [page.sections[0].text, Validators.required],
+            section_1: [page.sections[1].text, Validators.required],
+            section_2: [page.sections[2].text, Validators.required],
+            section_3: [page.sections[3].text, Validators.required],
           });
         }
       }
@@ -77,7 +77,7 @@ export class AboutusComponent implements OnInit {
   }
 
   savePage() {
-    const dataToSend: IAbout = fromUtils.getAbout(this.pageData);
+    const dataToSend: About = fromUtils.getAbout(this.pageData);
 
     if (this.pageForm.value.descLabel !== null) {
       dataToSend.descLabel = this.pageForm.value.descLabel;

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Transformers\AboutTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\About;
-use App\AboutSection;
+use App\Models\About;
+use App\Models\AboutSection;
 
 class AboutController extends Controller
 {
@@ -24,7 +24,6 @@ class AboutController extends Controller
         return response()->json(['error' => 'About Not Found']);
       }
       return fractal($about, new AboutTransformer);
-      // return response()->json($about);
     }
 
     /**

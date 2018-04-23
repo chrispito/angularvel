@@ -3,7 +3,7 @@
 namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use App\AboutSection;
+use App\Models\AboutSection;
 
 class AboutSectionTransformer extends TransformerAbstract
 {

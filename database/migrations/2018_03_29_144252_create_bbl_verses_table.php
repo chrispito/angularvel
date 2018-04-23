@@ -17,9 +17,10 @@ class CreateBBLVersesTable extends Migration
             $table->increments('id');
             $table->text('verse');
             $table->integer('verse_nr');
-            $table->integer('bbl_chapter_id')->unsigned();
+            $table->integer('chapter_nr');
+            $table->integer('bbl_book_id')->unsigned();
             $table->timestamps();
-            $table->foreign('bbl_chapter_id')->references('id')->on('bbl_chapters')->onDelete('cascade');
+            $table->foreign('bbl_book_id')->references('id')->on('bbl_books')->onDelete('cascade');
         });
     }
 

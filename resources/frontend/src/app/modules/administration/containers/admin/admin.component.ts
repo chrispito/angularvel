@@ -23,7 +23,11 @@ export class AdminComponent implements OnInit {
   ) {
     this.user$ = this.store.select<any>(fromStore.getUser);
     this.user$.subscribe({
-      next: (event: User) => ((!event || event.type !== 'admin') ? this.router.navigate(['/admin/login']) : null)
+      next: (user: User) => {
+        if (!user || (user.roles.find( role => role.name === 'Admin' ) == undefined)) {
+          this.router.navigate(['/admin/login'])
+        }
+      }
     });
    }
 

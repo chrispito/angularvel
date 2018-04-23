@@ -11,15 +11,8 @@
               <mat-form-field>
                 <input matInput placeholder="Version" aria-label="Version" [matAutocomplete]="auto" formControlName="bibleVersion">
                 <mat-autocomplete #auto="matAutocomplete">
-                  <!-- <mat-optgroup *ngFor="let version of filteredVersions | async" [label]="version.short">
-                    <mat-option [value]="version.name">
-                        <span>{{ version.name }}</span> |
-                        <small>Date: {{version.date}}</small>
-                    </mat-option>
-                  </mat-optgroup> -->
                   <mat-option *ngFor="let version of filteredVersions | async" [value]="version.name">
-                    <span>{{ version.name }}</span> |
-                    <small>Date: {{version.date}}</small>
+                    <span>{{ version.name }}</span>
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>

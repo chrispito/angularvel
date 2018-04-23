@@ -1,5 +1,6 @@
 import * as fromUser from '../actions/user.action';
 import { User } from '../../models/user.model';
+import * as fromUtils from '../../models/utils';
 
 export interface UserState {
   user: User;
@@ -36,7 +37,7 @@ export function reducer(
         ...state,
         loading: false,
         loaded: true,
-        user
+        user: fromUtils.getUser(user)
       };
     }
     case fromUser.LOAD_USER_FAIL: {

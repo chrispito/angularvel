@@ -1,6 +1,7 @@
 import * as fromPages from '../actions/pages.action';
 import { User } from '../../models/user.model';
 import { About } from '../../models/about_page.model';
+import * as fromUtils from '../../models/utils';
 
 export interface PagesState {
   aboutPage: About;
@@ -33,7 +34,7 @@ export function reducer(
         ...state,
         loading: false,
         loaded: true,
-        aboutPage
+        aboutPage: fromUtils.getAbout(aboutPage)
       };
     }
     case fromPages.LOAD_ABOUT_PAGE_FAIL: {
@@ -57,7 +58,7 @@ export function reducer(
         ...state,
         loading: false,
         loaded: true,
-        aboutPage
+        aboutPage: fromUtils.getAbout(aboutPage)
       };
     }
     case fromPages.UPDATE_ABOUT_PAGE_FAIL: {
