@@ -12,27 +12,38 @@ import { toPayload } from '@ngrx/effects/src/util';
 export class BibleSearchEffects {
   constructor(
     private action$: Actions,
-    private privateServices: fromServices.BibleSearchService
+    private bibleService: fromServices.BibleSearchService
   ) { }
 
+  // @Effect()
+  // loadBibles$ = this.action$.ofType(fromActions.SEARCH_BIBLE).pipe(
+  //   switchMap(() => this.bibleService
+  //     .search()
+  //     .pipe(
+  //       map(search => new fromActions.SearchBibleSuccess(search)),
+  //       catchError(error => of(new fromActions.SearchBibleFail(error)))
+  //     )
+  //   )
+  // );
+
   @Effect()
-  loadBibles$ = this.action$.ofType(fromActions.SEARCH_BIBLE).pipe(
-    switchMap(() => this.privateServices
-      .search()
+  getBibleVersions$ = this.action$.ofType(fromActions.GET_BIBLE_VERSSIONS).pipe(
+    switchMap(() => this.bibleService
+      .getBibleVersions()
       .pipe(
-      map(search => new fromActions.SearchBibleSuccess(search)),
-      catchError(error => of(new fromActions.SearchBibleFail(error)))
+        map(versions => new fromActions.GetBibleVersionsSuccess(versions)),
+        catchError(error => of(new fromActions.GetBibleVersionsFail(error)))
       )
     )
   );
 
   @Effect()
-  getBibleVersions$ = this.action$.ofType(fromActions.GET_BIBLE_VERSSIONS).pipe(
-    switchMap(() => this.privateServices
-      .getBibleVersions()
+  getBibleBooks$ = this.action$.ofType(fromActions.GET_BIBLE_BOOKS).pipe(
+    switchMap(version => this.bibleService
+      .getBibleBooks(version['version'])
       .pipe(
-      map(versions => new fromActions.GetBibleVersionsSuccess(versions)),
-      catchError(error => of(new fromActions.GetBibleVersionsFail(error)))
+        map(books => new fromActions.GetBibleBooksSuccess(books)),
+        catchError(error => of(new fromActions.GetBibleBooksFail(error)))
       )
     )
   );

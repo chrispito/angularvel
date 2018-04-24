@@ -12,10 +12,11 @@ class BblVersionTransformer extends TransformerAbstract
      *
      * @return array
      */
-    public function transform(BblVersion $book)
+    public function transform(BblVersion $version)
     {
         return [
-            'name' => $book->name,
+            'name' => $version->name,
+            'short' => $version->short,
         ];
     }
 }

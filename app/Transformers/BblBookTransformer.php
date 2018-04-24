@@ -15,11 +15,9 @@ class BblBookTransformer extends TransformerAbstract
     public function transform(BblBook $book)
     {
         return [
-            'id' => $book->id,
             'name' => $book->name,
             'short' => $book->short,
             'book_nr' => $book->book_nr,
-            // 'verses' => $book->book_nr
         ];
     }
 }

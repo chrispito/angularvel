@@ -5,12 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map'
 
-import { BibleSearch, BibleSearchVersion } from '../../../models';
+import { BibleSearch, BibleSearchVersion, BibleSearchBook } from '../../../models';
 import * as fromStore from '../../../store';
-
-// export class State {
-//   constructor(public name: string) { }
-// }
 
 @Component({
   selector: 'app-bible',
@@ -22,9 +18,13 @@ export class BibleComponent implements OnInit {
   bblSearchForm: FormGroup;
   bblSearchState$: Observable<BibleSearch>;
   filteredVersions: Observable<any[]>;
+  filteredBooks: Observable<any[]>;
+  filteredChapters: Observable<any[]>;
   bblSearchData: BibleSearch;
 
-  states: BibleSearchVersion[];
+  versionStates: BibleSearchVersion[];
+  bookStates: BibleSearchVersion[];
+  chapterStates: string[];
 
   constructor(
     private fb: FormBuilder,
@@ -34,13 +34,23 @@ export class BibleComponent implements OnInit {
     this.bblSearchState$ = this.store.select<any>(fromStore.getBibleSearchData);
     this.bblSearchState$.subscribe({
       next: bblSearch => {
-        if (bblSearch && bblSearch.versions) {
-          this.states = bblSearch.versions;
-          this.filteredVersions = this.bblSearchForm.get('bibleVersion').valueChanges
-          .pipe(
-            startWith(''),
-            map(state => state ? this.filterVersions(state) : this.states.slice())
-          );
+        if (bblSearch && this.bblSearchForm) {
+          if (bblSearch.versions) {
+            this.versionStates = bblSearch.versions;
+            this.filteredVersions = this.bblSearchForm.get('bibleVersion').valueChanges
+            .pipe(
+              startWith(''),
+              map(state => state ? this.filterVersions(state) : this.versionStates.slice())
+            );
+          }
+          if (bblSearch.books) {
+            this.bookStates = bblSearch.books;
+            this.filteredBooks = this.bblSearchForm.get('bibleBook').valueChanges
+            .pipe(
+              startWith(''),
+              map(state => state ? this.filterBooks(state) : this.bookStates.slice())
+            );
+          }
         }
       }
     });
@@ -50,33 +60,31 @@ export class BibleComponent implements OnInit {
   ngOnInit() {
     this.bblSearchForm = this.fb.group({
       bibleVersion: new FormControl(),
-      book: ['', Validators.required],
+      bibleBook: new FormControl(),
       chapter: ['', Validators.required],
       verse: ['', Validators.required]
     });
-
-    // this.filteredVersions = this.bblSearchForm.get('bibleVersion').valueChanges
-    // .pipe(
-    //   startWith(''),
-    //   map(state => state ? this.filterVersions(state) : this.states.slice())
-    // );
   }
 
   filterVersions(name: string) {
-    return this.states.filter(state =>
+    return this.versionStates.filter(state =>
       state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
+  filterBooks(name: string) {
+    return this.bookStates.filter(state =>
+      state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  }
+
+  onVersionSelect(version) {
+    this.store.dispatch(new fromStore.GetBibleBooks(version.short));
+  }
+
+  onBookSelect(book) {
+    console.log(book);
+    // this.store.dispatch(new fromStore.GetBibleBooks(version.short));
+  }
+
   search() {
-    const version = this.states.filter(state =>
-      state.name.toLowerCase().indexOf(this.bblSearchForm.value.bibleVersion.toLowerCase()) === 0)
-    console.log("this.bblSearchForm.value = ", version)
-    if (this.bblSearchForm.valid) {
-      this.store.dispatch(
-        new fromStore.SearchBible({
-          ...this.bblSearchForm.value
-        })
-      );
-    }
   }
 }

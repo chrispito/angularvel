@@ -29,11 +29,14 @@ Route::get('/slider-images', [
 ]);
 
 Route::group(['prefix' => '/bible-search'], function () {
-  Route::get('/', [
-    'uses' => 'BibleSearchController@search'
-  ]);
   Route::get('/versions', [
     'uses' => 'BibleSearchController@findVersions'
+  ]);
+  Route::get('/books/{version}', [
+    'uses' => 'BibleSearchController@findBooksByVersion'
+  ]);
+  Route::get('/', [
+    'uses' => 'BibleSearchController@search'
   ]);
 });
 

@@ -49,4 +49,35 @@ class BibleSearchController extends Controller
         return fractal($result, new BblVersionTransformer);
     }
 
+    /**
+     * Find all books by version from the store
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function findBooksByVersion(Request $request)
+    {
+        $version = BblVersion::where('short', 'like', $request->version)->first();
+        
+        if ($version && $version->count() != 0) {
+            return fractal($version->books, new BblBookTransformer);
+        } else {
+            return response()->json("No Books Found", 404);
+        }
+    }
+    /**
+     * Find all books by version from the store
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function findChaptersByBook(Request $request)
+    {
+        $book = BblBook::where('name', 'like', $request->book)->first();
+
+        if ($version && $version->count() != 0) {
+            return fractal($version->books, new BblBookTransformer);
+        } else {
+            return response()->json("No Books Found", 404);
+        }
+    }
+
 }

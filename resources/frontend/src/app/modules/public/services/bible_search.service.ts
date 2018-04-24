@@ -13,8 +13,12 @@ export class BibleSearchService {
     return this.api.fetchGet('bible-search/versions', fetchData => {});
   }
 
-  search() {
-    return this.api.fetchGet('bible-search', fetchData => {});
+  getBibleBooks(version) {
+    return this.api.fetchGet(`bible-search/books/${version}`, fetchData => {});
   }
+
+  // search() {
+  //   return this.api.fetchGet('bible-search', fetchData => {});
+  // }
 
 }

@@ -1,5 +1,27 @@
 import { Action } from '@ngrx/store';
-import { BibleSearch } from '../../models/bible_search.model';
+import { BibleSearch, BibleSearchBook, BibleSearchVersion } from '../../models';
+
+/**
+ * Get Bible Versions
+ */
+export const GET_BIBLE_BOOKS = '[Application] Search Bible Books';
+export const GET_BIBLE_BOOKS_FAIL = '[Application] Search Bible Books Fail';
+export const GET_BIBLE_BOOKS_SUCCESS = '[Application] Search Bible Books Success';
+
+export class GetBibleBooks implements Action {
+  readonly type = GET_BIBLE_BOOKS;
+  constructor(public version: string) {}
+}
+
+export class GetBibleBooksFail implements Action {
+  readonly type = GET_BIBLE_BOOKS_FAIL;
+  constructor(public payload: BibleSearchBook) {}
+}
+
+export class GetBibleBooksSuccess implements Action {
+  readonly type = GET_BIBLE_BOOKS_SUCCESS;
+  constructor(public payload: any) {}
+}
 
 /**
  * Get Bible Versions
@@ -15,7 +37,7 @@ export class GetBibleVersions implements Action {
 
 export class GetBibleVersionsFail implements Action {
   readonly type = GET_BIBLE_VERSSIONS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: BibleSearchVersion) {}
 }
 
 export class GetBibleVersionsSuccess implements Action {
@@ -48,6 +70,9 @@ export class SearchBibleSuccess implements Action {
  * Action Types
  */
 export type BibleSearchAction =
+  | GetBibleBooks
+  | GetBibleBooksSuccess
+  | GetBibleBooksFail
   | GetBibleVersions
   | GetBibleVersionsSuccess
   | GetBibleVersionsFail

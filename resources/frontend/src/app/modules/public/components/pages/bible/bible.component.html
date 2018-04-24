@@ -9,9 +9,10 @@
           <div class="row">
             <div class="col-md-6">
               <mat-form-field>
-                <input matInput placeholder="Version" aria-label="Version" [matAutocomplete]="auto" formControlName="bibleVersion">
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let version of filteredVersions | async" [value]="version.name">
+                <input matInput placeholder="Version" aria-label="Version" [matAutocomplete]="version" formControlName="bibleVersion">
+                <mat-autocomplete #version="matAutocomplete">
+                  <mat-option *ngFor="let version of filteredVersions | async" [value]="version.name"
+                    (onSelectionChange)="onVersionSelect(version)">
                     <span>{{ version.name }}</span>
                   </mat-option>
                 </mat-autocomplete>
@@ -19,7 +20,13 @@
             </div>
             <div class="col-md-6">
               <mat-form-field>
-                <input matInput placeholder="Book" formControlName="book" required>
+                <input matInput placeholder="Book" aria-label="Book" [matAutocomplete]="book" formControlName="bibleBook">
+                <mat-autocomplete #book="matAutocomplete">
+                  <mat-option *ngFor="let book of filteredBooks | async" [value]="book.name"
+                    (onSelectionChange)="onBookSelect(book)">
+                    <span>{{ book.name }}</span>
+                  </mat-option>
+                </mat-autocomplete>
               </mat-form-field>
             </div>
           </div>
