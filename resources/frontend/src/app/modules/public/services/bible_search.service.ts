@@ -17,6 +17,11 @@ export class BibleSearchService {
     return this.api.fetchGet(`bible-search/books/${version}`, fetchData => {});
   }
 
+  getBibleChapters(data) {
+    console.log("data = ", data)
+    return this.api.fetchGet(`bible-search/verses/${data.version}/${data.book}`, fetchData => {});
+  }
+
   // search() {
   //   return this.api.fetchGet('bible-search', fetchData => {});
   // }

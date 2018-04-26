@@ -35,6 +35,9 @@ Route::group(['prefix' => '/bible-search'], function () {
   Route::get('/books/{version}', [
     'uses' => 'BibleSearchController@findBooksByVersion'
   ]);
+  Route::get('/verses/{version}/{book}', [
+    'uses' => 'BibleSearchController@findChapterAndVerses'
+  ]);
   Route::get('/', [
     'uses' => 'BibleSearchController@search'
   ]);

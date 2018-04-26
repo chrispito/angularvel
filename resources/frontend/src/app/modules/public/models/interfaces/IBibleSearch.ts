@@ -1,5 +1,5 @@
-import { IBibleSearchVersion } from './IBibleSearchVersion';
+import { IBibleVersion } from './IBibleVersion';
 
 export interface IBibleSearch {
-  versions?: IBibleSearchVersion[];
+  versions?: IBibleVersion[];
 }

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map'
 
-import { BibleSearch, BibleSearchVersion, BibleSearchBook } from '../../../models';
+import { BibleSearch, BibleVersion, BibleBook } from '../../../models';
 import * as fromStore from '../../../store';
 
 @Component({
@@ -22,9 +22,12 @@ export class BibleComponent implements OnInit {
   filteredChapters: Observable<any[]>;
   bblSearchData: BibleSearch;
 
-  versionStates: BibleSearchVersion[];
-  bookStates: BibleSearchVersion[];
+  versionStates: BibleVersion[];
+  bookStates: BibleBook[];
   chapterStates: string[];
+
+  selectedVersion: BibleVersion;
+  selectedBook: BibleBook;
 
   constructor(
     private fb: FormBuilder,
@@ -77,12 +80,16 @@ export class BibleComponent implements OnInit {
   }
 
   onVersionSelect(version) {
-    this.store.dispatch(new fromStore.GetBibleBooks(version.short));
+    this.selectedVersion = version
+    this.store.dispatch(new fromStore.GetBibleBooks(version.short))
   }
 
   onBookSelect(book) {
-    console.log(book);
-    // this.store.dispatch(new fromStore.GetBibleBooks(version.short));
+    this.selectedBook = book
+    this.store.dispatch(new fromStore.GetBibleChapters({
+      version: this.selectedVersion.short, 
+      book: this.selectedBook.name
+    }))
   }
 
   search() {

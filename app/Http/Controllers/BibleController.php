@@ -57,11 +57,11 @@ class BibleController extends Controller
         }
     }
 
-    private function log($toLog)
-    {
-        echo( json_encode($toLog) );
-        echo( "\n" );
-    }
+    // private function log($toLog)
+    // {
+    //     echo( json_encode($toLog) );
+    //     echo( "\n" );
+    // }
 
     public function createLocal()
     {

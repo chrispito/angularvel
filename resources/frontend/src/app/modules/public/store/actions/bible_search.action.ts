@@ -1,8 +1,30 @@
 import { Action } from '@ngrx/store';
-import { BibleSearch, BibleSearchBook, BibleSearchVersion } from '../../models';
+import { BibleSearch, BibleBook, BibleVersion } from '../../models';
 
 /**
- * Get Bible Versions
+ * Get Bible Chapter
+ */
+export const GET_BIBLE_CHAPTERS = '[Application] Search Bible Chapter';
+export const GET_BIBLE_CHAPTERS_FAIL = '[Application] Search Bible Chapter Fail';
+export const GET_BIBLE_CHAPTERS_SUCCESS = '[Application] Search Bible Chapter Success';
+
+export class GetBibleChapters implements Action {
+  readonly type = GET_BIBLE_CHAPTERS;
+  constructor(public data: any) {}
+}
+
+export class GetBibleChaptersFail implements Action {
+  readonly type = GET_BIBLE_CHAPTERS_FAIL;
+  constructor(public payload: BibleBook) {}
+}
+
+export class GetBibleChaptersSuccess implements Action {
+  readonly type = GET_BIBLE_CHAPTERS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+/**
+ * Get Bible Books
  */
 export const GET_BIBLE_BOOKS = '[Application] Search Bible Books';
 export const GET_BIBLE_BOOKS_FAIL = '[Application] Search Bible Books Fail';
@@ -15,7 +37,7 @@ export class GetBibleBooks implements Action {
 
 export class GetBibleBooksFail implements Action {
   readonly type = GET_BIBLE_BOOKS_FAIL;
-  constructor(public payload: BibleSearchBook) {}
+  constructor(public payload: BibleBook) {}
 }
 
 export class GetBibleBooksSuccess implements Action {
@@ -37,7 +59,7 @@ export class GetBibleVersions implements Action {
 
 export class GetBibleVersionsFail implements Action {
   readonly type = GET_BIBLE_VERSSIONS_FAIL;
-  constructor(public payload: BibleSearchVersion) {}
+  constructor(public payload: BibleVersion) {}
 }
 
 export class GetBibleVersionsSuccess implements Action {
@@ -70,6 +92,9 @@ export class SearchBibleSuccess implements Action {
  * Action Types
  */
 export type BibleSearchAction =
+  | GetBibleChapters
+  | GetBibleChaptersSuccess
+  | GetBibleChaptersFail
   | GetBibleBooks
   | GetBibleBooksSuccess
   | GetBibleBooksFail

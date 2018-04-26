@@ -7,6 +7,7 @@ use App\Models\Bible\BblVersion;
 use App\Models\Bible\BblBook;
 use App\Utils\BibleBookShortUtils;
 use App\Transformers\BibleSearchTransformer;
+use App\Transformers\BblVerseTransformer;
 use App\Transformers\BblBookTransformer;
 use App\Transformers\BblVersionTransformer;
 use Illuminate\Http\Request;
@@ -37,6 +38,11 @@ class BibleSearchController extends Controller
         return response()->json($result->books, 200);
         // return fractal($versions->first(), new BibleSearchResponseTransformer);
     }
+    private function log($toLog)
+    {
+        echo( json_encode($toLog) );
+        echo( "\n" );
+    }
 
     /**
      * Find all versions from the store
@@ -55,7 +61,7 @@ class BibleSearchController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function findBooksByVersion(Request $request)
-    {
+    {   
         $version = BblVersion::where('short', 'like', $request->version)->first();
         
         if ($version && $version->count() != 0) {
@@ -64,19 +70,36 @@ class BibleSearchController extends Controller
             return response()->json("No Books Found", 404);
         }
     }
+
+    function versesChapterMap($chapter) {
+        $this->log($chapter);
+        // $result->verses = fractal($chapter->, new BblVerseTransformer)
+        return ;
+    }
+
     /**
      * Find all books by version from the store
      *
      * @return \Illuminate\Http\Response
      */
-    public function findChaptersByBook(Request $request)
+    public function findChapterAndVerses(Request $request)
     {
-        $book = BblBook::where('name', 'like', $request->book)->first();
-
+        $version = BblVersion::where('short', 'like', $request->version)->first();
+        
         if ($version && $version->count() != 0) {
-            return fractal($version->books, new BblBookTransformer);
+            $book = array_filter($version->books->all(), function($value, $key) use ($request) {
+                return $value->name == $request->book;
+            }, ARRAY_FILTER_USE_BOTH);
+
+            if (!empty($book)) {
+                $verses = array_values($book)[0]->verses->groupBy('chapter_nr');
+                return response()->json(array_values($book)[0]->verses->groupBy('chapter_nr'), 200);
+                // return fractal($version->books, new BblBookTransformer);
+            } else {
+                return response()->json("No Books Found for the given book", 404);
+            }
         } else {
-            return response()->json("No Books Found", 404);
+            return response()->json("No Version Found for the given version", 404);
         }
     }
 

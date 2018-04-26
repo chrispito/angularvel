@@ -20,6 +20,34 @@ export function reducer(
   action: fromBibleSearchAction.BibleSearchAction
 ): BibleSearchState {
   switch (action.type) {
+    case fromBibleSearchAction.GET_BIBLE_CHAPTERS: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case fromBibleSearchAction.GET_BIBLE_CHAPTERS_SUCCESS: {
+      const chapters = action.payload;
+      console.log("bibleChapters = ", chapters)
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        bibleSearch: {
+          ...state.bibleSearch,
+          chapters: chapters
+        }
+      };
+    }
+    case fromBibleSearchAction.GET_BIBLE_CHAPTERS_FAIL: {
+      const error = action;
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        error
+      };
+    }
     case fromBibleSearchAction.GET_BIBLE_BOOKS: {
       return {
         ...state,

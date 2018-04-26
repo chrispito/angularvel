@@ -47,4 +47,15 @@ export class BibleSearchEffects {
       )
     )
   );
+
+  @Effect()
+  getBibleChapters$ = this.action$.ofType(fromActions.GET_BIBLE_CHAPTERS).pipe(
+    switchMap(payload => this.bibleService
+      .getBibleChapters(payload['data'])
+      .pipe(
+        map(books => new fromActions.GetBibleChaptersSuccess(books)),
+        catchError(error => of(new fromActions.GetBibleChaptersFail(error)))
+      )
+    )
+  );
 }
