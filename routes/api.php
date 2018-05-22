@@ -28,15 +28,36 @@ Route::get('/slider-images', [
   'uses' => 'ImageController@getSliderImage'
 ]);
 
-Route::group(['prefix' => '/bible-search'], function () {
+Route::group(['prefix' => '/bbl-search'], function () {
   Route::get('/versions', [
+    'uses' => 'BblSearchController@findVersions'
+  ]);
+  Route::get('/books/{version}', [
+    'uses' => 'BblSearchController@findBooksByVersion'
+  ]);
+  Route::get('/verses/{version}/{book}', [
+    'uses' => 'BblSearchController@findChapterAndVerses'
+  ]);
+  Route::get('/', [
+    'uses' => 'BblSearchController@search'
+  ]);
+});
+
+Route::group(['prefix' => '/bible-search'], function () {
+  Route::get('/languages', [
+    'uses' => 'BibleSearchController@findLanguages'
+  ]);
+  Route::get('/versions/{language}', [
     'uses' => 'BibleSearchController@findVersions'
   ]);
   Route::get('/books/{version}', [
     'uses' => 'BibleSearchController@findBooksByVersion'
   ]);
-  Route::get('/verses/{version}/{book}', [
-    'uses' => 'BibleSearchController@findChapterAndVerses'
+  Route::get('/chapters/{book}/{version}', [
+    'uses' => 'BibleSearchController@findChapters'
+  ]);
+  Route::get('/verses/{chapter}/{version}/{book}', [
+    'uses' => 'BibleSearchController@findVerses'
   ]);
   Route::get('/', [
     'uses' => 'BibleSearchController@search'
@@ -53,6 +74,14 @@ Route::group(['middleware' => 'jwt.auth'], function () {
   Route::group(['middleware' => 'admin'], function () {
     Route::post('/updateAdbout', [
       'uses' => 'AboutController@update'
+    ]);
+  
+    Route::post('/bbl/create', [
+      'uses' => 'BblController@create'
+    ]);
+
+    Route::post('/bbl/create_local', [
+      'uses' => 'BblController@createLocal'
     ]);
   
     Route::post('/bible/create', [

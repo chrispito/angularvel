@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
-use App\Models\Bible\BibleVersion;
-use App\Models\Bible\BibleBook;
+use App\Models\Bible\BblVersion;
+use App\Models\Bible\BblBook;
 use App\Utils\BibleBookShortUtils;
 use App\Transformers\BibleSearchTransformer;
-use App\Transformers\BibleBookTransformer;
+use App\Transformers\BblBookTransformer;
 use Illuminate\Http\Request;
-// use Request;
 
-class BibleController extends Controller
+class BblController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,57 +29,31 @@ class BibleController extends Controller
      */
     public function create(Request $requestList)
     {
-        $result = array();
+        // return json_decode($requestList->list);
         foreach ($requestList->list as $request )
         {
-            $uri = "http://getbible.net/json?version=" . $request['version_ref'];
+            $uri = 'http://getbible.net/json?version=' . $data['version_ref'];
             $res = \Httpful\Request::get($uri)->send();
             $bible = substr($res->body, 0, -2);
             $bible = substr($bible, 1); 
-            $bible = json_decode($bible);
+            $bible = json_decode($bible, true);
 
-            $version_result = $this->checkVersion($request);
-            $result_temp = null;
-            switch ($version_result["status"]) {
-                case 'NEW' || 'FOUND':
-                    $result_temp = $this->createBible($bible, $version_result["value"]);
+            $version_result = $this->checkVersion();
+            switch ($version_result["Status"]) {
+                case 'OK':
+                    $this->createBible($bible, $version_result["Value"]);
+                    break;
+                case 'NOT':
+                    return response()->json(['error' => 'The version you are trying to add allready exist']);
                     break;
                 case 'ERROR':
-                    $result_temp = ['error' => 'Error trying to retrieve Bible version with the given data'];
+                return response()->json(['error' => 'Error trying to retrieve Bible version with the given data']);
                     break;
                 
                 default:
-                    $result_temp = ['error' => 'D: Error trying to retrieve Bible version with the given data'];
+                    return response()->json(['error' => 'The version you are trying to add allready exist']);
                     break;
             }
-
-            array_push($result, [
-                'version_ref' => $request['version_ref'],
-                'result' => $result_temp,
-            ]);
-        }
-        return response()->json($result);
-    }
-
-    private function checkVersion($data)
-    {
-        try {
-            $found_version = BibleVersion::where('v_name', $data['version'])
-                            ->where('v_short', $data['version_ref']);
-            if ($found_version->count() != 0) {
-                return array("status" => "FOUND", "value" => $found_version->first());
-            }
-            $version = BibleVersion::create([
-                'v_name' => $data['version'],
-                'v_short' => $data['version_ref'],
-                'l_name' => $data['language'],
-                'l_short' => $data['language_ref']
-              ]);
-              return array("status" => "NEW", "value" => $version);
-        } catch (Illuminate\Database\QueryException $e) {
-            return array("status" => "NOT", "value" => null);
-        } catch (PDOException $e) {
-            return array("status" => "ERROR", "value" => $version);
         }
     }
 
@@ -97,7 +70,7 @@ class BibleController extends Controller
         $result = array();
         foreach ($res->list as $request )
         {
-            $version_result = $this->checkVersion_local($request->version_data);
+            $version_result = $this->checkVersion($request->version_data);
             $result_temp = null;
             switch ($version_result["status"]) {
                 case 'NEW' || 'FOUND':
@@ -119,20 +92,19 @@ class BibleController extends Controller
         return response()->json($result);
     }
 
-    private function checkVersion_local($data)
+    private function checkVersion($data)
     {
-        $this->log($data["version"]);
         try {
-            $found_version = BibleVersion::where('v_name', $data->version)
-                            ->where('v_short', $data->version_ref);
+            $found_version = BblVersion::where('name', $data->version)
+                            ->where('short', $data->version_ref);
             if ($found_version->count() != 0) {
                 return array("status" => "FOUND", "value" => $found_version->first());
             }
-            $version = BibleVersion::create([
-                'v_name' => $data->version,
-                'v_short' => $data->version_ref,
-                'l_name' => $data->language,
-                'l_short' => $data->language_ref
+            $version = BblVersion::create([
+                'name' => $data->version,
+                'short' => $data->version_ref,
+                'language' => $data->language,
+                's_language' => $data->language_ref
               ]);
               return array("status" => "NEW", "value" => $version);
         } catch (Illuminate\Database\QueryException $e) {
@@ -146,44 +118,44 @@ class BibleController extends Controller
     {
         $result = array();
         foreach ($data->version as $key => $book) {
-            $naming = $this->getBookShort($book->book_nr, $version->l_name);
-            $found_book = BibleBook::where('b_name', $naming["name"])
-                            ->where('b_short', $naming["short"])
-                            ->where('bible_version_id', $version->id);
+            $naming = $this->getBookShort($book->book_nr, $version->language);
+            $containedBook = array_filter($version->books->all(), function($value, $key) use ($naming) {
+                return $value->name == $naming["name"];
+            }, ARRAY_FILTER_USE_BOTH);
             $myBook = null;
-            if (!$found_book->first())
+            if (empty($containedBook))
             {
-                $myBook = $version->books()->create([
-                    'b_name' => $naming["name"],
-                    'b_short' => $naming["short"],
-                    'b_number' => $book->book_nr
-                ]);
+                $found_book = BblBook::where('name', 'like', $naming["name"])->first();
+                if (!$found_book || $found_book->count() == 0)
+                {
+                    $myBook = $version->books()->save(BblBook::create([
+                        'name' => $naming["name"],
+                        'short' => $naming["short"],
+                        'book_nr' => $book->book_nr
+                    ]));
+                } else {
+                    $myBook = $found_book;
+                    $test = $version->books()->save($found_book);
+                }
             } else
             {
-                $myBook = $found_book->first();
+                $myBook = array_values($containedBook)[0];
             }
-            if (empty($version->verses->all())) {
+
+            if ($myBook->verses()->count() == 0)
+            {
                 foreach ($book->book as $chapterId => $chapter) {
                     foreach ($chapter->chapter as $verseId => $verse) {
-                        $v_key = sprintf("%'.02d", $myBook->b_number) . sprintf("%'.03d", $chapterId). sprintf("%'.03d", $verseId);
-    
-                        $containedVerses = array_filter($version->verses->all(), function($verse, $key) use ($v_key) {
-                            return $verse->key == $v_key;
-                        }, ARRAY_FILTER_USE_BOTH);
-                        if (empty($containedVerses)) {
-                            $createdVerse = $version->verses()->create([
-                                'key' => intval($v_key),
-                                'b' => $myBook->b_number,
-                                'c' => $chapterId,
-                                'v' => $verseId,
-                                'verse' => $verse->verse,
-                            ]);
-                            array_push($result, "New verse added");
-                        } else {
-                            array_push($result, "Verse already stored");
-                        }
+                        $createdVerse = $myBook->verses()->create([
+                            'chapter_nr' => $chapterId,
+                            'verse' => $verse->verse,
+                            'verse_nr' => $verse->verse_nr,
+                        ]);
                     }
                 }
+                array_push($result, "New book added");
+            } else  {
+                array_push($result, "Book already stored");
             }
         }
         return  $result;

@@ -3,20 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
-use App\Models\Bible\BibleVersion;
-use App\Models\Bible\BibleVerse;
-use App\Models\Bible\BibleBook;
+use App\Models\Bible\BblVersion;
+use App\Models\Bible\BblBook;
 use App\Utils\BibleBookShortUtils;
-use App\Transformers\BibleSearchTransformer;
-use App\Transformers\BibleVerseTransformer;
-use App\Transformers\BibleChapterTransformer;
-use App\Transformers\BibleBookTransformer;
-use App\Transformers\BibleLanguageTransformer;
-use App\Transformers\BibleVersionTransformer;
+use App\Transformers\BblSearchTransformer;
+use App\Transformers\BblVerseTransformer;
+use App\Transformers\BblBookTransformer;
+use App\Transformers\BblVersionTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class BibleSearchController extends Controller
+class BblSearchController extends Controller
 {
     /**
      * Get a validator for an incoming registration request.
@@ -58,7 +55,7 @@ class BibleSearchController extends Controller
             return $this->getAllChapters($request->book);
         }
 
-        $version = BibleVersion::where('short', 'like', $request->version)->first();
+        $version = BblVersion::where('short', 'like', $request->version)->first();
         
         if ($version && $version->count() != 0) {
             $book = array_filter($version->books->all(), function($value, $key) use ($request) {
@@ -107,35 +104,34 @@ class BibleSearchController extends Controller
         }
     }
 
-
     private function getAllVersions() {
-        $versions = BibleVersion::all();
+        $versions = BblVersion::all();
 
-        return fractal($versions, new BibleVersionTransformer);
+        return fractal($versions, new BblVersionTransformer);
     }
 
     private function getAllBooks($version) {
-        $version = BibleVersion::where('short', 'like', $version)->first();
+        $version = BblVersion::where('short', 'like', $version)->first();
         
         if ($version && $version->count() != 0) {
-            return fractal($version->books->all(), new BibleBookTransformer);
+            return fractal($version->books->all(), new BblBookTransformer);
         } else {
             return response()->json("No Version Found for the given version", 404);
         }
     }
 
     private function getAllChapters($bookName) {
-        $book = BibleBook::where('name', 'like', $bookName)->first();
+        $book = BblBook::where('name', 'like', $bookName)->first();
         
         if ($book && $book->count() != 0) {
-            $result = DB::table('Bible_verses')
+            $result = DB::table('bbl_verses')
                             ->select('chapter_nr')
                             ->distinct()
-                            ->where('Bible_book_id', '=', $book->id)
+                            ->where('bbl_book_id', '=', $book->id)
                             ->get();
 
             return response()->json($result, 200);
-            // return fractal($version->books->all(), new BibleBookTransformer);
+            // return fractal($version->books->all(), new BblBookTransformer);
         } else {
             return response()->json("No Book Found for the given Book", 404);
         }
@@ -149,25 +145,14 @@ class BibleSearchController extends Controller
     }
 
     /**
-     * Find all languages from the store
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function findLanguages() {
-        $language = BibleVersion::select('l_name', 'l_short')->distinct()->get();
-
-        return fractal($language, new BibleLanguageTransformer);
-    }
-
-    /**
      * Find all versions from the store
      *
      * @return \Illuminate\Http\Response
      */
     public function findVersions(Request $request)
     {
-        $results = BibleVersion::where('l_short', 'like', $request->language)->get();
-        return fractal($results, new BibleVersionTransformer);
+        $result = BblVersion::all();
+        return fractal($result, new BblVersionTransformer);
     }
 
     /**
@@ -177,18 +162,19 @@ class BibleSearchController extends Controller
      */
     public function findBooksByVersion(Request $request)
     {   
-        $version = BibleVersion::where('v_short', 'like', $request->version)->first();
+        $version = BblVersion::where('short', 'like', $request->version)->first();
         
         if ($version && $version->count() != 0) {
-            $book = BibleBook::where('bible_version_id', '=', $version->id)->get();
-            if ($book && $book->count() != 0) {
-                return fractal($book, new BibleBookTransformer);
-            } else {
-                return response()->json("No Books Found", 404);
-            }
+            return fractal($version->books, new BblBookTransformer);
         } else {
-            return response()->json("No Versions Found", 404);
+            return response()->json("No Books Found", 404);
         }
+    }
+
+    function versesChapterMap($chapter) {
+        $this->log($chapter);
+        // $result->verses = fractal($chapter->, new BblVerseTransformer)
+        return ;
     }
 
     /**
@@ -196,52 +182,21 @@ class BibleSearchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function findChapters(Request $request)
+    public function findChapterAndVerses(Request $request)
     {
-        $version = BibleVersion::where('v_short', 'like', $request->version)->first();
+        $version = BblVersion::where('short', 'like', $request->version)->first();
+        
         if ($version && $version->count() != 0) {
-            $book = BibleBook::where('bible_version_id', '=', $version->id)
-            ->where('b_name', '=', $request->book)
-            ->first();
-            if ($book && $book->count() != 0) {
-                $verse = BibleVerse::select('b', 'c')
-                ->distinct()
-                ->where('bible_version_id', '=', $version->id)
-                ->where('b', '=', $book->b_number)
-                ->orderBy('c', 'asc')
-                ->get();
+            $book = array_filter($version->books->all(), function($value, $key) use ($request) {
+                return $value->name == $request->book;
+            }, ARRAY_FILTER_USE_BOTH);
 
-                return fractal($verse, new BibleChapterTransformer);
+            if (!empty($book)) {
+                $verses = array_values($book)[0]->verses->groupBy('chapter_nr');
+                return response()->json(array_values($book)[0]->verses->groupBy('chapter_nr'), 200);
+                // return fractal($version->books, new BblBookTransformer);
             } else {
-                return response()->json("No Books Found", 404);
-            }
-        } else {
-            return response()->json("No Version Found for the given version", 404);
-        }
-    }
-
-    /**
-     * Find all books by version from the store
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function findVerses(Request $request)
-    {
-        $version = BibleVersion::where('v_short', 'like', $request->version)->first();
-        if ($version && $version->count() != 0) {
-            $book = BibleBook::where('bible_version_id', '=', $version->id)
-            ->where('b_name', '=', $request->book)
-            ->first();
-            if ($book && $book->count() != 0) {
-                $verse = BibleVerse::where('bible_version_id', '=', $version->id)
-                ->where('b', '=', $book->b_number)
-                ->where('c', '=', $request->chapter)
-                ->orderBy('v', 'asc')
-                ->get();
-
-                return fractal($verse, new BibleVerseTransformer);
-            } else {
-                return response()->json("No Books Found", 404);
+                return response()->json("No Books Found for the given book", 404);
             }
         } else {
             return response()->json("No Version Found for the given version", 404);
