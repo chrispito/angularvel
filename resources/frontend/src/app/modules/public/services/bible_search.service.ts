@@ -3,27 +3,45 @@ import { Router } from '@angular/router';
 
 import { ApiService } from './api.service';
 
-import _ from 'lodash';
+import { SearchData, BibleVersion, BibleBook } from '../models';
 
 @Injectable()
 export class BibleSearchService {
   constructor(private router: Router, private api: ApiService) {}
 
   getBibleVersions() {
-    return this.api.fetchGet('bible-search/versions', fetchData => {});
+    return this.api.fetchGet('bible-search/versions', (fetchData) => {
+      console.log("###################################  getBibleVersions   ##########################")
+      console.log("###################################  getBibleVersions   ##########################")
+      console.log("###################################  getBibleVersions   ##########################")
+    });
   }
 
-  getBibleBooks(version) {
-    return this.api.fetchGet(`bible-search/books/${version}`, fetchData => {});
+  getBibleBooks(version: BibleVersion) {
+    return this.api.fetchGet(`bible-search/books/${version.short}`, (fetchData) => {});
   }
 
-  getBibleChapters(data) {
-    console.log("data = ", data)
-    return this.api.fetchGet(`bible-search/verses/${data.version}/${data.book}`, fetchData => {});
+  getBibleChapters(book: BibleBook, version: BibleVersion) {
+    return this.api.fetchGet(`bible-search/verses/${version.short}/${book.name}`, (fetchData) => {});
   }
 
-  // search() {
-  //   return this.api.fetchGet('bible-search', fetchData => {});
-  // }
+  search(searchData: SearchData) {
+    var url = 'bible-search?'
+    if (searchData.version) {
+      url += `version=${searchData.version}`
+    }
+    if (searchData.book) {
+      url += `&book=${searchData.book}`
+    }
+    if (searchData.chapter) {
+      url += `&chapter=${searchData.chapter}`
+    }
+    if (searchData.verse) {
+      url += `&verse=${searchData.verse}`
+    }
+    return this.api.fetchGet(
+      url,
+      (fetchData) => {});
+  }
 
 }

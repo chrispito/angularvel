@@ -15,7 +15,9 @@ export class ApiService {
   fetchGet(url: string, callback: Function, options?: {}) {
     return this.http
       .get(this.baseUrl + url, options)
-      .pipe(catchError((error: any) => Observable.throw(error.json)));
+      .pipe(
+        catchError((error: any) => Observable.throw(error.json))
+      );
   }
 
   fetchPost(url: string, body: any, callback: Function, options?: {}) {
@@ -25,6 +27,8 @@ export class ApiService {
     };
     return this.http
       .post(this.baseUrl + url, bodyTosend, options)
-      .pipe(catchError((error: any) => Observable.throw(error.json)));
+      .pipe(
+        catchError((error: any) => Observable.throw(error.json))
+      );
   }
 }

@@ -1,46 +1,29 @@
-<!-- Header area starts -->
 <section id="header">
-
-  <!-- Navbar Starts -->
   <nav class="navbar navbar-light" data-spy="affix" data-offset-top="50">
     <div class="container">
       <button class='navbar-toggler hidden-md-up pull-xs-right' data-target='#main-menu' data-toggle='collapse' type='button'>
         ☰
       </button>
-      <!-- Brand -->
       <a class="navbar-brand" routerLink="./home">
         <img src="./assets/img/jld_logo.PNG" alt="">
       </a>
       <div class="navbar-toggleable-sm pull-right" id="main-menu">
-        <!-- Navbar Starts -->
         <ul class="nav nav-inline">
           <li class="nav-item">
-            <a routerLink="./home" routerLinkActive="active" class="nav-link" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
+            <a routerLink="/home" routerLinkActive="active" class="nav-link" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
           </li>
           <li class="nav-item">
-            <a routerLink="./aboutus" routerLinkActive="active" class="nav-link" role="button">
+            <a routerLink="/aboutus" routerLinkActive="active" class="nav-link" role="button">
               About Us
             </a>
           </li>
           <li class="nav-item">
-            <a routerLink="./thebible" routerLinkActive="active" class="nav-link" role="button">
+            <a routerLink="/thebible" routerLinkActive="active" class="nav-link" role="button">
               The BiBle
             </a>
           </li>
-          <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Blog
-              </a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="sidebar-right.html">Sidebar Right</a>
-                <a class="dropdown-item" href="sidebar-left.html">Sidebar Left</a>
-                <a class="dropdown-item" href="sidebar-full.html">Full Width</a>
-                <a class="dropdown-item" href="blog-single.html">Single Post</a>
-                <a class="dropdown-item" href="blog-grids.html">Blog Grids</a>
-              </div>
-            </li>  -->
           <li class="nav-item">
-            <a routerLink="./contact" routerLinkActive="active" class="nav-link" role="button" aria-haspopup="true">
+            <a routerLink="/contact" routerLinkActive="active" class="nav-link" role="button" aria-haspopup="true">
               Contact Us
             </a>
           </li>
@@ -58,73 +41,14 @@
           </li>
           <ng-template #loginBtn>
             <li class="nav-item">
-              <a routerLink="./login" routerLinkActive="active"  class="nav-link">
+              <a routerLink="/login" routerLinkActive="active"  class="nav-link">
                 {{ btnTitle }}
               </a>
             </li>
           </ng-template>
-          <!-- Search Ends -->
         </ul>
       </div>
-      <!-- Form for navbar search area -->
-      <!-- <form class="full-search">
-            <div class="container">
-              <input type="text" placeholder="Type to Search">
-              <a href="#" class="close-search">
-                <span class="fa fa-times fa-2x">
-                </span>
-              </a>
-            </div>
-          </form> -->
-      <!-- Search form ends -->
     </div>
   </nav>
-  <!-- Navbar Ends -->
 
 </section>
-<!-- <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>Jesus Liebt Dich</span>
-
-    <span class="spacer"></span>
-
-    <a routerLink="./home" routerLinkActive="active">
-      <button mat-button>Home</button>
-    </a>
-    <a routerLink="./aboutus" routerLinkActive="active">
-      <button mat-button>About</button>
-    </a>
-    <a [matMenuTriggerFor]="menu">
-      Tutorials
-    </a>
-    <mat-menu #menu="matMenu">
-      <a mat-menu-item routerLink="./todos" routerLinkActive="active">
-        <button mat-button>Todos</button>
-      </a>
-      <a mat-menu-item routerLink="./pizza" routerLinkActive="active">
-        <button mat-button>Pizza</button>
-      </a>
-    </mat-menu>
-
-    <a routerLink="./contact" routerLinkActive="active">
-      <button mat-button>Contact</button>
-    </a>
-    <nav class="navbar">
-      <li *ngIf="((user$ | async)?.name); else loginBtn" class="nav-item dropdown" ngbDropdown>
-        <a class="nav-link dropdown-toggle" id="dropdown01" ngbDropdownToggle>{{ (user$ | async)?.name }}</a>
-        <div class="dropdown-menu" aria-labelledby="dropdown01" ngbDropdownMenu>
-          <a routerLink="./profile" routerLinkActive="active">
-            <button mat-button>Profile</button>
-          </a>
-          <button class="dropdown-item" (click)="logout($event)">Logout</button>
-        </div>
-      </li>
-    </nav>
-
-    <ng-template #loginBtn>
-      <a routerLink="./login" routerLinkActive="active">
-        <button mat-button>{{ btnTitle }}</button>
-      </a>
-    </ng-template>
-  </mat-toolbar-row>
-</mat-toolbar> -->

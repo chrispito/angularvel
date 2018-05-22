@@ -5,5 +5,5 @@ import { BibleVerse } from './index';
 @Injectable()
 export class BibleChapter implements IBibleChapter {
   number?: number
-  versers?: BibleVerse[]
+  verses?: BibleVerse[]
 }

@@ -1,3 +1,5 @@
 export interface IBibleBook {
-  name?: string;
+  name?: string
+  short?: string
+  number?: number
 }

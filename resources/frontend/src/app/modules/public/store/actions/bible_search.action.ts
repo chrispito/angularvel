@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { BibleSearch, BibleBook, BibleVersion } from '../../models';
+import { BibleSearchResult, BibleBook, BibleChapter, BibleVersion, SearchData } from '../../models';
 
 /**
  * Get Bible Chapter
@@ -10,17 +10,17 @@ export const GET_BIBLE_CHAPTERS_SUCCESS = '[Application] Search Bible Chapter Su
 
 export class GetBibleChapters implements Action {
   readonly type = GET_BIBLE_CHAPTERS;
-  constructor(public data: any) {}
+  constructor(public book: BibleBook, public version: BibleVersion) {}
 }
 
 export class GetBibleChaptersFail implements Action {
   readonly type = GET_BIBLE_CHAPTERS_FAIL;
-  constructor(public payload: BibleBook) {}
+  constructor(public payload: any) {}
 }
 
 export class GetBibleChaptersSuccess implements Action {
   readonly type = GET_BIBLE_CHAPTERS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: BibleChapter[]) {}
 }
 
 /**
@@ -32,25 +32,25 @@ export const GET_BIBLE_BOOKS_SUCCESS = '[Application] Search Bible Books Success
 
 export class GetBibleBooks implements Action {
   readonly type = GET_BIBLE_BOOKS;
-  constructor(public version: string) {}
+  constructor(public version: BibleVersion) {}
 }
 
 export class GetBibleBooksFail implements Action {
   readonly type = GET_BIBLE_BOOKS_FAIL;
-  constructor(public payload: BibleBook) {}
+  constructor(public payload: any) {}
 }
 
 export class GetBibleBooksSuccess implements Action {
   readonly type = GET_BIBLE_BOOKS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: BibleBook[]) {}
 }
 
 /**
  * Get Bible Versions
  */
-export const GET_BIBLE_VERSSIONS = '[Application] Search Bible';
-export const GET_BIBLE_VERSSIONS_FAIL = '[Application] Search Bible Fail';
-export const GET_BIBLE_VERSSIONS_SUCCESS = '[Application] Search Bible Success';
+export const GET_BIBLE_VERSSIONS = '[Application] Search Bible Version';
+export const GET_BIBLE_VERSSIONS_FAIL = '[Application] Search Bible Version Fail';
+export const GET_BIBLE_VERSSIONS_SUCCESS = '[Application] Search Bible Version Success';
 
 export class GetBibleVersions implements Action {
   readonly type = GET_BIBLE_VERSSIONS;
@@ -59,12 +59,12 @@ export class GetBibleVersions implements Action {
 
 export class GetBibleVersionsFail implements Action {
   readonly type = GET_BIBLE_VERSSIONS_FAIL;
-  constructor(public payload: BibleVersion) {}
+  constructor(public payload: any) {}
 }
 
 export class GetBibleVersionsSuccess implements Action {
   readonly type = GET_BIBLE_VERSSIONS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: BibleVersion[]) {}
 }
 /**
  * Search Bible
@@ -75,7 +75,7 @@ export const SEARCH_BIBLE_SUCCESS = '[Application] Search Bible Success';
 
 export class SearchBible implements Action {
   readonly type = SEARCH_BIBLE;
-  constructor(public searchData: any) {}
+  constructor(public searchData: SearchData) {}
 }
 
 export class SearchBibleFail implements Action {
@@ -85,7 +85,7 @@ export class SearchBibleFail implements Action {
 
 export class SearchBibleSuccess implements Action {
   readonly type = SEARCH_BIBLE_SUCCESS;
-  constructor(public payload: BibleSearch) {}
+  constructor(public payload: BibleSearchResult) {}
 }
 
 /**

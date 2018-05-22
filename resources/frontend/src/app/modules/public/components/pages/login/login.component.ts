@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.isLoggedIn$ = this.store.select<any>(fromStore.getLoginLoaded);
     this.isLoggedIn$.subscribe({
-      next: event => (event ? this.router.navigate(['/web/home']) : null)
+      next: event => (event ? this.router.navigate(['/home']) : null)
     });
     this.isRegistered$ = this.store.select<any>(fromStore.getRegistered);
     this.isRegistered$.subscribe({
@@ -123,6 +123,6 @@ export class LoginDialogComponent {
 
   onButtonClick(): void {
     this.dialogRef.close();
-    this.router.navigate(['/web/home']);
+    this.router.navigate(['/home']);
   }
 }

@@ -1,19 +1,20 @@
-import * as fromBibleSearchAction from '../actions/bible_search.action';
-import { BibleSearch } from '../../models/bible_search.model';
+import * as fromBibleSearchAction from '../actions/bible_search.action'
+import * as fromBibleAction from '../actions/bible.action'
+import { BibleSearchResult, BibleChapter, BibleVerse, BibleBook, BibleVersion } from '../../models'
 
 export interface BibleSearchState {
-  bibleSearch: BibleSearch;
-  loaded: boolean;
-  loading: boolean;
-  error: any;
+  bibleSearch: BibleSearchResult
+  loaded: boolean
+  loading: boolean
+  error: any
 }
 
 export const initialState = {
-  bibleSearch: null,
+  bibleSearch: new BibleSearchResult,
   loaded: false,
   loading: false,
   error: null
-};
+}
 
 export function reducer(
   state = initialState,
@@ -24,110 +25,115 @@ export function reducer(
       return {
         ...state,
         loading: true
-      };
+      }
     }
     case fromBibleSearchAction.GET_BIBLE_CHAPTERS_SUCCESS: {
-      const chapters = action.payload;
-      console.log("bibleChapters = ", chapters)
       return {
         ...state,
         loading: false,
         loaded: true,
         bibleSearch: {
           ...state.bibleSearch,
-          chapters: chapters
+          chapters: action.payload
         }
-      };
+      }
     }
     case fromBibleSearchAction.GET_BIBLE_CHAPTERS_FAIL: {
-      const error = action;
+      const error = action
       return {
         ...state,
         loading: false,
         loaded: false,
         error
-      };
+      }
     }
     case fromBibleSearchAction.GET_BIBLE_BOOKS: {
       return {
         ...state,
         loading: true
-      };
+      }
     }
     case fromBibleSearchAction.GET_BIBLE_BOOKS_SUCCESS: {
-      const books = action.payload['data'];
-      console.log("bibleBooks = ", books)
       return {
         ...state,
         loading: false,
         loaded: true,
-        bibleSearch: {...state.bibleSearch, books: books}
-      };
+        bibleSearch: {
+          ...state.bibleSearch,
+          books: action.payload
+        }
+      }
     }
     case fromBibleSearchAction.GET_BIBLE_BOOKS_FAIL: {
-      const error = action;
+      const error = action
       return {
         ...state,
         loading: false,
         loaded: false,
         error
-      };
+      }
     }
     case fromBibleSearchAction.GET_BIBLE_VERSSIONS: {
       return {
         ...state,
         loading: true
-      };
+      }
     }
     case fromBibleSearchAction.GET_BIBLE_VERSSIONS_SUCCESS: {
-      const versions = action.payload['data'];
-      console.log("bibleVersions = ", versions)
       return {
         ...state,
         loading: false,
         loaded: true,
-        bibleSearch: {...state.bibleSearch, versions: versions}
-      };
+        bibleSearch: {
+          ...state.bibleSearch,
+          versions: action.payload
+        }
+      }
     }
     case fromBibleSearchAction.GET_BIBLE_VERSSIONS_FAIL: {
-      const error = action;
+      const error = action
       return {
         ...state,
         loading: false,
         loaded: false,
         error
-      };
+      }
     }
     case fromBibleSearchAction.SEARCH_BIBLE: {
       return {
         ...state,
         loading: true
-      };
+      }
     }
     case fromBibleSearchAction.SEARCH_BIBLE_SUCCESS: {
-      const bibleSearch = action.payload['data'];
-      console.log("bibleSearch = ", bibleSearch)
       return {
         ...state,
         loading: false,
         loaded: true,
-        bibleSearch
-      };
+        bibleSearch: {
+          ...state.bibleSearch,
+          chapters: action.payload.chapters,
+          requestData: action.payload.requestData,
+        }
+      }
     }
     case fromBibleSearchAction.SEARCH_BIBLE_FAIL: {
-      const error = action;
+      console.log("action F = ", action)
+      const error = action
       return {
         ...state,
         loading: false,
         loaded: false,
         error
-      };
+      }
     }
   }
-  return state;
+  return state
 }
 
-export const getBibleSearchLoading = (state: BibleSearchState) => state.loading;
-export const getBibleSearchLoaded = (state: BibleSearchState) => state.loaded;
-export const getBibleSearchError = (state: BibleSearchState) => state.error;
-export const getBibleSearchData = (state: BibleSearchState) => state.bibleSearch;
+export const getBibleSearchLoading = (state: BibleSearchState) => state.loading
+export const getBibleSearchLoaded = (state: BibleSearchState) => state.loaded
+export const getBibleSearchError = (state: BibleSearchState) => state.error
+export const getBibleSearchResult = (state: BibleSearchState) => state.bibleSearch
+// export const getBibleSearchedVersions = (state: BibleSearchState) => state.bibleSearch.versions
+// export const getBibleSearchedBooks = (state: BibleSearchState) => state.bibleSearch.books

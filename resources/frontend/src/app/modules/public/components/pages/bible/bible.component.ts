@@ -1,12 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import {startWith} from 'rxjs/operators/startWith';
+import { Component, OnInit } from '@angular/core'
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
+import { Store } from '@ngrx/store'
+import { Observable } from 'rxjs/Observable'
+import {startWith} from 'rxjs/operators/startWith'
 import {map} from 'rxjs/operators/map'
 
-import { BibleSearch, BibleVersion, BibleBook } from '../../../models';
-import * as fromStore from '../../../store';
+import { BibleSearchResult, BibleVersion, BibleBook, BibleChapter, BibleVerse, SearchData } from '../../../models'
+import * as fromStore from '../../../store'
+import * as fromActions from '../../../store/actions'
+import { Actions } from '@ngrx/effects';
+
+export interface SelectionTab {
+  content: BibleVersion[];
+  label: string;
+}
 
 @Component({
   selector: 'app-bible',
@@ -15,81 +22,82 @@ import * as fromStore from '../../../store';
 })
 export class BibleComponent implements OnInit {
 
-  bblSearchForm: FormGroup;
-  bblSearchState$: Observable<BibleSearch>;
-  filteredVersions: Observable<any[]>;
-  filteredBooks: Observable<any[]>;
-  filteredChapters: Observable<any[]>;
-  bblSearchData: BibleSearch;
+  bblSearchForm: FormGroup
+  // bblSearchState$: Observable<BibleSearchResult>
 
-  versionStates: BibleVersion[];
-  bookStates: BibleBook[];
-  chapterStates: string[];
+  versionStates: BibleVersion[]
+  bookStates: BibleBook[]
+  chapterStates: BibleChapter[]
+  verseStates: BibleVerse[]
+  searchData: SearchData = new SearchData()
 
-  selectedVersion: BibleVersion;
-  selectedBook: BibleBook;
+  result: string
+
+  selection: string = ""
+  toggleSelectionTabs: boolean
+
+  selectedVersion: BibleVersion
+  selectedBook: BibleBook
+  selectedChapter: BibleChapter
+  selectedVerse: BibleVerse
+
+  selectionTabs: SelectionTab[] = [
+    {
+      label: 'Version',
+      content: null
+    },
+    {
+      label: 'Book',
+      content: null
+    },
+    {
+      label: 'Chapter',
+      content: null
+    },
+  ]
 
   constructor(
     private fb: FormBuilder,
-    private store: Store<fromStore.WebPublicState>
+    private store: Store<fromStore.WebPublicState>,
+    actions$: Actions
   ) {
-    this.store.dispatch(new fromStore.GetBibleVersions());
-    this.bblSearchState$ = this.store.select<any>(fromStore.getBibleSearchData);
-    this.bblSearchState$.subscribe({
-      next: bblSearch => {
-        if (bblSearch && this.bblSearchForm) {
-          if (bblSearch.versions) {
-            this.versionStates = bblSearch.versions;
-            this.filteredVersions = this.bblSearchForm.get('bibleVersion').valueChanges
-            .pipe(
-              startWith(''),
-              map(state => state ? this.filterVersions(state) : this.versionStates.slice())
-            );
-          }
-          if (bblSearch.books) {
-            this.bookStates = bblSearch.books;
-            this.filteredBooks = this.bblSearchForm.get('bibleBook').valueChanges
-            .pipe(
-              startWith(''),
-              map(state => state ? this.filterBooks(state) : this.bookStates.slice())
-            );
-          }
+    this.store.dispatch(new fromStore.GetBibleVersions())
+
+    this.store.select<any>(fromStore.getBibleSelectionState)
+    .subscribe({
+      next: bibleState => {
+        this.selectedVersion = bibleState.version
+        this.selectionTabs[0].content = bibleState.versions
+        this.selectedBook = bibleState.book
+        this.selectionTabs[1].content = bibleState.books
+        this.selectedChapter = bibleState.chapter
+        this.selectionTabs[2].content = bibleState.chapters
+        if (this.selectedBook && this.selectedChapter) {
+          this.displayResult()
         }
       }
-    });
-    
+    })
   }
 
   ngOnInit() {
-    this.bblSearchForm = this.fb.group({
-      bibleVersion: new FormControl(),
-      bibleBook: new FormControl(),
-      chapter: ['', Validators.required],
-      verse: ['', Validators.required]
-    });
+    this.toggleSelectionTabs = false
   }
 
-  filterVersions(name: string) {
-    return this.versionStates.filter(state =>
-      state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  displayResult() {
+    this.selection = this.selectedBook.name + ' ' + this.selectedChapter.number
+    this.result = this.selectedChapter.verses.map(verse => '(' + verse.verse_nr + ') ' + verse.verse).join(' ')
   }
 
-  filterBooks(name: string) {
-    return this.bookStates.filter(state =>
-      state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  onSelectVersion(version: BibleVersion) {
+    this.store.dispatch(new fromStore.SelectVersion(version))
   }
 
-  onVersionSelect(version) {
-    this.selectedVersion = version
-    this.store.dispatch(new fromStore.GetBibleBooks(version.short))
+  onSelectBook(book: BibleBook) {
+    this.store.dispatch(new fromStore.SelectBook(book, this.selectedVersion))
   }
 
-  onBookSelect(book) {
-    this.selectedBook = book
-    this.store.dispatch(new fromStore.GetBibleChapters({
-      version: this.selectedVersion.short, 
-      book: this.selectedBook.name
-    }))
+  onSelectChapter(chapter: BibleChapter) {
+    this.store.dispatch(new fromStore.SelectChapter(chapter))
   }
 
   search() {

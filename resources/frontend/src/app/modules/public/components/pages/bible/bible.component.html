@@ -1,64 +1,67 @@
 <div>
   <h2>Bible Search</h2>
   <h4>Here you can search for Bible version and verses!</h4>
-
   <mat-card class="bible-search">
-    <mat-card-title>Search!</mat-card-title>
-    <mat-card-content>
-        <form class="bible-search-form" [formGroup]="bblSearchForm" (ngSubmit)="search()">
-          <div class="row">
-            <div class="col-md-6">
-              <mat-form-field>
-                <input matInput placeholder="Version" aria-label="Version" [matAutocomplete]="version" formControlName="bibleVersion">
-                <mat-autocomplete #version="matAutocomplete">
-                  <mat-option *ngFor="let version of filteredVersions | async" [value]="version.name"
-                    (onSelectionChange)="onVersionSelect(version)">
-                    <span>{{ version.name }}</span>
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <mat-form-field>
-                <input matInput placeholder="Book" aria-label="Book" [matAutocomplete]="book" formControlName="bibleBook">
-                <mat-autocomplete #book="matAutocomplete">
-                  <mat-option *ngFor="let book of filteredBooks | async" [value]="book.name"
-                    (onSelectionChange)="onBookSelect(book)">
-                    <span>{{ book.name }}</span>
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <mat-form-field>
-                <input matInput placeholder="Chapter" formControlName="chapter" required>
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <mat-form-field>
-                <input matInput placeholder="Verse" formControlName="verse" required>
-              </mat-form-field>
-            </div>
-          </div>
+    <div class="row selection">
+      <div class="col-md-6">
+        <button mat-button (click)="toggleSelectionTabs = !toggleSelectionTabs">
+          {{selection}}
+          <mat-icon svgIcon="carret_down" class="green"></mat-icon>
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button mat-button>
+          <mat-icon svgIcon="carret_down" class="green"></mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card>
 
-          <div class="control-group">
-              <button mat-raised-button color="primary" type="submit">Search</button>
-            </div>
-        </form>
-    </mat-card-content>
+  <mat-card class="bible-selection-tabs" *ngIf="toggleSelectionTabs">
+    <mat-tab-group class="tab-group" dynamicHeight>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-clone"></i>&nbsp;
+          {{selectionTabs[0].label}}
+        </ng-template>
+        <div class="tab-content version">
+            <button mat-button *ngFor="let content of selectionTabs[0].content" (click)="onSelectVersion(content)"
+              [class]="selectedVersion.name == content.name ? 'mat-button ng-star-inserted selected' : 'mat-button ng-star-inserted'">
+                {{content.name}}
+            </button>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+            <i class="fa fa-book"></i>&nbsp;
+          {{selectionTabs[1].label}}
+        </ng-template>
+        <div class="tab-content book">
+            <button mat-button *ngFor="let content of selectionTabs[1].content" (click)="onSelectBook(content)"
+              [class]="selectedBook.name == content.name ? 'mat-button ng-star-inserted selected' : 'mat-button ng-star-inserted'">
+                {{content.name}}
+            </button>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-bookmark"></i>&nbsp;
+          {{selectionTabs[2].label}}
+        </ng-template>
+        <div class="tab-content chapter">
+            <button mat-button *ngFor="let content of selectionTabs[2].content" (click)="onSelectChapter(content)"
+              [class]="selectedChapter.number == content.number ? 'mat-button ng-star-inserted selected' : 'mat-button ng-star-inserted'">
+                {{content.number}}
+            </button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </mat-card>
 
   <mat-card class="bible-result">
       <mat-card-title>Result!</mat-card-title>
     <mat-card-content>
-      <div *ngIf="(!(bblSearchState$ | async)?.versions) else resultContainer">
-        <mat-spinner></mat-spinner>
-      </div>
-      <ng-template #resultContainer>
-
-      </ng-template>
+        {{ result }}
     </mat-card-content>
   </mat-card>
 </div>

@@ -44,13 +44,13 @@ Route::group(['prefix' => '/bible-search'], function () {
 });
 
 Route::group(['middleware' => 'jwt.auth'], function () {
+  Route::get('/user', function (Request $request) {
+    $token = JWTAuth::getToken();
+    $user = JWTAuth::toUser($token);
+
+    return fractal($user, new \App\Transformers\UserTransformer);
+  });
   Route::group(['middleware' => 'admin'], function () {
-    Route::get('/user', function (Request $request) {
-      $token = JWTAuth::getToken();
-      $user = JWTAuth::toUser($token);
-  
-      return fractal($user, new \App\Transformers\UserTransformer);
-    });
     Route::post('/updateAdbout', [
       'uses' => 'AboutController@update'
     ]);

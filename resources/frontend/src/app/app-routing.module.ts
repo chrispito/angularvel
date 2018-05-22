@@ -4,11 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 const webRoutes = [
-    { path: '', redirectTo: 'web', pathMatch: 'full' },
-    { path: 'web', loadChildren: './modules/public/public.module#PublicModule'},
     { path: 'admin', loadChildren: './modules/administration/admin.module#AdminModule' },
-
-    // { path: '**', component: NotFoundComponent },
+    { path: '', loadChildren: './modules/public/public.module#PublicModule'},
 ];
 
 @NgModule({

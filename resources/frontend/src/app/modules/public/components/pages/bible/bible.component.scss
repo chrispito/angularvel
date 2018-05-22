@@ -1,6 +1,20 @@
 .bible-search {
   margin: 15px 0px;
+  background-color: #99cc33;
   .mat-input-container {
     width: 100%;
   }
+}
+
+.selection {
+  .mat-button {
+    width: 90%;
+    border: 0.1rem solid #ddd;
+    background-color: #2a80c2;
+  }
+}
+
+button.selected {
+  background-color: #555;
+  border: 1px solid #aaa;
 }
