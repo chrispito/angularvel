@@ -1,6 +1,7 @@
 export interface IBibleVerse {
   verse?: string
-  verse_nr?: number
-  chapter_nr?: number
-  bbl_book_id?: number
+  number?: number
+  book_number?: number
+  chapter_number?: number
+  key?: number
 }

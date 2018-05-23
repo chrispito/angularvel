@@ -1,6 +1,4 @@
-import { IBibleVerse } from './IBibleVerse';
-
 export interface IBibleChapter {
   number?: number
-  verses?: IBibleVerse[]
+  book_number?: number
 }

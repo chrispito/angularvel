@@ -1,9 +1,11 @@
 import * as fromBible from '../actions/bible.action';
 import * as fromBibleSearch from '../actions/bible_search.action';
 import { User } from '../../models/user.model';
-import { BibleVersion, BibleBook, BibleChapter, BibleVerse } from '../../models';
+import { BibleLanguage, BibleVersion, BibleBook, BibleChapter, BibleVerse } from '../../models';
 
 export interface BibleState {
+  language: BibleLanguage;
+  languages: BibleLanguage[];
   version: BibleVersion;
   versions: BibleVersion[];
   book: BibleBook;
@@ -15,6 +17,8 @@ export interface BibleState {
 }
 
 export const initialState = {
+  language: null,
+  languages: [],
   version: null,
   versions: [],
   book: null,
@@ -30,6 +34,20 @@ export function reducer(
   action: fromBible.BibleAction
 ): BibleState {
   switch (action.type) {
+    case fromBible.SELECT_LANGUAGE: {
+      const language = action.language;
+      return {
+        ...state,
+        language
+      };
+    }
+    case fromBible.SELECT_LANGUAGES: {
+      const languages = action.languages;
+      return {
+        ...state,
+        languages
+      };
+    }
     case fromBible.SELECT_VERSION: {
       const version = action.version;
       return {

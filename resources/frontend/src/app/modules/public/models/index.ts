@@ -5,5 +5,6 @@ export * from './bible_search_result.model';
 export * from './bible_version.model';
 export * from './bible_book.model';
 export * from './bible_chapter.model';
+export * from './bible_language.model';
 export * from './bible_verse.model';
 export * from './search_data.model';

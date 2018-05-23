@@ -16,7 +16,7 @@ class BibleChapterTransformer extends TransformerAbstract
     {
         return [
             'book_number' => $verse->b,
-            'chapter_number' => $verse->c,
+            'number' => $verse->c,
         ];
     }
 }

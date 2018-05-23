@@ -8,7 +8,7 @@ import * as fromBibleSearchActions from '../actions/bible_search.action';
 import * as fromBibleActions from '../actions/bible.action';
 import * as fromServices from '../../services';
 import { toPayload } from '@ngrx/effects/src/util';
-import { SearchData, BibleSearchResult, BibleChapter, BibleVerse, BibleBook, BibleVersion } from '../../models'
+import { SearchData, BibleSearchResult, BibleChapter, BibleVerse, BibleBook, BibleVersion, BibleLanguage } from '../../models'
 
 @Injectable()
 export class BibleSearchEffects {
@@ -17,43 +17,70 @@ export class BibleSearchEffects {
     private bibleService: fromServices.BibleSearchService
   ) { }
 
+  // @Effect()
+  // loadBibles$ = this.action$.ofType(fromBibleSearchActions.SEARCH_BIBLE).pipe(
+  //   switchMap(payload => this.bibleService
+  //     .search(payload['searchData'])
+  //     .pipe(
+  //       map(response => {
+  //         var search: BibleSearchResult = new BibleSearchResult
+  //         var chapter = new BibleChapter
+  //         chapter.number = response.result[0].chapter_nr
+  //         var verses: BibleVerse[] = []
+
+  //         var chapters: BibleChapter[] = []
+
+  //         response.result.forEach(value => {
+  //           var verse = new BibleVerse
+  //           verse.bbl_book_id = value['bbl_book_id']
+  //           verse.chapter_nr = value['chapter_nr']
+  //           verse.verse_nr = value['verse_nr']
+  //           verse.verse = value['verse']
+  //           verses.push(verse)
+  //         })
+
+  //         chapter.verses = verses
+  //         chapters.push(chapter)
+  //         search.chapters = chapters
+  //         search.requestData = response.searchDtata
+  //         return new fromBibleSearchActions.SearchBibleSuccess(search)
+  //       }),
+  //       catchError(error => of(new fromBibleSearchActions.SearchBibleFail(error)))
+  //     )
+  //   )
+  // );
+
   @Effect()
-  loadBibles$ = this.action$.ofType(fromBibleSearchActions.SEARCH_BIBLE).pipe(
-    switchMap(payload => this.bibleService
-      .search(payload['searchData'])
+  getLanguages$ = this.action$.ofType(fromBibleSearchActions.GET_BIBLE_LANGUAGES).pipe(
+    switchMap(() => this.bibleService
+      .getLanguages()
       .pipe(
         map(response => {
-          var search: BibleSearchResult = new BibleSearchResult
-          var chapter = new BibleChapter
-          chapter.number = response.result[0].chapter_nr
-          var verses: BibleVerse[] = []
-
-          var chapters: BibleChapter[] = []
-
-          response.result.forEach(value => {
-            var verse = new BibleVerse
-            verse.bbl_book_id = value['bbl_book_id']
-            verse.chapter_nr = value['chapter_nr']
-            verse.verse_nr = value['verse_nr']
-            verse.verse = value['verse']
-            verses.push(verse)
-          })
-
-          chapter.verses = verses
-          chapters.push(chapter)
-          search.chapters = chapters
-          search.requestData = response.searchDtata
-          return new fromBibleSearchActions.SearchBibleSuccess(search)
+          var languages: BibleLanguage[] = []
+          response['data'].forEach(value => {
+            languages.push({
+              name: value['name'],
+              short: value['short']
+            })
+          });
+          return languages
         }),
-        catchError(error => of(new fromBibleSearchActions.SearchBibleFail(error)))
+        mergeMap(languages => {
+          return [
+            new fromBibleSearchActions.GetBibleLanguagesSuccess(languages),
+            new fromBibleActions.SelectLanguages(languages),
+            new fromBibleActions.SelectLanguage(languages[0])
+          ]
+        }),
+        catchError(error => of(new fromBibleSearchActions.GetBibleVersionsFail(error)))
       )
     )
   );
 
   @Effect()
-  getBibleVersions$ = this.action$.ofType(fromBibleSearchActions.GET_BIBLE_VERSSIONS).pipe(
-    switchMap(() => this.bibleService
-      .getBibleVersions()
+  getBibleVersions$ = this.action$.ofType(fromBibleSearchActions.GET_BIBLE_VERSSIONS, fromBibleActions.SELECT_LANGUAGE).pipe(
+    switchMap((payload) => this.bibleService
+      .getVersions(payload['language'])
       .pipe(
         map(response => {
           var versions: BibleVersion[] = []
@@ -81,7 +108,7 @@ export class BibleSearchEffects {
   getBibleBooks$ = this.action$.ofType(fromBibleSearchActions.GET_BIBLE_BOOKS, fromBibleActions.SELECT_VERSION).pipe(
     switchMap(payload => {
       const version = payload['version']
-      return this.bibleService.getBibleBooks(version)
+      return this.bibleService.getBooks(version)
       .pipe(
         map(response => {
           var books: BibleBook[] = []
@@ -89,7 +116,7 @@ export class BibleSearchEffects {
             books.push({
               name: value['name'],
               short: value['short'],
-              number: value['book_nr']
+              number: value['number']
             })
           });
           return books
@@ -107,33 +134,58 @@ export class BibleSearchEffects {
   );
 
   @Effect()
-  getBibleChapters$ = this.action$.ofType(fromBibleSearchActions.GET_BIBLE_CHAPTERS, fromBibleActions.SELECT_BOOK).pipe(
-    switchMap(payload => this.bibleService
-      .getBibleChapters(payload['book'], payload['version'])
+  getChapters$ = this.action$.ofType(fromBibleSearchActions.GET_BIBLE_CHAPTERS, fromBibleActions.SELECT_BOOK).pipe(
+    switchMap(payload => {
+      const version = payload['version']
+      const book = payload['book']
+      return this.bibleService
+      .getChapters(payload['book'], payload['version'])
       .pipe(
         map(response => {
-          var chapters = Object.keys(response).map((key, index) => {
-            var chapter = new BibleChapter
-            chapter.number = Number(key)
-            var verses: BibleVerse[] = []
-            response[key].forEach(value => {
-              var verse = new BibleVerse
-              verse.bbl_book_id = value['bbl_book_id']
-              verse.chapter_nr = value['chapter_nr']
-              verse.verse_nr = value['verse_nr']
-              verse.verse = value['verse']
-              verses.push(verse)
+          var chapters: BibleChapter[] = []
+          response['data'].forEach(value => {
+            chapters.push({
+              book_number: value['book_number'],
+              number: value['number']
             })
-            chapter.verses = verses
-            return chapter
-          })
+          });
           return chapters
         }),
         mergeMap(chapters => {
           return [
             new fromBibleSearchActions.GetBibleChaptersSuccess(chapters),
             new fromBibleActions.SelectChapters(chapters),
-            new fromBibleActions.SelectChapter(chapters[0])
+            new fromBibleActions.SelectChapter(chapters[0], book, version)
+          ]
+        }),
+        catchError(error => of(new fromBibleSearchActions.GetBibleChaptersFail(error)))
+      )}
+    )
+  );
+
+  @Effect()
+  getVerses$ = this.action$.ofType(fromBibleSearchActions.GET_BIBLE_VERSES, fromBibleActions.SELECT_CHAPTER).pipe(
+    switchMap(payload => this.bibleService
+      .getVerses(payload['chapter'], payload['book'], payload['version'])
+      .pipe(
+        map(response => {
+          var verses: BibleVerse[] = []
+          response['data'].forEach(value => {
+            verses.push({
+              verse: value['verse'],
+              number: value['number'],
+              book_number: value['book_number'],
+              chapter_number: value['chapter_number'],
+              key: value['key']
+            })
+          });
+          return verses
+        }),
+        mergeMap(verses => {
+          return [
+            new fromBibleSearchActions.GetBibleVersesSuccess(verses),
+            new fromBibleActions.SelectVerses(verses),
+            new fromBibleActions.SelectVerse(verses[0])
           ]
         }),
         catchError(error => of(new fromBibleSearchActions.GetBibleChaptersFail(error)))

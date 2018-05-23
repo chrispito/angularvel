@@ -25,7 +25,19 @@
           {{selectionTabs[0].label}}
         </ng-template>
         <div class="tab-content version">
-            <button mat-button *ngFor="let content of selectionTabs[0].content" (click)="onSelectVersion(content)"
+            <button mat-button *ngFor="let content of selectionTabs[0].content" (click)="onSelectLanguage(content)"
+              [class]="selectedLanguage.name == content.name ? 'mat-button ng-star-inserted selected' : 'mat-button ng-star-inserted'">
+                {{content.name}}
+            </button>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <i class="fa fa-clone"></i>&nbsp;
+          {{selectionTabs[1].label}}
+        </ng-template>
+        <div class="tab-content version">
+            <button mat-button *ngFor="let content of selectionTabs[1].content" (click)="onSelectVersion(content)"
               [class]="selectedVersion.name == content.name ? 'mat-button ng-star-inserted selected' : 'mat-button ng-star-inserted'">
                 {{content.name}}
             </button>
@@ -34,10 +46,10 @@
       <mat-tab>
         <ng-template mat-tab-label>
             <i class="fa fa-book"></i>&nbsp;
-          {{selectionTabs[1].label}}
+          {{selectionTabs[2].label}}
         </ng-template>
         <div class="tab-content book">
-            <button mat-button *ngFor="let content of selectionTabs[1].content" (click)="onSelectBook(content)"
+            <button mat-button *ngFor="let content of selectionTabs[2].content" (click)="onSelectBook(content)"
               [class]="selectedBook.name == content.name ? 'mat-button ng-star-inserted selected' : 'mat-button ng-star-inserted'">
                 {{content.name}}
             </button>
@@ -46,10 +58,10 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <i class="fa fa-bookmark"></i>&nbsp;
-          {{selectionTabs[2].label}}
+          {{selectionTabs[3].label}}
         </ng-template>
         <div class="tab-content chapter">
-            <button mat-button *ngFor="let content of selectionTabs[2].content" (click)="onSelectChapter(content)"
+            <button mat-button *ngFor="let content of selectionTabs[3].content" (click)="onSelectChapter(content)"
               [class]="selectedChapter.number == content.number ? 'mat-button ng-star-inserted selected' : 'mat-button ng-star-inserted'">
                 {{content.number}}
             </button>

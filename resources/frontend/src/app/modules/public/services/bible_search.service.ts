@@ -3,45 +3,49 @@ import { Router } from '@angular/router';
 
 import { ApiService } from './api.service';
 
-import { SearchData, BibleVersion, BibleBook } from '../models';
+import { SearchData, BibleVersion, BibleBook, BibleLanguage, BibleChapter } from '../models';
 
 @Injectable()
 export class BibleSearchService {
   constructor(private router: Router, private api: ApiService) {}
 
-  getBibleVersions() {
-    return this.api.fetchGet('bible-search/versions', (fetchData) => {
-      console.log("###################################  getBibleVersions   ##########################")
-      console.log("###################################  getBibleVersions   ##########################")
-      console.log("###################################  getBibleVersions   ##########################")
-    });
+  getLanguages() {
+    return this.api.fetchGet('bible-search/languages', (fetchData) => {});
   }
 
-  getBibleBooks(version: BibleVersion) {
+  getVersions(language: BibleLanguage) {
+    return this.api.fetchGet(`bible-search/versions/${language.short}`, (fetchData) => {});
+  }
+
+  getBooks(version: BibleVersion) {
     return this.api.fetchGet(`bible-search/books/${version.short}`, (fetchData) => {});
   }
 
-  getBibleChapters(book: BibleBook, version: BibleVersion) {
-    return this.api.fetchGet(`bible-search/verses/${version.short}/${book.name}`, (fetchData) => {});
+  getChapters(book: BibleBook, version: BibleVersion) {
+    return this.api.fetchGet(`bible-search/chapters/${book.name}/${version.short}`, (fetchData) => {});
   }
 
-  search(searchData: SearchData) {
-    var url = 'bible-search?'
-    if (searchData.version) {
-      url += `version=${searchData.version}`
-    }
-    if (searchData.book) {
-      url += `&book=${searchData.book}`
-    }
-    if (searchData.chapter) {
-      url += `&chapter=${searchData.chapter}`
-    }
-    if (searchData.verse) {
-      url += `&verse=${searchData.verse}`
-    }
-    return this.api.fetchGet(
-      url,
-      (fetchData) => {});
+  getVerses(chapter: BibleChapter, book: BibleBook, version: BibleVersion) {
+    return this.api.fetchGet(`bible-search/verses/${chapter.number}/${version.short}/${book.name}`, (fetchData) => {});
   }
+
+  // search(searchData: SearchData) {
+  //   var url = 'bible-search?'
+  //   if (searchData.version) {
+  //     url += `version=${searchData.version}`
+  //   }
+  //   if (searchData.book) {
+  //     url += `&book=${searchData.book}`
+  //   }
+  //   if (searchData.chapter) {
+  //     url += `&chapter=${searchData.chapter}`
+  //   }
+  //   if (searchData.verse) {
+  //     url += `&verse=${searchData.verse}`
+  //   }
+  //   return this.api.fetchGet(
+  //     url,
+  //     (fetchData) => {});
+  // }
 
 }

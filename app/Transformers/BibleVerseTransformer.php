@@ -18,7 +18,7 @@ class BibleVerseTransformer extends TransformerAbstract
             'verse' => $verse->verse,
             'book_number' => $verse->b,
             'chapter_number' => $verse->c,
-            'verse_number' => $verse->v,
+            'number' => $verse->v,
             'key' => $verse->key,
         ];
     }

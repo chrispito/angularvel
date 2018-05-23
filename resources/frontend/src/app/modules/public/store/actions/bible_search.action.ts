@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { BibleSearchResult, BibleBook, BibleChapter, BibleVersion, SearchData } from '../../models';
+import { BibleSearchResult, BibleBook, BibleChapter, BibleVersion, SearchData, BibleLanguage, BibleVerse } from '../../models';
 
 /**
  * Get Bible Chapter
@@ -21,6 +21,28 @@ export class GetBibleChaptersFail implements Action {
 export class GetBibleChaptersSuccess implements Action {
   readonly type = GET_BIBLE_CHAPTERS_SUCCESS;
   constructor(public payload: BibleChapter[]) {}
+}
+
+/**
+ * Get Bible Language
+ */
+export const GET_BIBLE_LANGUAGES = '[Application] Search Bible Language';
+export const GET_BIBLE_LANGUAGES_FAIL = '[Application] Search Bible Language Fail';
+export const GET_BIBLE_LANGUAGES_SUCCESS = '[Application] Search Bible Language Success';
+
+export class GetBibleLanguages implements Action {
+  readonly type = GET_BIBLE_LANGUAGES;
+  constructor() {}
+}
+
+export class GetBibleLanguagesFail implements Action {
+  readonly type = GET_BIBLE_LANGUAGES_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class GetBibleLanguagesSuccess implements Action {
+  readonly type = GET_BIBLE_LANGUAGES_SUCCESS;
+  constructor(public payload: BibleLanguage[]) {}
 }
 
 /**
@@ -54,7 +76,7 @@ export const GET_BIBLE_VERSSIONS_SUCCESS = '[Application] Search Bible Version S
 
 export class GetBibleVersions implements Action {
   readonly type = GET_BIBLE_VERSSIONS;
-  constructor() {}
+  constructor(public language: BibleLanguage) {}
 }
 
 export class GetBibleVersionsFail implements Action {
@@ -65,6 +87,28 @@ export class GetBibleVersionsFail implements Action {
 export class GetBibleVersionsSuccess implements Action {
   readonly type = GET_BIBLE_VERSSIONS_SUCCESS;
   constructor(public payload: BibleVersion[]) {}
+}
+
+/**
+ * Get Bible Verses
+ */
+export const GET_BIBLE_VERSES = '[Application] Search Bible Verse';
+export const GET_BIBLE_VERSES_FAIL = '[Application] Search Bible Verse Fail';
+export const GET_BIBLE_VERSES_SUCCESS = '[Application] Search Bible Verse Success';
+
+export class GetBibleVerses implements Action {
+  readonly type = GET_BIBLE_VERSES;
+  constructor(public chapter: BibleChapter, public book: BibleBook, public language: BibleLanguage) {}
+}
+
+export class GetBibleVersesFail implements Action {
+  readonly type = GET_BIBLE_VERSES_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class GetBibleVersesSuccess implements Action {
+  readonly type = GET_BIBLE_VERSES_SUCCESS;
+  constructor(public payload: BibleVerse[]) {}
 }
 /**
  * Search Bible
@@ -92,12 +136,18 @@ export class SearchBibleSuccess implements Action {
  * Action Types
  */
 export type BibleSearchAction =
+  | GetBibleLanguages
+  | GetBibleLanguagesSuccess
+  | GetBibleLanguagesFail
   | GetBibleChapters
   | GetBibleChaptersSuccess
   | GetBibleChaptersFail
   | GetBibleBooks
   | GetBibleBooksSuccess
   | GetBibleBooksFail
+  | GetBibleVerses
+  | GetBibleVersesSuccess
+  | GetBibleVersesFail
   | GetBibleVersions
   | GetBibleVersionsSuccess
   | GetBibleVersionsFail

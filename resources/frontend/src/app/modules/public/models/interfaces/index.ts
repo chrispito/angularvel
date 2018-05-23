@@ -6,4 +6,5 @@ export * from './IBibleVersion';
 export * from './IBibleBook';
 export * from './IBibleChapter';
 export * from './IBibleVerse';
+export * from './IBibleLanguage';
 export * from './ISearchData';

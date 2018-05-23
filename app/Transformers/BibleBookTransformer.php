@@ -17,7 +17,7 @@ class BibleBookTransformer extends TransformerAbstract
         return [
             'name' => $book->b_name,
             'short' => $book->b_short,
-            'book_nr' => $book->b_number,
+            'number' => $book->b_number,
         ];
     }
 }
