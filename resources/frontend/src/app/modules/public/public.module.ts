@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { AgmCoreModule } from '@agm/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TreeModule } from 'angular-tree-component';
 
 import { PublicRoutingModule } from './public-routing.module';
 
@@ -46,6 +47,7 @@ import { PublicHttpInterceptor } from './services/public-http-interceptor';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCtelN368U-pyUs-c3TsIqT4Q0vOWYkmbw'
     }),
+    TreeModule,
     HttpModule,
     HttpClientModule
   ],

@@ -43,6 +43,12 @@ Route::group(['prefix' => '/bbl-search'], function () {
   ]);
 });
 
+Route::group(['prefix' => '/bible-persons'], function () {
+  Route::get('/get/{id}', [
+    'uses' => 'BiblePersonController@get'
+  ]);
+});
+
 Route::group(['prefix' => '/bible-search'], function () {
   Route::get('/languages', [
     'uses' => 'BibleSearchController@findLanguages'
@@ -90,6 +96,13 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::post('/bible/create_local', [
       'uses' => 'BibleController@createLocal'
+    ]);
+
+    Route::post('/bible/add_person', [
+      'uses' => 'BiblePersonController@add'
+    ]);
+    Route::post('/bible/add_persons', [
+      'uses' => 'BiblePersonController@adds'
     ]);
   });
 });

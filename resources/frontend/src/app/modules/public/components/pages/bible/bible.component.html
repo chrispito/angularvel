@@ -6,12 +6,13 @@
       <div class="col-md-6">
         <button mat-button (click)="toggleSelectionTabs = !toggleSelectionTabs">
           {{selection}}
-          <mat-icon svgIcon="carret_down" class="green"></mat-icon>
+          <i class="fas fa-search"></i>
         </button>
       </div>
       <div class="col-md-6">
-        <button mat-button>
-          <mat-icon svgIcon="carret_down" class="green"></mat-icon>
+        <button mat-button (click)="toggleTreeTabs = !toggleTreeTabs">
+          Bible Tree
+          <i class="fal fa-sitemap"></i>
         </button>
       </div>
     </div>
@@ -68,6 +69,10 @@
         </div>
       </mat-tab>
     </mat-tab-group>
+  </mat-card>
+
+  <mat-card class="bible-tree-tabs" *ngIf="toggleTreeTabs">
+    <tree-root [nodes]="nodes" [options]="options"></tree-root>
   </mat-card>
 
   <mat-card class="bible-result">
