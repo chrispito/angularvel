@@ -201,7 +201,7 @@ class BibleSearchController extends Controller
         $version = BibleVersion::where('v_short', 'like', $request->version)->first();
         if ($version && $version->count() != 0) {
             $book = BibleBook::where('bible_version_id', '=', $version->id)
-            ->where('b_name', '=', $request->book)
+            ->where('b_number', '=', $request->book)
             ->first();
             if ($book && $book->count() != 0) {
                 $verse = BibleVerse::select('b', 'c')
@@ -230,7 +230,7 @@ class BibleSearchController extends Controller
         $version = BibleVersion::where('v_short', 'like', $request->version)->first();
         if ($version && $version->count() != 0) {
             $book = BibleBook::where('bible_version_id', '=', $version->id)
-            ->where('b_name', '=', $request->book)
+            ->where('b_number', '=', $request->book)
             ->first();
             if ($book && $book->count() != 0) {
                 $verse = BibleVerse::where('bible_version_id', '=', $version->id)

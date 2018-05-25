@@ -104,16 +104,16 @@ export class BibleComponent implements OnInit {
     this.store.select<any>(fromStore.getBibleSelectionState)
     .subscribe({
       next: bibleState => {
-        this.selectedLanguage = bibleState.language
         this.selectionTabs[0].content = bibleState.languages
-        this.selectedVersion = bibleState.version
+        this.selectedLanguage = bibleState.languages.filter(lang => bibleState.language == lang.short)[0]
         this.selectionTabs[1].content = bibleState.versions
-        this.selectedBook = bibleState.book
+        this.selectedVersion = bibleState.versions.filter(version => bibleState.version == version.short)[0]
         this.selectionTabs[2].content = bibleState.books
-        this.selectedChapter = bibleState.chapter
+        this.selectedBook = bibleState.books.filter(book => bibleState.book == book.number)[0]
         this.selectionTabs[3].content = bibleState.chapters
+        this.selectedChapter = bibleState.chapters.filter(chapter => bibleState.chapter == chapter.number)[0]
         this.verseStates = bibleState.verses
-        if (this.verseStates && this.selectedBook && this.selectedChapter) {
+        if (this.selectedLanguage && this.selectedBook && this.selectedChapter && this.verseStates) {
           this.displayResult()
         }
       }
@@ -155,15 +155,15 @@ export class BibleComponent implements OnInit {
   }
 
   onSelectLanguage(language: BibleLanguage) {
-    this.store.dispatch(new fromStore.SelectLanguage(language))
+    this.store.dispatch(new fromStore.SelectLanguage(language, this.selectedBook.number, this.selectedChapter.number))
   }
 
   onSelectVersion(version: BibleVersion) {
-    this.store.dispatch(new fromStore.SelectVersion(version))
+    this.store.dispatch(new fromStore.SelectVersion(version, this.selectedBook.number, this.selectedChapter.number))
   }
 
   onSelectBook(book: BibleBook) {
-    this.store.dispatch(new fromStore.SelectBook(book, this.selectedVersion))
+    this.store.dispatch(new fromStore.SelectBook(book, this.selectedVersion, this.selectedChapter.number))
   }
 
   onSelectChapter(chapter: BibleChapter) {
@@ -171,7 +171,7 @@ export class BibleComponent implements OnInit {
   }
 
   onSelectVerse(verse: BibleVerse) {
-    this.store.dispatch(new fromStore.SelectVerse(verse))
+    // this.store.dispatch(new fromStore.SelectVerse(verse))
   }
 
   search() {

@@ -22,30 +22,11 @@ export class BibleSearchService {
   }
 
   getChapters(book: BibleBook, version: BibleVersion) {
-    return this.api.fetchGet(`bible-search/chapters/${book.name}/${version.short}`, (fetchData) => {});
+    return this.api.fetchGet(`bible-search/chapters/${book.number}/${version.short}`, (fetchData) => {});
   }
 
   getVerses(chapter: BibleChapter, book: BibleBook, version: BibleVersion) {
-    return this.api.fetchGet(`bible-search/verses/${chapter.number}/${version.short}/${book.name}`, (fetchData) => {});
+    return this.api.fetchGet(`bible-search/verses/${book.number}/${chapter.number}/${version.short}`, (fetchData) => {});
   }
-
-  // search(searchData: SearchData) {
-  //   var url = 'bible-search?'
-  //   if (searchData.version) {
-  //     url += `version=${searchData.version}`
-  //   }
-  //   if (searchData.book) {
-  //     url += `&book=${searchData.book}`
-  //   }
-  //   if (searchData.chapter) {
-  //     url += `&chapter=${searchData.chapter}`
-  //   }
-  //   if (searchData.verse) {
-  //     url += `&verse=${searchData.verse}`
-  //   }
-  //   return this.api.fetchGet(
-  //     url,
-  //     (fetchData) => {});
-  // }
 
 }

@@ -7,7 +7,7 @@ export const SELECT_LANGUAGES = '[Application] Select Languages';
 
 export class SelectLanguage implements Action {
   readonly type = SELECT_LANGUAGE;
-  constructor(public language: BibleLanguage) {}
+  constructor(public language: BibleLanguage, public bookNumber: number, public chapterNumber: number) {}
 }
 
 export class SelectLanguages implements Action {
@@ -19,7 +19,7 @@ export const SELECT_VERSION = '[Application] Select version';
 export const SELECT_VERSIONS = '[Application] Select versions';
 export class SelectVersion implements Action {
   readonly type = SELECT_VERSION;
-  constructor(public version: BibleVersion) {}
+  constructor(public version: BibleVersion, public bookNumber: number, public chapterNumber: number) {}
 }
 
 export class SelectVersions implements Action {
@@ -32,7 +32,7 @@ export const SELECT_BOOKS = '[Application] Select Books';
 
 export class SelectBook implements Action {
   readonly type = SELECT_BOOK;
-  constructor(public book: BibleBook, public version: BibleVersion) {}
+  constructor(public book: BibleBook, public version: BibleVersion, public chapterNumber: number) {}
 }
 
 export class SelectBooks implements Action {
@@ -57,7 +57,7 @@ export const SELECT_VERSE = '[Application] Select Verse';
 export const SELECT_VERSES = '[Application] Select Verses';
 export class SelectVerse implements Action {
   readonly type = SELECT_VERSE;
-  constructor(public verse: BibleVerse) {}
+  constructor(public verse: BibleVerse, public chapter: BibleChapter, public book: BibleBook, public version: BibleVersion) {}
 }
 
 export class SelectVerses implements Action {

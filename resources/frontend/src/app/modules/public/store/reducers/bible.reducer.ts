@@ -4,15 +4,15 @@ import { User } from '../../models/user.model';
 import { BibleLanguage, BibleVersion, BibleBook, BibleChapter, BibleVerse } from '../../models';
 
 export interface BibleState {
-  language: BibleLanguage;
+  language: string;
   languages: BibleLanguage[];
-  version: BibleVersion;
+  version: string;
   versions: BibleVersion[];
-  book: BibleBook;
+  book: number;
   books: BibleBook[];
-  chapter: BibleChapter;
+  chapter: number;
   chapters: BibleChapter[];
-  verse: BibleVerse;
+  verse: number;
   verses: BibleVerse[];
 }
 
@@ -38,13 +38,15 @@ export function reducer(
       const language = action.language;
       return {
         ...state,
-        language
+        language: language.short
       };
     }
     case fromBible.SELECT_LANGUAGES: {
       const languages = action.languages;
+      const language = state.language || languages[0].short
       return {
         ...state,
+        language,
         languages
       };
     }
@@ -52,13 +54,15 @@ export function reducer(
       const version = action.version;
       return {
         ...state,
-        version
+        version: version.short
       };
     }
     case fromBible.SELECT_VERSIONS: {
       const versions = action.versions;
+      const version = versions[0].short
       return {
         ...state,
+        version,
         versions
       };
     }
@@ -66,13 +70,15 @@ export function reducer(
       const book = action.book;
       return {
         ...state,
-        book
+        book: book.number
       };
     }
     case fromBible.SELECT_BOOKS: {
       const books = action.books;
+      const book = state.book || books[0].number
       return {
         ...state,
+        book,
         books
       };
     }
@@ -80,13 +86,20 @@ export function reducer(
       const chapter = action.chapter;
       return {
         ...state,
-        chapter
+        chapter: chapter.number
       };
     }
     case fromBible.SELECT_CHAPTERS: {
-      const chapters = action.chapters;
+      const chapters = action.chapters
+      var chapter = state.chapter
+      if (state.chapter && chapters.length >= state.chapter) {
+        chapter = state.chapter
+      } else {
+        chapter = chapters[0].number
+      }
       return {
         ...state,
+        chapter,
         chapters
       };
     }
@@ -94,13 +107,15 @@ export function reducer(
       const verse = action.verse;
       return {
         ...state,
-        verse
+        verse:verse.number
       };
     }
     case fromBible.SELECT_VERSES: {
       const verses = action.verses;
+      const verse = state.verse || verses[0].number
       return {
         ...state,
+        verse,
         verses
       };
     }
@@ -109,8 +124,32 @@ export function reducer(
   return state;
 }
 
-export const getBibleVersion = (state: BibleState) => state.version;
-export const getBibleVerse = (state: BibleState) => state.verse;
-export const getBibleChapter = (state: BibleState) => state.chapter;
-export const getBibleBook = (state: BibleState) => state.book;
+export const getBibleVersion = (state: BibleState) => {
+  if (state.version) {
+    return state.versions.filter(version => version.short == state.version)
+  } else {
+    return state.versions[0]
+  }
+};
+export const getBibleBook = (state: BibleState) => {
+  if (state.book) {
+    return state.books.filter(book => book.number == state.book)
+  } else {
+    return state.books[0]
+  }
+};
+export const getBibleVerse = (state: BibleState) => {
+  if (state.verse) {
+    return state.verses.filter(verse => verse.number == state.verse)
+  } else {
+    return state.verses[0]
+  }
+};
+export const getBibleChapter = (state: BibleState) => {
+  if (state.chapter) {
+    return state.chapters.filter(chapter => chapter.number == state.chapter)
+  } else {
+    return state.chapters[0]
+  }
+};
 export const getBibleSelection = (state: BibleState) => state;

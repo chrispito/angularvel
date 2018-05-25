@@ -98,7 +98,7 @@ export const GET_BIBLE_VERSES_SUCCESS = '[Application] Search Bible Verse Succes
 
 export class GetBibleVerses implements Action {
   readonly type = GET_BIBLE_VERSES;
-  constructor(public chapter: BibleChapter, public book: BibleBook, public language: BibleLanguage) {}
+  constructor(public chapter: BibleChapter, public book: BibleBook, public version: BibleVersion) {}
 }
 
 export class GetBibleVersesFail implements Action {

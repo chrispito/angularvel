@@ -28,21 +28,6 @@ Route::get('/slider-images', [
   'uses' => 'ImageController@getSliderImage'
 ]);
 
-Route::group(['prefix' => '/bbl-search'], function () {
-  Route::get('/versions', [
-    'uses' => 'BblSearchController@findVersions'
-  ]);
-  Route::get('/books/{version}', [
-    'uses' => 'BblSearchController@findBooksByVersion'
-  ]);
-  Route::get('/verses/{version}/{book}', [
-    'uses' => 'BblSearchController@findChapterAndVerses'
-  ]);
-  Route::get('/', [
-    'uses' => 'BblSearchController@search'
-  ]);
-});
-
 Route::group(['prefix' => '/bible-persons'], function () {
   Route::get('/get/{id}', [
     'uses' => 'BiblePersonController@get'
@@ -62,7 +47,7 @@ Route::group(['prefix' => '/bible-search'], function () {
   Route::get('/chapters/{book}/{version}', [
     'uses' => 'BibleSearchController@findChapters'
   ]);
-  Route::get('/verses/{chapter}/{version}/{book}', [
+  Route::get('/verses/{book}/{chapter}/{version}', [
     'uses' => 'BibleSearchController@findVerses'
   ]);
   Route::get('/', [
